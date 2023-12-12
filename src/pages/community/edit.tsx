@@ -1,4 +1,4 @@
-export default function PostEdit () {
+export default function CommunityPostEdit () {
     return (
         <div>Post Edit</div>
     )

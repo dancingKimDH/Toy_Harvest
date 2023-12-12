@@ -17,10 +17,10 @@ export default function Header() {
             <div className="header__nav">
                 <ul className="header__nav-items">
                     <a href="/" className="header__nav-items-item">홈페이지</a>
-                    <a className="header__nav-items-item">귀농꿀팁</a>
+                    <a href="/news"  className="header__nav-items-item">귀농뉴스</a>
                     <a className="header__nav-items-item">커뮤니티</a>
-                    <a className="header__nav-items-item">자유게시판</a>
-                    <a className="header__nav-items-item">나의정보</a>
+                    <a className="header__nav-items-item">QnA</a>
+                    <a className="header__nav-items-item">마이페이지</a>
                 </ul>
             </div>
         </div>

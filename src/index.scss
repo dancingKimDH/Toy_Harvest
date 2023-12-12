@@ -47,6 +47,8 @@ $primaryPurple: #8C8C9C;
     justify-content: center;
     background-color: $primaryPurple;
     color: whitesmoke;
+    border-bottom: solid 3px #2A2F33;
+    border-top: solid 3px #2A2F33;
 
     &-items{
       box-sizing: border-box;
