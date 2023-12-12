@@ -1,9 +1,18 @@
+import Router from './components/Router';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+
+  const [init, setInit] = useState<boolean>(false);
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+
   return (
 
-    <div></div>
+    <div>
+      <Router isAuthenticated={isAuthenticated}/>
+    </div>
 
   );
 }
