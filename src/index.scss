@@ -12,15 +12,17 @@ code {
     monospace;
 }
 
-$primaryDark: #2A2F33;
-$primaryBrown: #BBB6A5;
-$primaryGrey: #8C9491;
-$primaryPurple: #8C8C9C;
-
+$primaryDark: #1F1F21;
+$primaryBrown: #D6CEC3;
+$primaryGrey: #8E8E93;
+$primaryPink: #FFD3E0;
+$primaryBlue: #5AC8FA;
+$primaryRed: #FF3A2D;
+$primaryYello: #FFCC00;
 
 .header {
 
-  &__title{
+  &__title {
     font-size: 30px;
     display: flex;
     align-items: center;
@@ -33,40 +35,55 @@ $primaryPurple: #8C8C9C;
     justify-content: space-between;
     color: $primaryDark;
 
-    &__menu{
+    &__menu {
       display: flex;
       gap: 20px;
     }
 
   }
 
-  &__nav{
+  &__nav {
     height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $primaryPurple;
-    color: whitesmoke;
-    border-bottom: solid 3px #2A2F33;
-    border-top: solid 3px #2A2F33;
+    background-color: $primaryBlue;
+    color: white;
+    overflow: hidden;
 
-    &-items{
+    &-items {
       box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 60px;
       padding-left: 0;
-    
-      &-item{
+
+      &-back {
+        overflow: hidden;
+        background-image: linear-gradient(to top, $primaryYello 50%, transparent 50%);
+        background-repeat: no-repeat;
+        background-size: 0% 100%;
+        transition: background-size 0.8s;
+
+        &:hover,
+        &:focus {
+          background-size: 100% 100%;
+        }
+
+
+      }
+
+      &-item {
         font-size: 23px;
         text-decoration: none;
         font-weight: 600;
         color: whitesmoke;
+
       }
-    
+
     }
-    
+
 
   }
 
