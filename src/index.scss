@@ -82,10 +82,29 @@ $primaryYello: #FFCC00;
         color: whitesmoke;
 
       }
+    }
+  }
+}
+
+.carousel {
+  &__slides {
+    width: 30%;
+    height: 20%;
+    &-container {
+
+      &-img {
+        height: auto;
+        width: 100%;
+      }
 
     }
-
-
   }
 
+
+
+}
+
+.carousel__slides-container-img, .image {
+  width: 100px;
+  height: 100px;
 }
