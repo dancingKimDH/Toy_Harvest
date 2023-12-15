@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { MdNavigateNext } from "react-icons/md";
 
 export default function Ads() {
 
     const [activeImage, setActiveImage] = useState(1);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const nextImage = activeImage % 3 + 1;
+            setActiveImage(nextImage);
+        }, 5000);
+        return () => {
+            clearInterval(interval);
+        }
+    }, [activeImage])
 
     return (
 
