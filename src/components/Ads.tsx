@@ -4,10 +4,7 @@ import { MdNavigateNext } from "react-icons/md";
 
 export default function Ads() {
 
-    const [activeImage, setActiveImage] = useState(0);
-    const handleClickNext = () => { setActiveImage(prev => (prev + 1) % totalImages) };
-    const handleClickPrev = () => { setActiveImage(prev => (prev - 1 + totalImages) % totalImages) }
-    const totalImages = 3;
+    const [activeImage, setActiveImage] = useState(1);
 
     return (
 
@@ -43,6 +40,13 @@ export default function Ads() {
                         <label htmlFor="" onClick={() => setActiveImage(1)} className="carousel__slides-container-controls-next"><span><GrFormNext /></span></label>
                     </div>
                 </li>
+
+                <div className="carousel__slides-dots">
+                    <label onClick={() => setActiveImage(1)} className="carousel__slides-dots-dot" id="img-dot-1"></label>
+                    <label onClick={() => setActiveImage(2)} className="carousel__slides-dots-dot" id="img-dot-2"></label>
+                    <label onClick={() => setActiveImage(3)} className="carousel__slides-dots-dot" id="img-dot-3"></label>
+                </div>
+
             </ul>
         </div>
 
