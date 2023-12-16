@@ -185,7 +185,7 @@ $primaryYello: #FFCC00;
         line-height: 400px;
         color: #FFCC00;
 
-        &-prev{
+        &-prev {
           width: 49%;
           text-align: left;
           left: 0;
@@ -193,7 +193,7 @@ $primaryYello: #FFCC00;
           z-index: 999;
         }
 
-        &-next{
+        &-next {
           width: 49%;
           text-align: right;
           right: 0;
@@ -208,6 +208,50 @@ $primaryYello: #FFCC00;
           cursor: pointer;
         }
 
+      }
+
+    }
+
+  }
+
+}
+
+.background-blue {
+  background-color: #5AC8FA;
+}
+
+.text-highlight {
+  overflow: hidden;
+  background-image: linear-gradient(to top, $primaryYello 50%, transparent 50%);
+}
+
+.form__signup {
+  width: 50%;
+  margin: 50px auto;
+  padding: 30px 50px;
+
+  &__block {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background-color: white;
+    margin: 10px 0;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+
+    label {
+      font-size: 30px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    input {
+      border: none;
+      outline: none;
+      width: 80%;
+      font-size: 16px;
+      &:focus {
+        border: none;
       }
 
     }
