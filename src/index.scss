@@ -216,8 +216,29 @@ $primaryYello: #FFCC00;
 
 }
 
+.signup__container {
+  background-image: url("../public/images/1.jpg");
+}
+
+.button-prev {
+  position: fixed;
+  left: 50px;
+  z-index: 999;
+  top: 30px;
+    button {
+      border: none;
+      font-size: 30px;
+      background-color: #5AC8FA;
+      cursor: pointer;
+    }
+}
+
 .background-blue {
+  position: absolute;
+  left: 30px;
   background-color: #5AC8FA;
+  width: 600px;
+  height: 100%;
 }
 
 .text-highlight {
@@ -226,18 +247,67 @@ $primaryYello: #FFCC00;
 }
 
 .form__signup {
-  width: 50%;
-  margin: 50px auto;
+  overflow: hidden;
+  flex-wrap:nowrap;
+  width: 80%;
+  margin-top: 130px;
   padding: 30px 50px;
 
-  &__block {
+  &__btn {
     padding-top: 16px;
     padding-bottom: 16px;
-    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: $primaryDark;
+    opacity: 0.8;
     margin: 10px 0;
     border-radius: 20px;
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    &:hover, &:focus {
+      opacity: 1;
+    }
+
+    &-submit {
+      border: none;
+      outline: none;
+      background-color: $primaryDark;
+      color: #5AC8FA;
+      font-size: 16px;
+      font-weight:900;
+    }
+
+  }
+
+  &__block {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 30px;
+    background-color: white;
+    margin: 20px 0;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+
+    &-login {
+      display: flex;
+      justify-content: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      color: white;
+      &-link {
+        text-decoration: none;
+        padding-left: 5px;
+        color: #FFCC00;
+        font-weight: 700;
+      }
+    }
 
     label {
       font-size: 30px;
@@ -248,7 +318,6 @@ $primaryYello: #FFCC00;
     input {
       border: none;
       outline: none;
-      width: 80%;
       font-size: 16px;
       &:focus {
         border: none;
