@@ -21,7 +21,8 @@ $primaryRed: #FF3A2D;
 $primaryYello: #FFCC00;
 
 .header {
-
+  min-width: 800px;
+  overflow: hidden;
   &__title {
     font-size: 40px;
     color: #8E8E93;
