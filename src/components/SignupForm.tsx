@@ -4,12 +4,30 @@ import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { GrFormPrevious } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa";
+import { app } from "../firebaseApp";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { toast } from "react-toastify";
 
 export default function SignUpForm() {
 
-    const onSubmit = () => { }
+    const[email, setEmail] = useState<string>("");
+    const[password, setPassword] = useState<string>("");
 
-    const onChange = () => { }
+    const onSubmit = async (e:any) => {
+        e.preventDefault();
+        try {
+            const auth = getAuth(app);
+            await createUserWithEmailAndPassword(auth, email, password)
+            navigate("/");
+            toast.success("회원가입에 성공하였습니다");
+        } catch (error: any) {
+            toast.error(error?.code);
+        }
+     }
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
+        const {target: {name, value}} = e;
+    }
 
     const onClickSocialLogIn = () => { }
 
@@ -22,7 +40,7 @@ export default function SignUpForm() {
         <div className="button-prev">
             <button type="button" onClick={() => { navigate(-1) }}><GrFormPrevious /></button>
         </div>
-            <div className="signup__container">
+            <div className="container">
 
                 <div className="background-blue">
                     <form action="" onSubmit={onSubmit} className="form__signup">
@@ -52,8 +70,8 @@ export default function SignUpForm() {
                             <input type="button" value="회원가입" className="form__signup__btn-submit" disabled={error?.length > 0} />
                         </div>
 
-                        <div className="form__signup__block">
-                            <button type="button" className="form__signup__block-google" name="google" onClick={onClickSocialLogIn} ></button>
+                        <div className="form__signup__google">
+                            <button type="button" className="form__signup__block-google" name="google" onClick={onClickSocialLogIn} >Sign Up with Google</button>
                         </div>
 
                         <div className="form__signup__block-login">

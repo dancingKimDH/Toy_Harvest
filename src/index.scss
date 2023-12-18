@@ -217,13 +217,43 @@ $primaryYello: #FFCC00;
 
 }
 
-.signup__container {
-  background-image: url("../public/images/1.jpg");
+.button-format{
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: $primaryDark;
+  opacity: 0.8;
+  margin: 10px 0;
+  border-radius: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  background-color: $primaryDark;
+  font-weight:900;
+  cursor: pointer;
+}
+
+.container {
+  background-color: #1F1F21;
+  background-image: url(../public/images/1.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .button-prev {
   position: fixed;
-  left: 50px;
+  left: 80px;
   z-index: 999;
   top: 30px;
     button {
@@ -236,7 +266,7 @@ $primaryYello: #FFCC00;
 
 .background-blue {
   position: absolute;
-  left: 30px;
+  left: 60px;
   background-color: #5AC8FA;
   width: 600px;
   height: 100%;
@@ -267,6 +297,7 @@ $primaryYello: #FFCC00;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     &:hover, &:focus {
       opacity: 1;
@@ -279,6 +310,7 @@ $primaryYello: #FFCC00;
       color: #5AC8FA;
       font-size: 16px;
       font-weight:900;
+      cursor: pointer;
     }
 
   }
@@ -295,6 +327,20 @@ $primaryYello: #FFCC00;
     border-radius: 40px;
     display: flex;
     align-items: center;
+
+    &-google {
+      @extend .button-format;
+      background-color: $primaryDark;
+      opacity: 0.8;
+      color: white;
+      width: 500px;
+      height: 57px;
+      font-weight: 600;
+
+      &:hover, &:focus {
+        opacity: 1;
+      }
+    }
 
     &-login {
       display: flex;
