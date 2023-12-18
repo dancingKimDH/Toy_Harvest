@@ -41,11 +41,11 @@ export default function SignUpForm() {
             <button type="button" onClick={() => { navigate(-1) }}><GrFormPrevious /></button>
         </div>
             <div className="container">
-
                 <div className="background-blue">
                     <form action="" onSubmit={onSubmit} className="form__signup">
                         <h1 className="form__signup__title">
-                            푸른대로와 <span className="text-highlight">함께 시작해 볼까요?</span>
+                            <span> 푸른대로와 </span> <br/> 
+                            <span className="text-highlight">함께 시작해 볼까요?</span>
                         </h1>
                         <div className="form__signup__block">
                             <label htmlFor="email"><MdOutlineMail /></label>
@@ -70,8 +70,8 @@ export default function SignUpForm() {
                             <input type="button" value="회원가입" className="form__signup__btn-submit" disabled={error?.length > 0} />
                         </div>
 
-                        <div className="form__signup__google">
-                            <button type="button" className="form__signup__block-google" name="google" onClick={onClickSocialLogIn} >Sign Up with Google</button>
+                        <div className="form__signup__btn google">
+                            <input type="button" value="Sign Up with Google" className="form__signup__btn-submit" disabled={error?.length > 0} />
                         </div>
 
                         <div className="form__signup__block-login">
