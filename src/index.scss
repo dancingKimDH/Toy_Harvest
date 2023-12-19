@@ -378,3 +378,11 @@ $primaryYello: #FFCC00;
   }
 
 }
+
+.error__msg {
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}

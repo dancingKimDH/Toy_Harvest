@@ -5,13 +5,14 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { GrFormPrevious } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa";
 import { app } from "../firebaseApp";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 
 export default function SignUpForm() {
 
     const[email, setEmail] = useState<string>("");
     const[password, setPassword] = useState<string>("");
+    const[passwordConfirmation, setPasswordConfirmation] = useState<string>("");
 
     const onSubmit = async (e:any) => {
         e.preventDefault();
@@ -27,9 +28,42 @@ export default function SignUpForm() {
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
         const {target: {name, value}} = e;
+
+        if(name === "email") {
+            setEmail(value);
+            const validRegex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
+            if(!value?.match(validRegex)){
+                setError("이메일 형식이 올바르지 않습니다");
+            } else {
+                setError("");
+            }
+        }
+
+        if(name === "password"){
+            setPassword(value);
+            if(value?.length < 8){
+                setError("비밀번호는 8자리 이상 입력해 주세요");
+            } else {
+                setError("");
+            }
+        }
+
+        if(name === "password_confirmation"){
+            setPasswordConfirmation(value);
+        }
+
     }
 
-    const onClickSocialLogIn = () => { }
+    const onClickSocialLogIn = async (e: any) => {
+        const auth = getAuth(app);
+        let provider;
+        provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider as GoogleAuthProvider)
+        .then((result) => {
+            toast.success("회원가입되었습니다")
+            navigate("/")
+        })
+     }
 
     const [error, setError] = useState<string>("");
 
@@ -61,17 +95,18 @@ export default function SignUpForm() {
 
                         </div>
                         {error && error?.length > 0 && (
-                            <div className="form__signup__block">
+                            <div className="form__signup__block error__msg">
                                 {error}
                             </div>
                         )}
 
                         <div className="form__signup__btn">
-                            <input type="button" value="회원가입" className="form__signup__btn-submit" disabled={error?.length > 0} />
+                            <input type="submit" value="회원가입" className="form__signup__btn-submit" disabled={error?.length > 0} />
                         </div>
 
+                            {/* error 수정! */}
                         <div className="form__signup__btn google">
-                            <input type="button" value="Sign Up with Google" className="form__signup__btn-submit" disabled={error?.length > 0} />
+                            <input type="submit" value="Sign Up with Google" onClick={onClickSocialLogIn} className="form__signup__btn-submit" disabled={error?.length > 0} />
                         </div>
 
                         <div className="form__signup__block-login">
