@@ -1,73 +1,21 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom";
-import { MdOutlineMail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom"
 import { GrFormPrevious } from "react-icons/gr";
+import { MdOutlineMail } from "react-icons/md"; 
+import { RiLockPasswordFill } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
-import { app } from "../firebaseApp";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithPopup } from "firebase/auth";
-import { toast } from "react-toastify";
+import { useState } from "react";
 
-export default function SignUpForm() {
+export default function LoginForm() {
+    
+    const navigate = useNavigate();
+    
+    const onSubmit = () => {}    
 
-    const[email, setEmail] = useState<string>("");
-    const[password, setPassword] = useState<string>("");
-    const[passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+    const onChange = () => {}
 
-    const onSubmit = async (e:any) => {
-        e.preventDefault();
-        try {
-            const auth = getAuth(app);
-            await createUserWithEmailAndPassword(auth, email, password)
-            navigate("/");
-            toast.success("회원가입에 성공하였습니다");
-        } catch (error: any) {
-            toast.error(error?.code);
-        }
-     }
-
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
-        const {target: {name, value}} = e;
-
-        if(name === "email") {
-            setEmail(value);
-            const validRegex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
-            if(!value?.match(validRegex)){
-                setError("이메일 형식이 올바르지 않습니다");
-            } else {
-                setError("");
-            }
-        }
-
-        if(name === "password"){
-            setPassword(value);
-            if(value?.length < 8){
-                setError("비밀번호는 8자리 이상 입력해 주세요");
-            } else {
-                setError("");
-            }
-        }
-
-        if(name === "password_confirmation"){
-            setPasswordConfirmation(value);
-        }
-
-    }
-
-    const onClickSocialLogIn = async (e: any) => {
-        const auth = getAuth(app);
-        let provider;
-        provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider as GoogleAuthProvider)
-        .then((result) => {
-            toast.success("회원가입되었습니다")
-            navigate("/")
-        })
-     }
+    const onClickSocialLogIn = () => {}
 
     const [error, setError] = useState<string>("");
-
-    const navigate = useNavigate();
 
     return (
         <>                
@@ -119,6 +67,4 @@ export default function SignUpForm() {
             </div>
         </>
     )
-
-
 }

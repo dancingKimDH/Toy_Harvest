@@ -48,6 +48,7 @@ export default function Router({ isAuthenticated }: RouterProps) {
                         <Route path="/login" element={<LogIn />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/*" element={<LogIn />} />
+                        <Route path="/community" element={<CommunityPost />} />
                     </>
                 )}
 
