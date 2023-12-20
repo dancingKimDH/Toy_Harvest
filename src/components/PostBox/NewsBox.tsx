@@ -22,8 +22,9 @@ const posts = [
 export default function PostBox() {
     return (
         <>
+        <div className="newsPost">
             {posts.map((post, index) => (
-                <div className="post__box-container" key={index}>
+                <div className="post__box" key={index}>
                     <div className="post__box-postImage">
                         <img src="/images/3.jpg" alt="" width={200} height={200} />
                     </div>
@@ -31,14 +32,18 @@ export default function PostBox() {
                         {post.title}
                     </div>
                     <div className="post__box-user">
-                        <div className="post__box-user-name"><FaRegUserCircle />{post.name}</div>
-                        <div className="post__box-user-likes"><CiHeart />: {post.likes}</div>
+                        <div className="post__box-user-name">
+                            <FaRegUserCircle />{post.name}</div>
+                        <div className="post__box-user-likes">
+                            <CiHeart /> {post.likes}</div>
                     </div>
                     <div className="post__box-user">
-                        <div className="post__box-user-createdAt"><MdDateRange />: {post.createdAt}</div>
+                        <div className="post__box-user-createdAt">
+                            <MdDateRange /> {post.createdAt}</div>
                     </div>
                 </div>
             ))}
+            </div>
         </>
     )
 }

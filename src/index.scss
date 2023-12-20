@@ -394,4 +394,46 @@ $primaryYello: #FFCC00;
   color: white;
 }
 
-.
+// newsPost
+
+.newsPost {
+  width: 80%;
+  margin: 5vh auto;
+  display: flex;
+  gap: 3vh;
+  flex-wrap: wrap;
+  padding-left: 1vh;
+  padding-right: 1vh;
+}
+
+.post__box {
+  width: 25vh;
+  height: 30vh;
+  &-postImage{
+    img{
+      border-radius: 10%;
+    }
+  }
+
+  &-user{
+    &-title {
+      font-size: 1.5vh;
+      text-align: center;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+    }
+    display: flex;
+    justify-content: space-between;
+    padding-right: 3vh;
+    color: #8E8E93;
+
+    &-name, &-likes, &-createdAt{
+      display: flex;
+      align-items: center;
+    }
+
+  }
+}
