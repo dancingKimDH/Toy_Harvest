@@ -366,12 +366,16 @@ $primaryYello: #FFCC00;
       font-size: 3vh;
       padding-left: 1vh;
       padding-right: 1vh;
+
     }
 
     input {
       border: none;
       outline: none;
       font-size: 2vh;
+      background-color: transparent;
+      width: 90%;
+      overflow: hidden;
       &:focus {
         border: none;
       }
