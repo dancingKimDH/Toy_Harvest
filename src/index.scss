@@ -274,7 +274,7 @@ $primaryYello: #FFCC00;
   position: absolute;
   left: 5vh;
   background-color: #5AC8FA;
-  width: 40%;
+  width: 30%;
   height: 100%;
 
   @media(max-width:768px){
@@ -288,6 +288,9 @@ $primaryYello: #FFCC00;
   background-image: linear-gradient(to top, $primaryYello 50%, transparent 50%);
 }
 
+.form__login{
+  margin: 20vh auto !important;
+}
 
 .form__signup {
 

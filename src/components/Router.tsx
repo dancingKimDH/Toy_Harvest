@@ -39,6 +39,7 @@ export default function Router({ isAuthenticated }: RouterProps) {
                     <Route path="*" element={<Navigate replace to="/" />} />
 
                     <Route path="/mypage" element={<ProfileDetail />} />
+                    <Route path="/login" element={<LogIn />} />
                 </>
 
             )
