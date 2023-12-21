@@ -36,10 +36,12 @@ export default function PostBox() {
     
     const [limit, setLimit] = useState<number>(6);
     const [page, setPage] = useState<number>(1);
-    const [total, setTotal] = useState<number>(1);
+    const [total, setTotal] = useState<number>(posts.length);
     
     const offset = (page - 1) * limit;
     const numPages = Math.ceil(total / limit);
+
+    const numArray = new Array(numPages).fill(0);
 
     return (
         <>
@@ -47,7 +49,7 @@ export default function PostBox() {
                 {posts.slice(offset, offset + limit).map((post, index) => (
                     <div className="post__box" key={index}>
                         <div className="post__box-postImage">
-                            <img src="/images/3.jpg" alt="" width={200} height={200} />
+                            <img src="/images/3.jpg" alt=""/>
                         </div>
                         <div className="post__box-user-title">
                             {post.title}
@@ -68,8 +70,13 @@ export default function PostBox() {
 
 {/* pagination buttons */}
                     <div className="pagination__btns">
-                    <button type="button"> <GrFormPrevious /> </button>
-                    <button type="button"> <GrFormNext /> </button>
+                    <button type="button" onClick={() => {setPage(page - 1)}} disabled={page === 1}> <GrFormPrevious /> </button>
+                    {numArray.map((item, index) => (
+                        <button type="button" key={index + 1} onClick={() => {setPage(index + 1)}} className={index + 1 === page ? "numBtnClicked" : "numberBtn"}>
+                            {index + 1}
+                        </button>
+                    ))}
+                    <button type="button" onClick={() => {setPage(page + 1)}} disabled={page === numPages}> <GrFormNext /> </button>
                     </div>
         </>
     )
