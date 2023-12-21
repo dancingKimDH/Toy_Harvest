@@ -33,11 +33,11 @@ const posts = [
 ]
 
 export default function PostBox() {
-    
+
     const [limit, setLimit] = useState<number>(6);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(posts.length);
-    
+
     const offset = (page - 1) * limit;
     const numPages = Math.ceil(total / limit);
 
@@ -45,39 +45,41 @@ export default function PostBox() {
 
     return (
         <>
-            <div className="newsPost">
-                {posts.slice(offset, offset + limit).map((post, index) => (
-                    <div className="post__box" key={index}>
-                        <div className="post__box-postImage">
-                            <img src="/images/3.jpg" alt=""/>
+            <div>
+                <div className="newsPost">
+                    {posts.slice(offset, offset + limit).map((post, index) => (
+                        <div className="post__box" key={index}>
+                            <div className="post__box-postImage">
+                                <img src="/images/3.jpg" alt="" />
+                            </div>
+                            <div className="post__box-user-title">
+                                {post.title}
+                            </div>
+                            <div className="post__box-user">
+                                <div className="post__box-user-name">
+                                    <FaRegUserCircle />{post.name}</div>
+                                <div className="post__box-user-likes">
+                                    <CiHeart /> {post.likes}</div>
+                            </div>
+                            <div className="post__box-user">
+                                <div className="post__box-user-createdAt">
+                                    <MdDateRange /> {post.createdAt}</div>
+                            </div>
                         </div>
-                        <div className="post__box-user-title">
-                            {post.title}
-                        </div>
-                        <div className="post__box-user">
-                            <div className="post__box-user-name">
-                                <FaRegUserCircle />{post.name}</div>
-                            <div className="post__box-user-likes">
-                                <CiHeart /> {post.likes}</div>
-                        </div>
-                        <div className="post__box-user">
-                            <div className="post__box-user-createdAt">
-                                <MdDateRange /> {post.createdAt}</div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
 
-{/* pagination buttons */}
-                    <div className="pagination__btns">
-                    <button type="button" onClick={() => {setPage(page - 1)}} disabled={page === 1}> <GrFormPrevious /> </button>
+                {/* pagination buttons */}
+                <div className="pagination__btns">
+                    <button type="button" onClick={() => { setPage(page - 1) }} disabled={page === 1}> <GrFormPrevious /> </button>
                     {numArray.map((item, index) => (
-                        <button type="button" key={index + 1} onClick={() => {setPage(index + 1)}} className={index + 1 === page ? "numBtnClicked" : "numberBtn"}>
+                        <button type="button" key={index + 1} onClick={() => { setPage(index + 1) }} className={index + 1 === page ? "numBtnClicked" : "numberBtn"}>
                             {index + 1}
                         </button>
                     ))}
-                    <button type="button" onClick={() => {setPage(page + 1)}} disabled={page === numPages}> <GrFormNext /> </button>
-                    </div>
+                    <button type="button" onClick={() => { setPage(page + 1) }} disabled={page === numPages}> <GrFormNext /> </button>
+                </div>
+            </div>
         </>
     )
 }

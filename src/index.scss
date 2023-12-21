@@ -20,6 +20,12 @@ $primaryBlue: #5AC8FA;
 $primaryRed: #FF3A2D;
 $primaryYello: #FFCC00;
 
+.footer{
+  height: 60px;
+  margin-top: 5vh;
+  background-color: #FFCC00;
+}
+
 .header {
   width: 100%;
   overflow: hidden;
@@ -396,8 +402,25 @@ $primaryYello: #FFCC00;
 
 // newsPost
 
+.pagination__btns {
+  align-items: center;
+  margin-bottom: 3vh;
+  display: flex;
+  justify-content: center;
+  button {
+    cursor: pointer;
+    color: #1F1F21;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 2vh;
+    display: flex;
+  }
+}
+
+
 .newsPost {
-  width: 60%;
+  width: 70%;
   margin: 5vh auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);

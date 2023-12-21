@@ -32,6 +32,9 @@ export default function Header() {
                         <li className="header__nav-items-back">
                             <a href="/mypage" className="header__nav-items-item">마이페이지</a>
                         </li>
+                        <li className="header__nav-items-back">
+                            <a href="/mypage" className="header__nav-items-item">공지사항</a>
+                        </li>
                     </ul>
                 </div>
             </div>
