@@ -409,10 +409,15 @@ $primaryYello: #FFCC00;
 .post__box {
   width: 25vh;
   height: 30vh;
+  text-align: center;
   &-postImage{
     img{
       border-radius: 10%;
     }
+  }
+
+  &-postImage {
+    padding-bottom: 1vh;
   }
 
   &-user{

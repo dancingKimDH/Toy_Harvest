@@ -1,5 +1,8 @@
+import { limit } from "firebase/firestore";
+import { useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { MdDateRange } from "react-icons/md";
 
 export interface PostProps {
@@ -17,33 +20,57 @@ const posts = [
     { name: "Ashley", createdAt: "2024", likes: 3, title: "How to enjoy your oats!" },
     { name: "Kevin", createdAt: "2024", likes: 3, title: "Oats not on my table!" },
     { name: "Ashley", createdAt: "2024", likes: 3, title: "I love oats!" },
+    { name: "DH", createdAt: "2024", likes: 3, title: "That's such a nice farm!" },
+    { name: "Peter", createdAt: "2024", likes: 6, title: "Best crops of the season" },
+    { name: "DH", createdAt: "2024", likes: 10, title: "I love oats!" },
+    { name: "Linda", createdAt: "2024", likes: 1, title: "I love oats!" },
+    { name: "Linda", createdAt: "2024", likes: 4, title: "Oats not on my table!" },
+    { name: "Emily", createdAt: "2024", likes: 5, title: "Best crops of the season" },
+    { name: "Maria", createdAt: "2024", likes: 8, title: "Best crops of the season" },
+    { name: "Emily", createdAt: "2024", likes: 4, title: "Stunning views of the countryside!" },
+    { name: "Linda", createdAt: "2024", likes: 8, title: "Farming techniques explained" },
+    { name: "Kevin", createdAt: "2024", likes: 4, title: "I love oats!" }
 ]
 
 export default function PostBox() {
+    
+    const [limit, setLimit] = useState<number>(6);
+    const [page, setPage] = useState<number>(1);
+    const [total, setTotal] = useState<number>(1);
+    
+    const offset = (page - 1) * limit;
+    const numPages = Math.ceil(total / limit);
+
     return (
         <>
-        <div className="newsPost">
-            {posts.map((post, index) => (
-                <div className="post__box" key={index}>
-                    <div className="post__box-postImage">
-                        <img src="/images/3.jpg" alt="" width={200} height={200} />
+            <div className="newsPost">
+                {posts.slice(offset, offset + limit).map((post, index) => (
+                    <div className="post__box" key={index}>
+                        <div className="post__box-postImage">
+                            <img src="/images/3.jpg" alt="" width={200} height={200} />
+                        </div>
+                        <div className="post__box-user-title">
+                            {post.title}
+                        </div>
+                        <div className="post__box-user">
+                            <div className="post__box-user-name">
+                                <FaRegUserCircle />{post.name}</div>
+                            <div className="post__box-user-likes">
+                                <CiHeart /> {post.likes}</div>
+                        </div>
+                        <div className="post__box-user">
+                            <div className="post__box-user-createdAt">
+                                <MdDateRange /> {post.createdAt}</div>
+                        </div>
                     </div>
-                    <div className="post__box-user-title">
-                        {post.title}
-                    </div>
-                    <div className="post__box-user">
-                        <div className="post__box-user-name">
-                            <FaRegUserCircle />{post.name}</div>
-                        <div className="post__box-user-likes">
-                            <CiHeart /> {post.likes}</div>
-                    </div>
-                    <div className="post__box-user">
-                        <div className="post__box-user-createdAt">
-                            <MdDateRange /> {post.createdAt}</div>
-                    </div>
-                </div>
-            ))}
+                ))}
             </div>
+
+{/* pagination buttons */}
+                    <div className="pagination__btns">
+                    <button type="button"> <GrFormPrevious /> </button>
+                    <button type="button"> <GrFormNext /> </button>
+                    </div>
         </>
     )
 }
