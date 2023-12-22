@@ -400,11 +400,23 @@ $primaryYello: #FFCC00;
   color: white;
 }
 
-// newsPost
+// newsBox
+
+.news__container {
+  width: 100%;
+  height: 100%;
+  margin: 5vh auto;
+}
+
+.numBtnClicked {
+  background-color: #FFCC00 !important;
+  border-radius: 50%;
+}
 
 .pagination__btns {
   align-items: center;
   margin-bottom: 3vh;
+  gap: 2vh;
   display: flex;
   justify-content: center;
   button {
@@ -413,7 +425,7 @@ $primaryYello: #FFCC00;
     border: none;
     outline: none;
     background-color: transparent;
-    font-size: 2vh;
+    font-size: 2.5vh;
     display: flex;
   }
 }
@@ -429,6 +441,10 @@ $primaryYello: #FFCC00;
   padding-left: 1vh;
   padding-right: 1vh;
 
+  @media(max-width:768px){
+    grid-template-columns: repeat(2, 1fr);
+  }
+
 }
 
 .post__box {
@@ -437,6 +453,12 @@ $primaryYello: #FFCC00;
   text-align: center;
   margin: 0 auto;
   padding-bottom: 6vh;
+
+  @media(max-width:768px){
+    width: 15vh;
+    height: 15vh;
+  }
+
   &-postImage{
     img{
       border-radius: 10%;
@@ -454,10 +476,21 @@ $primaryYello: #FFCC00;
       width: 20vh;
       height: 20vh;
       z-index: 999;
+
+      @media(max-width:768px){
+        width: 10vh;
+        height: 10vh;
+      }
+
       &:hover {
         width: 25vh;
         height: 25vh;
         transition: all 0.5s ease-in-out;
+
+        @media(max-width:768px){
+          width: 15vh;
+          height: 15vh;
+        }
       }
     }
   }
@@ -471,7 +504,8 @@ $primaryYello: #FFCC00;
     padding-top: 1vh;
 
     &-title {
-      font-size: 2vh;
+      font-size: 1.8vh;
+      height: 2.5vh;
       text-align: center;
       font-weight: 600;
       display: flex;

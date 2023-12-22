@@ -32,7 +32,16 @@ const posts = [
     { name: "Kevin", createdAt: "2024", likes: 4, title: "I love oats!" }
 ]
 
-export default function PostBox() {
+export interface PostProps {
+    id?: string;
+    title: string;
+    email: string;
+    content: string;
+    createdAt: string;
+    uid: string; 
+}
+
+export default function NewsBox() {
 
     const [limit, setLimit] = useState<number>(6);
     const [page, setPage] = useState<number>(1);
@@ -43,9 +52,11 @@ export default function PostBox() {
 
     const numArray = new Array(numPages).fill(0);
 
+
+
     return (
         <>
-            <div>
+            <div className="news__container">
                 <div className="newsPost">
                     {posts.slice(offset, offset + limit).map((post, index) => (
                         <div className="post__box" key={index}>
