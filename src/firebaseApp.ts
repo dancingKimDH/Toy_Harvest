@@ -5,7 +5,15 @@ import {getFirestore} from "firebase/firestore";
 
 export let app: FirebaseApp;
 
-
+const firebaseConfig = {
+    apiKey: "AIzaSyDLESmzFKIMT-e_zpAxBpqPa82Cuvoo49o",
+    authDomain: "toy-harvest.firebaseapp.com",
+    projectId: "toy-harvest",
+    storageBucket: "toy-harvest.appspot.com",
+    messagingSenderId: "702289016303",
+    appId: "1:702289016303:web:6f252a4611cff91305321a",
+    measurementId: "G-45YDVWFY59"
+  };
 
 try {
     app = getApp("app");
