@@ -20,6 +20,13 @@ $primaryBlue: #5AC8FA;
 $primaryRed: #FF3A2D;
 $primaryYello: #FFCC00;
 
+.borderless_button {
+  border: none;
+  background-color: transparent;
+  font-size: 2vh;
+  cursor: pointer;
+}
+
 .footer{
   height: 60px;
   margin-top: 5vh;
@@ -430,6 +437,15 @@ $primaryYello: #FFCC00;
   }
 }
 
+.create-btn{
+
+  display: flex;
+  justify-content: space-between;
+  button {
+    @extend .borderless_button;
+
+  }
+}
 
 .newsPost {
   width: 70%;
