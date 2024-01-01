@@ -4,6 +4,7 @@ import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { MdDateRange } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export interface PostProps {
     photoURL: string;
@@ -52,7 +53,7 @@ export default function NewsBox() {
 
     const numArray = new Array(numPages).fill(0);
 
-
+    const navigate = useNavigate();
 
     return (
         <>
@@ -78,6 +79,10 @@ export default function NewsBox() {
                             </div>
                         </div>
                     ))}
+                </div>
+
+                <div className="post__create-btn">
+                        <button type="button" className="post-btn" onClick={() => {navigate("/news/new")}}>새 글 작성하기</button>
                 </div>
 
                 {/* pagination buttons */}

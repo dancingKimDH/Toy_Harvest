@@ -402,6 +402,19 @@ $primaryYello: #FFCC00;
 
 // newsBox
 
+.post-btn {
+  @extend .form__signup__btn;
+  width: 20vh;
+  font-size: 2vh;
+  background-color: $primaryYello;
+  border: none;
+  
+}
+
+.post__create-btn {
+  padding-left: 80%;
+}
+
 .news__container {
   width: 100%;
   height: 100%;
@@ -452,7 +465,7 @@ $primaryYello: #FFCC00;
   height: 30vh;
   text-align: center;
   margin: 0 auto;
-  padding-bottom: 6vh;
+  padding-bottom: 8vh;
 
   @media(max-width:768px){
     width: 15vh;
@@ -504,7 +517,7 @@ $primaryYello: #FFCC00;
     padding-top: 1vh;
 
     &-title {
-      font-size: 1.8vh;
+      font-size: 2vh;
       height: 2.5vh;
       text-align: center;
       font-weight: 600;
@@ -518,6 +531,7 @@ $primaryYello: #FFCC00;
     }
 
     &-name, &-likes, &-createdAt{
+      font-size: 1.8vh;
       display: flex;
       align-items: center;
     }
