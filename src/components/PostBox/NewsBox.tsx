@@ -4,7 +4,7 @@ import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { MdDateRange } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export interface PostProps {
     photoURL: string;
@@ -39,7 +39,7 @@ export interface PostProps {
     email: string;
     content: string;
     createdAt: string;
-    uid: string; 
+    uid: string;
 }
 
 export default function NewsBox() {
@@ -54,6 +54,8 @@ export default function NewsBox() {
     const numArray = new Array(numPages).fill(0);
 
     const navigate = useNavigate();
+
+
 
     return (
         <>
@@ -95,6 +97,12 @@ export default function NewsBox() {
                     ))}
                     <button type="button" onClick={() => { setPage(page + 1) }} disabled={page === numPages}> <GrFormNext /> </button>
                 </div>
+
+                <div className="create-btn">
+                    <div></div>
+                    <button className="" type="button" onClick={() => {navigate("/news/new")}}>새 글 작성하기</button>
+                </div>
+
             </div>
         </>
     )

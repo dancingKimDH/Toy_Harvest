@@ -1,5 +1,7 @@
-export default function NewsPostNew () {
+import NewsPostNew from "../../components/PostBox/NewsPostNew"
+
+export default function CreateNews () {
     return (
-        <div>Post New</div>
+        <NewsPostNew />
     )
 }

@@ -20,7 +20,18 @@ $primaryBlue: #5AC8FA;
 $primaryRed: #FF3A2D;
 $primaryYello: #FFCC00;
 
-.footer{
+.hidden {
+  display: none;
+}
+
+.borderless_button {
+  border: none;
+  background-color: transparent;
+  font-size: 2vh;
+  cursor: pointer;
+}
+
+.footer {
   height: 60px;
   margin-top: 5vh;
   background-color: #FFCC00;
@@ -29,6 +40,7 @@ $primaryYello: #FFCC00;
 .header {
   width: 100%;
   overflow: hidden;
+
   &__title {
     font-size: 2.5rem;
     color: #8E8E93;
@@ -59,7 +71,7 @@ $primaryYello: #FFCC00;
     color: white;
     overflow: hidden;
 
-    @media(max-width:768px){
+    @media(max-width:768px) {
       padding-left: 1rem;
       padding-right: 1rem;
     }
@@ -72,7 +84,7 @@ $primaryYello: #FFCC00;
       gap: 4rem;
       padding-left: 0;
 
-      @media(max-width:768px){
+      @media(max-width:768px) {
         gap: 2rem;
       }
 
@@ -96,9 +108,9 @@ $primaryYello: #FFCC00;
         color: whitesmoke;
         word-break: break-word;
 
-        @media (max-width:768px){
-            font-size: 0.8rem;
-          }
+        @media (max-width:768px) {
+          font-size: 0.8rem;
+        }
 
       }
     }
@@ -137,7 +149,7 @@ $primaryYello: #FFCC00;
     overflow: hidden;
     list-style: none;
 
-    @media (max-width: 768px){
+    @media (max-width: 768px) {
       width: 100%;
       height: 30vh;
     }
@@ -261,18 +273,19 @@ $primaryYello: #FFCC00;
   left: 10vh;
   z-index: 999;
   top: 3vh;
-    button {
-      border: none;
-      font-size: 3vh;
-      background-color: #5AC8FA;
-      cursor: pointer;
-      color: #1F1F21;
-    }
 
-@media(max-width:768px){
-  top:5vh;
-  left: 6vh;
-}
+  button {
+    border: none;
+    font-size: 3vh;
+    background-color: #5AC8FA;
+    cursor: pointer;
+    color: #1F1F21;
+  }
+
+  @media(max-width:768px) {
+    top: 5vh;
+    left: 6vh;
+  }
 
 }
 
@@ -283,7 +296,7 @@ $primaryYello: #FFCC00;
   width: 30%;
   height: 100%;
 
-  @media(max-width:768px){
+  @media(max-width:768px) {
     width: 80%;
   }
 
@@ -294,7 +307,7 @@ $primaryYello: #FFCC00;
   background-image: linear-gradient(to top, $primaryYello 50%, transparent 50%);
 }
 
-.form__login{
+.form__login {
   margin: 20vh auto !important;
 }
 
@@ -325,7 +338,8 @@ $primaryYello: #FFCC00;
     justify-content: center;
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       opacity: 1;
     }
 
@@ -335,7 +349,7 @@ $primaryYello: #FFCC00;
       background-color: $primaryDark;
       color: white;
       font-size: 2vh;
-      font-weight:700;
+      font-weight: 700;
       cursor: pointer;
     }
 
@@ -360,6 +374,7 @@ $primaryYello: #FFCC00;
       padding-top: 1vh;
       padding-bottom: 1vh;
       color: white;
+
       &-link {
         text-decoration: none;
         padding-left: 5px;
@@ -382,6 +397,7 @@ $primaryYello: #FFCC00;
       background-color: transparent;
       width: 90%;
       overflow: hidden;
+
       &:focus {
         border: none;
       }
@@ -432,6 +448,7 @@ $primaryYello: #FFCC00;
   gap: 2vh;
   display: flex;
   justify-content: center;
+
   button {
     cursor: pointer;
     color: #1F1F21;
@@ -443,6 +460,16 @@ $primaryYello: #FFCC00;
   }
 }
 
+.create-btn {
+
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    @extend .borderless_button;
+
+  }
+}
 
 .newsPost {
   width: 70%;
@@ -454,7 +481,7 @@ $primaryYello: #FFCC00;
   padding-left: 1vh;
   padding-right: 1vh;
 
-  @media(max-width:768px){
+  @media(max-width:768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -467,18 +494,19 @@ $primaryYello: #FFCC00;
   margin: 0 auto;
   padding-bottom: 8vh;
 
-  @media(max-width:768px){
+  @media(max-width:768px) {
     width: 15vh;
     height: 15vh;
   }
 
-  &-postImage{
-    img{
+  &-postImage {
+    img {
       border-radius: 10%;
     }
   }
 
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     cursor: pointer;
   }
 
@@ -490,7 +518,7 @@ $primaryYello: #FFCC00;
       height: 20vh;
       z-index: 999;
 
-      @media(max-width:768px){
+      @media(max-width:768px) {
         width: 10vh;
         height: 10vh;
       }
@@ -500,7 +528,7 @@ $primaryYello: #FFCC00;
         height: 25vh;
         transition: all 0.5s ease-in-out;
 
-        @media(max-width:768px){
+        @media(max-width:768px) {
           width: 15vh;
           height: 15vh;
         }
@@ -508,7 +536,7 @@ $primaryYello: #FFCC00;
     }
   }
 
-  &-user{
+  &-user {
 
     display: flex;
     justify-content: space-between;
@@ -530,11 +558,37 @@ $primaryYello: #FFCC00;
       padding-bottom: 1vh;
     }
 
-    &-name, &-likes, &-createdAt{
-      font-size: 1.8vh;
+    &-name,
+    &-likes,
+    &-createdAt {
       display: flex;
       align-items: center;
     }
 
   }
+}
+
+// new news post
+
+.form {
+  width: 80%;
+  height: 100%;
+  margin: 10vh auto 0 auto;
+
+&__block {
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  font-size: 14px;
+
+  input {
+    margin-left: 2vh;
+    height: 70%;
+    width: 100%;
+    font-size: 1.5rem;
+  }
+
+}
+
+
+
 }
