@@ -98,11 +98,6 @@ export default function NewsBox() {
                     <button type="button" onClick={() => { setPage(page + 1) }} disabled={page === numPages}> <GrFormNext /> </button>
                 </div>
 
-                <div className="create-btn">
-                    <div></div>
-                    <button className="" type="button" onClick={() => {navigate("/news/new")}}>새 글 작성하기</button>
-                </div>
-
             </div>
         </>
     )

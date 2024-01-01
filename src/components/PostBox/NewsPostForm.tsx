@@ -2,7 +2,7 @@ import { useState } from "react"
 import { CiImageOn } from "react-icons/ci";
 import Header from "../Header";
 
-export default function NewsPostNew() {
+export default function NewsPostForm() {
 
     const onSubmit = () => { }
 
@@ -16,23 +16,26 @@ export default function NewsPostNew() {
             <Header />
 
             <form action="" onSubmit={onSubmit} className="form">
-                <div className="form__block">
-                    <label htmlFor="title">제목</label>
-                    <input type="text" name="title" id="title" required value={title} />
+                <div className="form__block form__block-first">
+                    <div className="form__block-title">
+                        <label htmlFor="title" className="form__block-label">제목</label>
+                        <input type="text" name="title" id="title" className="form__block-text" required value={title} />
+                    </div>
+                    <div className="form__block-category">
+                        <label htmlFor="category">카테고리</label>
+                        <select name="category" id="category"></select>
+                    </div>
                 </div>
-
-                <div className="form__block">
-                    <label htmlFor="category">카테고리를 선택해 주세요</label>
-                    <select name="category" id="category"></select>
-                </div>
-
                 <div className="form__block">
                     <label htmlFor="summary">요약</label>
-                    <input type="text" name="summary" id="summary" required value={summary} />
+                    <input type="text" name="summary" id="summary" className="input__summary" required value={summary} />
                 </div>
 
                 <div className="form__block">
                     <label htmlFor="content">내용</label>
+                </div>
+
+                <div className="form__block">
                     <textarea name="content" id="content" required value={content}></textarea>
                 </div>
 

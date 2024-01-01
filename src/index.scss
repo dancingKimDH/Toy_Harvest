@@ -20,9 +20,11 @@ $primaryBlue: #5AC8FA;
 $primaryRed: #FF3A2D;
 $primaryYello: #FFCC00;
 
+
 .hidden {
   display: none;
 }
+
 
 .borderless_button {
   border: none;
@@ -85,7 +87,7 @@ $primaryYello: #FFCC00;
       padding-left: 0;
 
       @media(max-width:768px) {
-        gap: 2rem;
+        gap: 1rem;
       }
 
       &-back {
@@ -109,7 +111,7 @@ $primaryYello: #FFCC00;
         word-break: break-word;
 
         @media (max-width:768px) {
-          font-size: 0.8rem;
+          font-size: 1.7vh;
         }
 
       }
@@ -424,7 +426,7 @@ $primaryYello: #FFCC00;
   font-size: 2vh;
   background-color: $primaryYello;
   border: none;
-  
+
 }
 
 .post__create-btn {
@@ -568,26 +570,53 @@ $primaryYello: #FFCC00;
   }
 }
 
-// new news post
+// news form
 
 .form {
   width: 80%;
   height: 100%;
-  margin: 10vh auto 0 auto;
+  margin: 5vh auto;
+  padding: 0 5vh;
 
-&__block {
-  padding-top: 3vh;
-  padding-bottom: 3vh;
-  font-size: 14px;
+  &__block {
+    padding-top: 1vh;
+    width: 80%;
+    padding-bottom: 1.5vh;
+    font-size: 2vh;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
 
-  input {
-    margin-left: 2vh;
-    height: 70%;
-    width: 100%;
-    font-size: 1.5rem;
+    @media (max-width:768px) {
+      font-size: 1.6vh;
+    }
+
+    &-label {
+      width: 80%;
+    }
+
+    &-first {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-text {
+
+    }
+
+    input {
+      margin-left: 2vh;
+      margin-right: 2vh;
+      height: 70%;
+      font-size: 1.5rem;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+    }
+
   }
-
-}
 
 
 
