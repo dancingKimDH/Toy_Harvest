@@ -41,6 +41,7 @@ $primaryYello: #FFCC00;
 
 .header {
   width: 100%;
+  min-width: 800px;
   overflow: hidden;
 
   &__title {
@@ -570,9 +571,10 @@ $primaryYello: #FFCC00;
   }
 }
 
-// news form
+// news post form
 
 .form {
+  min-width: 800px;
   width: 80%;
   height: 100%;
   margin: 5vh auto;
@@ -591,29 +593,27 @@ $primaryYello: #FFCC00;
       font-size: 1.6vh;
     }
 
-    &-label {
-      width: 80%;
-    }
-
-    &-first {
+    &-category {
+      width: 40% !important;
       display: flex;
-      justify-content: space-between;
     }
 
-    &-text {
-
+    label {
+      width: 10%;
+      padding-left: 5px;
     }
 
     input {
-      margin-left: 2vh;
-      margin-right: 2vh;
       height: 70%;
       font-size: 1.5rem;
+      width: 80%;
+      font-size: 12px;
+      height: 25px;
     }
 
     textarea {
       width: 100%;
-      height: 200px;
+      height: 300px;
     }
 
   }

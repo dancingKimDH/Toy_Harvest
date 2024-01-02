@@ -1,6 +1,6 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { CiImageOn } from "react-icons/ci";
-import Header from "../Header";
+
 
 export default function NewsPostForm() {
 
@@ -9,26 +9,42 @@ export default function NewsPostForm() {
     const [title, setTitle] = useState<string>("");
     const [summary, setSummary] = useState<string>("");
     const [content, setContent] = useState<string>("");
+    const [category, setCategory] = useState<string>("");
     const [hashTag, setHashTag] = useState<string>("");
+
+    const onChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const {
+            target: {name, value}
+        } = e;
+
+        if(name === "title") {
+            setTitle(value);
+        }
+        if(name === "summary") {
+            setSummary(value);
+        }
+        if(name === "category") {
+            setCategory(value);
+        }
+        if(name === "content") {
+            setContent(value);
+        }
+    }
 
     return (
         <>
-            <Header />
-
             <form action="" onSubmit={onSubmit} className="form">
-                <div className="form__block form__block-first">
-                    <div className="form__block-title">
-                        <label htmlFor="title" className="form__block-label">제목</label>
-                        <input type="text" name="title" id="title" className="form__block-text" required value={title} />
+                    <div className="form__block">
+                        <label htmlFor="title">제목</label>
+                        <input type="text" name="title" id="title" required value={title} onChange={onChange} />
                     </div>
-                    <div className="form__block-category">
-                        <label htmlFor="category">카테고리</label>
-                        <select name="category" id="category"></select>
+                    <div className="form__block">
+                        <label htmlFor="category" className="form__block-category">카테고리를 선택해 주세요</label>
+                        <select name="category" id="category" onChange={onChange}></select>
                     </div>
-                </div>
                 <div className="form__block">
                     <label htmlFor="summary">요약</label>
-                    <input type="text" name="summary" id="summary" className="input__summary" required value={summary} />
+                    <input type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 적어주세요" onChange={onChange}/>
                 </div>
 
                 <div className="form__block">
@@ -36,18 +52,16 @@ export default function NewsPostForm() {
                 </div>
 
                 <div className="form__block">
-                    <textarea name="content" id="content" required value={content}></textarea>
+                    <textarea name="content" id="content" required value={content} onChange={onChange}></textarea>
                 </div>
 
-                <div className="form__hashtag-area">
-                    <input type="text" name="hashtag" id="hashtag" placeholder="입력 후 스페이스 바" value={hashTag} />
+                <div className="form__block">
+                    <input type="text" name="hashtag" id="hashtag" placeholder="입력 후 스페이스 바" value={hashTag} onChange={onChange}/>
                 </div>
 
-                <div className="form__submit-area">
-                    <div className="form__block">
+                <div className="form__block">
                         <label htmlFor="file-input"><CiImageOn /></label>
                         <input type="file" name="file-input" id="file-input" accept="image/*" className="hidden" />
-                    </div>
                 </div>
 
 
