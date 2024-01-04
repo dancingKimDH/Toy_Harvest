@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import {User, getAuth, onAuthStateChanged} from "firebase/auth";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "../firebaseApp";
 
 interface AuthProps {
@@ -7,13 +7,13 @@ interface AuthProps {
 }
 
 const AuthContext = createContext(
-    {user: null as User | null}
+    { user: null as User | null }
 );
 
-export const AuthContextProvider = ({children}: AuthProps) => {
+export const AuthContextProvider = ({ children }: AuthProps) => {
 
     const auth = getAuth(app);
-    const[currentUser, setCurrentUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -25,9 +25,9 @@ export const AuthContextProvider = ({children}: AuthProps) => {
         })
     }, [auth])
 
-    return <AuthContext.Provider value={{user: currentUser}}>
+    return <AuthContext.Provider value={{ user: currentUser }}>
         {children}
-        </ AuthContext.Provider>
+    </ AuthContext.Provider>
 
 }
 

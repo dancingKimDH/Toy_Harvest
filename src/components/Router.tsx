@@ -25,6 +25,7 @@ export default function Router({ isAuthenticated }: RouterProps) {
                 <>
                     <Route path="/" element={<Home />} />
                     <Route path="/news" element={<NewsPost />} />
+                    <Route path="/news/new" element={<CreateNews />} />
                     <Route path="/news/:id" element={<NewsPostDetail />} />
                     
                     <Route path="/news/edit/:id" element={<NewsPostEdit />} />
