@@ -84,7 +84,8 @@ export default function NewsBox() {
                 </div>
 
                 <div className="post__create-btn">
-                        <button type="button" className="post-btn" onClick={() => {navigate("/news/new")}}>새 글 작성하기</button>
+                    <div></div>
+                    <button type="button" className="post-btn" onClick={() => { navigate("/news/new") }}>새 글 작성하기</button>
                 </div>
 
                 {/* pagination buttons */}

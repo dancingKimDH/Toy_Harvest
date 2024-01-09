@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+$primaryDark: #1F1F21;
+$primaryBrown: #D6CEC3;
+$primaryGrey: #8E8E93;
+$primaryPink: #FFD3E0;
+$primaryBlue: #5AC8FA;
+$primaryRed: #FF3A2D;
+$primaryYellow: #FFCC00;
+
+.hidden {
+    display: none;
+}
+
+// media query mixin
+
+$mobile: 360px;
+$tablet: 800px;
+$desktop: 1024px;
+
+@mixin xsMobile {
+    @media (max-width: #{$mobile - 1px}) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (min-width: $mobile) and (max-width: #{$tablet - 1px}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: $tablet) and (max-width: #{$desktop - 1px}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $desktop) {
+        @content;
+    }
+}
+
+.borderless_button {
+    border: none;
+    background-color: transparent;
+    font-size: 2vh;
+    cursor: pointer;
+  }
