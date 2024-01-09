@@ -261,13 +261,7 @@
   z-index: 999;
   top: 3vh;
 
-  button {
-    border: none;
-    font-size: 3vh;
-    background-color: #5AC8FA;
-    cursor: pointer;
-    color: #1F1F21;
-  }
+  @extend .blue__button;
 
   @media(max-width:768px) {
     top: 5vh;
@@ -549,7 +543,7 @@
 
 .form {
   width: 60%;
-  margin: 50px auto;
+  margin: 30px auto;
   padding: 5vh 5vh 3vh 5vh;
   box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px #cbced1;
   border-radius: 20px;
@@ -557,12 +551,11 @@
   @include desktop {
     width: 40%;
   }
-
-
+  
   &__block {
-    padding-top: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 80%;
-    padding-bottom: 1.5vh;
     font-size: 2vh;
     font-weight: 600;
     display: flex;
@@ -570,13 +563,36 @@
     margin: 0 auto;
     flex-wrap: wrap;
 
+    &-btn{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px
+    }
+
+    &__submit-btn{
+      @extend .blue__button;
+      font-size: 1.8vh;
+      border-radius: 20px;
+      padding: 6px;
+      width: 100%;
+      font-weight: 600;
+
+      &:hover, &:focus{
+        font-weight: 700;
+        color: white;
+        background-color: $primaryBrown;
+      }
+
+    }
+
     &-extra {
       justify-content: space-between;
       flex-wrap: wrap;
     }
 
     &-hashtag {
-      width: 70%;
+      width: 80%;
     }
 
     &-img {
