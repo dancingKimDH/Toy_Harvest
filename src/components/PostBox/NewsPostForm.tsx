@@ -42,46 +42,45 @@ export default function NewsPostForm() {
 
     return (
         <>
-            <div className="news__container">
-                <form action="" onSubmit={onSubmit} className="form">
-                    <div className="form__block">
-                        <label htmlFor="title">제목</label>
-                    </div>
-                    <div className="form__block">
-                        <input type="text" name="title" id="title" required value={title} onChange={onChange} />
-                    </div>
-                    <div className="form__block">
-                        <label htmlFor="category" className="form__block-category">카테고리를 선택해 주세요</label>
-                        <select name="category" id="category" onChange={onChange}></select>
-                    </div>
-                    <div className="form__block">
-                        <label htmlFor="summary">요약</label>
-                    </div>
-                    <div className="form__block">
-                        <input type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 적어주세요" onChange={onChange} />
-                    </div>
-                    <div className="form__block">
-                        <label htmlFor="content">내용</label>
-                    </div>
+            <form action="" onSubmit={onSubmit} className="form">
+                <div className="form__block">
+                    <label htmlFor="title">제목</label>
+                </div>
+                <div className="form__block">
+                    <input type="text" name="title" id="title" required value={title} onChange={onChange} />
+                </div>
+                <div className="form__block">
+                    <label htmlFor="category" className="form__block-category">카테고리를 선택해 주세요</label>
+                    <select name="category" id="category" onChange={onChange}></select>
+                </div>
+                <div className="form__block">
+                    <label htmlFor="summary">요약</label>
+                </div>
+                <div className="form__block">
+                    <input type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 적어주세요" onChange={onChange} />
+                </div>
+                <div className="form__block">
+                    <label htmlFor="content">내용</label>
+                </div>
 
-                    <div className="form__block">
-                        <textarea name="content" id="content" required value={content} onChange={onChange}></textarea>
-                    </div>
+                <div className="form__block">
+                    <textarea name="content" id="content" required value={content} onChange={onChange}></textarea>
+                </div>
 
-                    <div className="form__block">
+                <div className="form__block form__block-extra">
+                    <div className="form__block-hashtag">
                         <input type="text" name="hashtag" id="hashtag" placeholder="입력 후 스페이스 바" value={hashTag} onChange={onChange} />
                     </div>
-
-                    <div className="form__block">
-                        <label htmlFor="file-input"><CiImageOn /></label>
+                    <div className="form__block-img">
+                        <label className="form__block-img-logo" htmlFor="file-input"><CiImageOn /></label>
                         <input type="file" name="file-input" id="file-input" accept="image/*" className="hidden" />
                     </div>
+                </div>
 
-                    <div className="form__block">
-                        <button type="submit">글 등록하기</button>
-                    </div>
-                </form>
-            </div>
+                <div className="form__block">
+                    <button type="submit">글 등록하기</button>
+                </div>
+            </form>
         </>
     )
 }
