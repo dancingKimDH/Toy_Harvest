@@ -44,17 +44,20 @@ export default function NewsPostForm() {
             <form action="" onSubmit={onSubmit} className="form">
                 <div className="form__block">
                     <label htmlFor="title">제목</label>
-                    <input type="text" name="title" id="title" required value={title} onChange={onChange} />
                 </div>
                 <div className="form__block">
-                    <label htmlFor="category" className="form__block-category">카테고리를 선택해 주세요</label>
+                    <input type="text" name="title" id="title" required value={title} onChange={onChange} maxLength={15} placeholder="15자 내로 입력해 주세요" />
+                </div>
+                <div className="form__block">
+                    <label htmlFor="category" className="form__block-category">카테고리 선택</label>
                     <select name="category" id="category" onChange={onChange}></select>
                 </div>
                 <div className="form__block">
                     <label htmlFor="summary">요약</label>
-                    <input type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 적어주세요" onChange={onChange} />
                 </div>
-
+                <div className="form__block">
+                    <input type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 입력해 주세요" onChange={onChange} />
+                </div>
                 <div className="form__block">
                     <label htmlFor="content">내용</label>
                 </div>
@@ -63,20 +66,19 @@ export default function NewsPostForm() {
                     <textarea name="content" id="content" required value={content} onChange={onChange}></textarea>
                 </div>
 
-                <div className="form__block">
-                    <input type="text" name="hashtag" id="hashtag" placeholder="입력 후 스페이스 바" value={hashTag} onChange={onChange} />
+                <div className="form__block form__block-extra">
+                    <div className="form__block-hashtag">
+                        <input type="text" name="hashtag" id="hashtag" placeholder="# 입력 후 스페이스 바" value={hashTag} onChange={onChange} />
+                    </div>
+                    <div className="form__block-img">
+                        <label className="form__block-img-logo" htmlFor="file-input"><CiImageOn /></label>
+                        <input type="file" name="file-input" id="file-input" accept="image/*" className="hidden" />
+                    </div>
                 </div>
 
-                <div className="form__block">
-                    <label htmlFor="file-input"><CiImageOn /></label>
-                    <input type="file" name="file-input" id="file-input" accept="image/*" className="hidden" />
+                <div className="form__block form__block-btn">
+                    <button className="form__block__submit-btn" type="submit">글 등록하기</button>
                 </div>
-
-                <div className="form__block">
-                    <button type="submit">글 등록하기</button>
-                </div>
-
-
             </form>
         </>
     )
