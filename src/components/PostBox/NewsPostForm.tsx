@@ -16,8 +16,7 @@ export default function NewsPostForm() {
     const onSubmit = (e: any) => {
         e.preventDefault();
         const key = `${user?.uid}-${v4()}`;
-        console.log(key);
-        console.log(user?.uid);
+        
     }
 
 
