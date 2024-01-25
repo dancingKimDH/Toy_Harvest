@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react"
 import { CiImageOn } from "react-icons/ci";
 import AuthContext from "../../context/AuthContext";
+import { FaAngleDown } from "react-icons/fa";
 import { v4 as uuidv4, v4 } from 'uuid';
 // yarn add --dev @types/uuid
 
@@ -16,9 +17,7 @@ export default function NewsPostForm() {
     const onSubmit = (e: any) => {
         e.preventDefault();
         const key = `${user?.uid}-${v4()}`;
-        
     }
-
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {
@@ -41,29 +40,29 @@ export default function NewsPostForm() {
 
     return (
         <>
-            <form action="" onSubmit={onSubmit} className="form">
-                <div className="form__block">
-                    <label htmlFor="title">제목</label>
+            <form action="" onSubmit={onSubmit} className="w-full h-screen mt-5 px-5">
+                <div className="">
+                    <select className="" name="category" id="category" onChange={onChange}>
+                        <option value="category_default">카테고리를 선택해 주세요<FaAngleDown /></option>
+                    </select>
+                </div>
+                <div className="mt-5">
+                    <label htmlFor="title" className="w-100">제목</label>
                 </div>
                 <div className="form__block">
-                    <input type="text" name="title" id="title" required value={title} onChange={onChange} maxLength={15} placeholder="15자 내로 입력해 주세요" />
+                    <input className="w-full pt-3" type="text" name="title" id="title" required value={title} onChange={onChange} maxLength={15} placeholder="15자 내로 입력해 주세요" />
                 </div>
-                <div className="form__block">
-                    <label htmlFor="category" className="form__block-category">카테고리 선택</label>
-                    <select name="category" id="category" onChange={onChange}></select>
-                </div>
-                <div className="form__block">
+                <div className="mt-3">
                     <label htmlFor="summary">요약</label>
                 </div>
                 <div className="form__block">
-                    <input type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 입력해 주세요" onChange={onChange} />
+                    <input className="w-full pt-3" type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 입력해 주세요" onChange={onChange} />
+                </div>
+                <div className="mt-3">
+                    <label  htmlFor="content">내용</label>
                 </div>
                 <div className="form__block">
-                    <label htmlFor="content">내용</label>
-                </div>
-
-                <div className="form__block">
-                    <textarea name="content" id="content" required value={content} onChange={onChange}></textarea>
+                    <textarea className="w-full" name="content" id="content" required value={content} onChange={onChange}></textarea>
                 </div>
 
                 <div className="form__block form__block-extra">
