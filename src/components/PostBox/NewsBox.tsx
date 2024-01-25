@@ -5,6 +5,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { MdDateRange } from "react-icons/md";
 import { Navigate, useNavigate } from "react-router-dom";
+import Pagination from "../Utils/Pagination";
 
 export interface PostProps {
     photoURL: string;
@@ -49,54 +50,38 @@ export default function NewsBox() {
     const [total, setTotal] = useState<number>(posts.length);
 
     const offset = (page - 1) * limit;
-    const numPages = Math.ceil(total / limit);
-
-    const numArray = new Array(numPages).fill(0);
 
     const navigate = useNavigate();
 
-
-
     return (
         <>
-            <div className="news__container">
-                <div className="newsPost">
+            <div className="mt-6">
+                <div className="grid grid-cols-1 gap-8 px-10 mx-auto md:grid-cols-3">
                     {posts.slice(offset, offset + limit).map((post, index) => (
-                        <div className="post__box" key={index}>
-                            <div className="post__box-postImage">
-                                <img src="/images/3.jpg" alt="" />
+                        <div className="" key={index}>
+                            <div className="flex justify-center mx-auto">
+                                <img className="rounded-lg shadow-sm" src="/images/3.jpg" alt="" />
                             </div>
-                            <div className="post__box-user-title">
+                            <div className="flex justify-center font-semibold py-1">
                                 {post.title}
                             </div>
-                            <div className="post__box-user">
-                                <div className="post__box-user-name">
+                            <div className="flex justify-between">
+                                <div className="flex items-center gap-2 text-gray-500">
                                     <FaRegUserCircle />{post.name}</div>
-                                <div className="post__box-user-likes">
-                                    <CiHeart /> {post.likes}</div>
-                            </div>
-                            <div className="post__box-user">
-                                <div className="post__box-user-createdAt">
+                                <div className="flex items-center gap-2 text-gray-500">
                                     <MdDateRange /> {post.createdAt}</div>
+                                <div className="flex items-center gap-2 text-gray-500">
+                                    <CiHeart /> {post.likes}</div>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                <div className="post__create-btn">
-                    <div></div>
-                    <button type="button" className="post-btn" onClick={() => { navigate("/news/new") }}>새 글 작성하기</button>
+                <div className="flex justify-center mt-5">
+                    <Pagination total={posts.length} limit={limit} setPage={setPage} page={page} />
                 </div>
-
-                {/* pagination buttons */}
-                <div className="pagination__btns">
-                    <button type="button" onClick={() => { setPage(page - 1) }} disabled={page === 1}> <GrFormPrevious /> </button>
-                    {numArray.map((item, index) => (
-                        <button type="button" key={index + 1} onClick={() => { setPage(index + 1) }} className={index + 1 === page ? "numBtnClicked" : "numberBtn"}>
-                            {index + 1}
-                        </button>
-                    ))}
-                    <button type="button" onClick={() => { setPage(page + 1) }} disabled={page === numPages}> <GrFormNext /> </button>
+                <div className="flex justify-end p-3">
+                    <button type="button" className="bg-primaryYellow rounded-lg p-1 text-sm flex" onClick={() => { navigate("/news/new") }}>새 글 작성하기</button>
                 </div>
 
             </div>
