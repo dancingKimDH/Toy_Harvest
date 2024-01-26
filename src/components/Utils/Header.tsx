@@ -1,30 +1,37 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdLogIn } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { MdMenu } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
-
+import AuthContext from "../../context/AuthContext";
+import { getAuth, signOut } from "firebase/auth";
+import { app } from "../../firebaseApp";
 
 export default function Header() {
 
     const [isOpen, setIsOpen] = useState(false);
+
+    const {user} = useContext(AuthContext);
+    const auth = getAuth(app);
 
     return (
         <>
             <div className="header">
                 <div className="header__title">
                     <div className="header__title-name">푸른대로</div>
-                    <div className="header__title__menu">
+                    <div className="flex gap-5 items-center">
                         <div className="header__title__menu-item"><IoSearch /></div>
                         <div role="presentation" className="header__title__menu-item" onClick={() => setIsOpen((val) => !val)}>
                             {isOpen ? <AiOutlineClose /> : <MdMenu />}
                         </div>
-                        <div className="header__title__menu-item"><IoMdLogIn /></div>
+                        <div className="header__title__menu-item">
+                            {(user) ? <button className="" onClick={() => signOut(auth)}><IoMdLogIn /></button> : <a href="/login"><IoMdLogIn /></a>}
+                            </div>
                     </div>
                 </div>
 
                 {isOpen && (
-                    <div className="bg-blue-500 w-screen h-screen z-50 px-4 py-4 leading-10 transition duration-300 ease-in-out
+                    <div className="bg-primaryBlue w-screen h-screen z-50 px-4 py-4 leading-10 transition duration-300 ease-in-out
                     fixed top-[90px] right-0 bottom-0 left-0">
                         <ul className="">
                             <li className="">
