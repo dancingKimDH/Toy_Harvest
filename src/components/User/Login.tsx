@@ -28,52 +28,53 @@ export default function LoginForm() {
         }
     }
 
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        const {target:{name, value}} = e;
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { target: { name, value } } = e;
 
-        if(name === "email"){
+        if (name === "email") {
             setEmail(value);
             const validRegex = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/;
-            if(!value?.match(validRegex)) {
+            if (!value?.match(validRegex)) {
                 setError("이메일 형식이 올바르지 않습니다");
             } else {
                 setError("");
             }
         }
 
-        if(name === "password") {
+        if (name === "password") {
             setPassword(value);
-            if(value?.length < 8){
+            if (value?.length < 8) {
                 setError("비밀번호는 8자리 이상 입력해 주세요");
             } else {
                 setError("");
             }
         }
-     }
+    }
 
     const onClickSocialLogIn = async (e: any) => {
         let provider;
         provider = new GoogleAuthProvider;
         await signInWithPopup(auth, provider as GoogleAuthProvider)
-        .then((result) => {
-            toast.success("로그인 성공하였습니다")
-            navigate("/")
-        })
-     }
+            .then((result) => {
+                toast.success("로그인 성공하였습니다")
+                navigate("/")
+            })
+    }
 
     const [error, setError] = useState<string>("");
 
     return (
         <>
-            <div className="button-prev">
-                <button type="button" onClick={() => { navigate(-1) }}><GrFormPrevious /></button>
-            </div>
-            <div className="container">
-                <div className="background-blue">
+
+            <div className="container w-full h-full">
+                <div className="background-blue h-screen w-[200px] md:w-[250px] lg:w-[300px]">
+                    <div className="button-prev">
+                        <button className="text-lg" type="button" onClick={() => { navigate(-1) }}><GrFormPrevious /></button>
+                    </div>
                     <form action="" onSubmit={onSubmit} className="form__signup form__login">
                         <h1 className="form__signup__title">
-                            <span> 푸른대로와 </span> <br />
-                            <span className="text-highlight">함께 시작해 볼까요?</span>
+                            <span className="font-semibold"> 푸른대로와 </span> <br />
+                            <span className="font-semibold text-highlight">함께 시작해 볼까요?</span>
                         </h1>
                         <div className="form__signup__block">
                             <label htmlFor="email"><MdOutlineMail /></label>
@@ -99,9 +100,9 @@ export default function LoginForm() {
                             <input type="submit" value="Sign In with Google" onClick={onClickSocialLogIn} className="form__signup__btn-submit" disabled={error?.length > 0} />
                         </div>
 
-                        <div className="form__signup__block-login">
+                        <div className="form__signup__block-login text-[10px]">
                             계정이 없으신가요?
-                            <Link to="/signup" className="form__signup__block-login-link">회원가입</Link>
+                            <Link to="/signup" className="form__signup__block-login-link text-[10px]">회원가입</Link>
                         </div>
 
                     </form>
