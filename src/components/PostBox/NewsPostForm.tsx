@@ -1,11 +1,20 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { CiImageOn } from "react-icons/ci";
 import AuthContext from "../../context/AuthContext";
 import { FaAngleDown } from "react-icons/fa";
 import { v4 as uuidv4, v4 } from 'uuid';
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Bold } from '@ckeditor/ckeditor5-basic-styles';
 // yarn add --dev @types/uuid
 
 export default function NewsPostForm() {
+
+    useEffect(() => {
+        const editorPlaceholder = document.querySelector( '#content' ) as HTMLElement;
+        ClassicEditor.create( editorPlaceholder ).catch( error => {
+            console.error( error );
+        } );
+    }, [])
 
     const [title, setTitle] = useState<string>("");
     const [summary, setSummary] = useState<string>("");
@@ -40,45 +49,38 @@ export default function NewsPostForm() {
 
     return (
         <>
-            <form action="" onSubmit={onSubmit} className="w-full h-screen mt-5 px-5">
-                <div className="">
-                    <select className="" name="category" id="category" onChange={onChange}>
-                        <option value="category_default">카테고리를 선택해 주세요<FaAngleDown /></option>
-                    </select>
-                </div>
-                <div className="mt-5">
-                    <label htmlFor="title" className="w-100">제목</label>
-                </div>
-                <div className="form__block">
-                    <input className="w-full pt-3" type="text" name="title" id="title" required value={title} onChange={onChange} maxLength={15} placeholder="15자 내로 입력해 주세요" />
-                </div>
-                <div className="mt-3">
-                    <label htmlFor="summary">요약</label>
-                </div>
-                <div className="form__block">
-                    <input className="w-full pt-3" type="text" name="summary" id="summary" maxLength={20} required value={summary} placeholder="20자 내로 입력해 주세요" onChange={onChange} />
-                </div>
-                <div className="mt-3">
-                    <label  htmlFor="content">내용</label>
-                </div>
-                <div className="form__block">
-                    <textarea className="w-full" name="content" id="content" required value={content} onChange={onChange}></textarea>
-                </div>
 
-                <div className="form__block form__block-extra">
-                    <div className="form__block-hashtag">
-                        <input type="text" name="hashtag" id="hashtag" placeholder="# 입력 후 스페이스 바" value={hashTag} onChange={onChange} />
+            <div className="py-8 max-w-[800px] mx-auto">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
+                        <div className="p-6 bg-white border-b border-gray-200">
+                            <form action="" className="w-full" onSubmit={onSubmit}>
+                                <div className="flex w-full">
+                                    <div className="mb-4">
+                                        <label htmlFor="" className="text-xl font-semibold block mb-3 text-gray-600">제목</label>
+                                        <div className="flex gap-5 w-full">
+                                            <input type="text" className="border-2 border-gray-300 p-2" value="" name="title" id="title" placeholder="15자 내로 입력해 주세요" required />
+                                            <select name="" id="" className="border-2 border-gray-300 p-2">
+                                                <option value="">카테고리</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="" className="text-xl block mb-3 text-gray-600 font-semibold">요약</label>
+                                    <input type="text" className="border-2 border-gray-300 p-2 w-full" value="" name="title" id="title" placeholder="15자 내로 입력해 주세요" required />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="content" className="text-xl block mb-3 text-gray-600 font-semibold">내용</label>
+                                    <textarea name="content" id="content" className="border-2 border-gray-500 w-full h-[300px]"></textarea>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div className="form__block-img">
-                        <label className="form__block-img-logo" htmlFor="file-input"><CiImageOn /></label>
-                        <input type="file" name="file-input" id="file-input" accept="image/*" className="hidden" />
-                    </div>
-                </div>
 
-                <div className="form__block form__block-btn">
-                    <button className="form__block__submit-btn" type="submit">글 등록하기</button>
                 </div>
-            </form>
+            </div>
+
         </>
     )
 }

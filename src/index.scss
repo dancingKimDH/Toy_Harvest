@@ -4,6 +4,10 @@
 
 @import "./_utils.scss";
 
+.ck-editor__editable {
+  min-height: 300px;
+}
+
 .footer {
   height: 60px;
   margin-top: 5vh;
