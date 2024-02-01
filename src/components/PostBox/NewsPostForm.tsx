@@ -3,34 +3,78 @@ import { CiImageOn } from "react-icons/ci";
 import AuthContext from "../../context/AuthContext";
 import { FaAngleDown } from "react-icons/fa";
 import { v4 as uuidv4, v4 } from 'uuid';
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Bold } from '@ckeditor/ckeditor5-basic-styles';
+import { FiImage } from "react-icons/fi";
 import { NEWS_CATEGORY_ARR } from "../data/data";
 import { toast } from "react-toastify";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { db, storage } from "../../firebaseApp";
+import { addDoc, collection } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 // yarn add --dev @types/uuid
 
 export default function NewsPostForm() {
-
-    useEffect(() => {
-        const editorPlaceholder = document.querySelector('#content') as HTMLElement;
-        ClassicEditor.create(editorPlaceholder).catch(error => {
-            console.error(error);
-        });
-    }, [])
 
     const [title, setTitle] = useState<string>("");
     const [summary, setSummary] = useState<string>("");
     const [content, setContent] = useState<string>("");
     const [category, setCategory] = useState<string>("");
 
+    const [inputKey, setInputKey] = useState(uuidv4());
+
+    const [imageFile, setImageFile] = useState<string | null>(null);
+
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
     const [hashTag, setHashTag] = useState<string>("");
     const [tags, setTags] = useState<string[]>([]);
 
     const { user } = useContext(AuthContext);
 
-    const onSubmit = (e: any) => {
+    const navigate = useNavigate();
+
+    const onSubmit = async (e: any) => {
         e.preventDefault();
+        setIsSubmitting(true);
         const key = `${user?.uid}-${v4()}`;
+        const storageRef = ref(storage, key);
+
+        try {
+
+            let imageUrl = "";
+            if(imageFile) {
+                const data = await uploadString(storageRef, imageFile, "data_url")
+                imageUrl = await getDownloadURL(data?.ref);
+            }
+
+            await addDoc(collection(db, "posts"), {
+                title: title,
+                summary: summary,
+                content: content,
+                createdAt: new Date()?.toLocaleDateString("ko", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                }), 
+                uid: user?.uid,
+                email: user?.email,
+                hashTags: tags,
+                imageUrl: imageUrl,
+            })
+
+            setTags([]);
+            setHashTag("");
+            setTitle("");
+            setSummary("");
+            setContent("");
+            setImageFile(null);
+            setIsSubmitting(false);
+
+            toast.success("게시글을 성공적으로 등록하였습니다")
+            navigate(-1);
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -71,9 +115,28 @@ export default function NewsPostForm() {
         setTags(tags?.filter((val) => val !== tag));
     }
 
+    const handleFileUpload = (e: any) => {
+        // destructures the event object to extract files
+        const { target: { files } } = e;
+        const file = files?.[0];
+
+        const fileReader = new FileReader();
+        fileReader?.readAsDataURL(file);
+        fileReader.onloadend = (e: any) => {
+            // extracts result from e.currentTarget : fileReader Object
+            const { result } = e?.currentTarget;
+            setImageFile(result);
+        }
+    }
+
+    const handleDeleteImage = () => {
+        setImageFile(null);
+        // 동일 사진 업로드 다르게 취급
+        setInputKey(uuidv4());
+    }
+
     return (
         <>
-
             <div className="py-8 max-w-[800px] mx-auto">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg ">
@@ -101,15 +164,27 @@ export default function NewsPostForm() {
                                     <label htmlFor="hashTag" className="text-xl block mb-3 text-gray-600 font-semibold">#태그</label>
                                     <div className="flex items-center border-2 border-gray-300 p-2 flex-wrap">
                                         {tags?.map((tag) => (
-                                            <span onClick={() => removeHashTag(tag)} 
-                                            className="bg-primaryBlue rounded-xl font-semibold hover:cursor-pointer text-white gap-2 px-2 mx-2 my-1 flex-nowrap" key={tag}> {tag} </span>
+                                            <span onClick={() => removeHashTag(tag)}
+                                                className="bg-primaryBlue rounded-xl font-semibold hover:cursor-pointer text-white gap-2 px-2 mx-2 my-1 flex-nowrap" key={tag}> {tag} </span>
                                         ))}
-                                        <input onChange={onChangeHashTag} onKeyUp={handleKeyUp} type="text" className="outline-none px-2 my-1" value={hashTag} name="hashTag" id="hashTag" maxLength={15} placeholder="입력 후 스페이스" required />
+                                        <input onChange={onChangeHashTag} onKeyUp={handleKeyUp} type="text" className="outline-none px-2 my-1" value={hashTag} name="hashTag" id="hashTag" maxLength={15} placeholder="입력 후 스페이스" />
                                     </div>
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="content" className="text-xl block mb-3 text-gray-600 font-semibold">내용</label>
-                                    <textarea onChange={onChange} name="content" id="content" value={content} className="border-2 border-gray-500 w-full h-[300px]"></textarea>
+                                    <textarea onChange={onChange} name="content" id="content" value={content} className="border-2 border-gray-300 w-full h-[300px] resize-none"></textarea>
+                                </div>
+                                <div className="mb-4 flex justify-between items-center px-5">
+                                    <div className="flex items-center gap-5">
+                                        <label htmlFor="file_input"><FiImage className="text-xl cursor-pointer" /></label>
+                                        <input key={inputKey} type="file" onChange={handleFileUpload} accept="image/*" className="hidden" name="file_input" id="file_input" />
+                                        {imageFile && (
+                                            <img alt="image" src={imageFile} onClick={handleDeleteImage} className="cursor-pointer w-[100px] h-[100px]" />
+                                        )}
+                                    </div>
+                                    <div>
+                                        <button className="p-[5px] text-sm rounded-lg bg-primaryBlue text-white font-semibold" type="submit">새 글 등록하기</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
