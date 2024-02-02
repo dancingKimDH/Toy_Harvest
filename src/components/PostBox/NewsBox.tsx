@@ -6,13 +6,8 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { MdDateRange } from "react-icons/md";
 import { Navigate, useNavigate } from "react-router-dom";
 import Pagination from "../Utils/Pagination";
+import { NEWS_CATEGORY_ARR } from "../data/data";
 
-export interface PostProps {
-    photoURL: string;
-    name: string;
-    createdAt: string;
-    likes: string;
-}
 
 const posts = [
     { name: "DH", createdAt: "2024", likes: 5, title: "wow the farm looks nice!" },
@@ -35,12 +30,17 @@ const posts = [
 ]
 
 export interface PostProps {
-    id?: string;
-    title: string;
+    id: string;
     email: string;
     content: string;
     createdAt: string;
     uid: string;
+    profileUrl?: string;
+    lilkes?: string;
+    likeCount?: string;
+    comments: string[];
+    hashTags?: string[];
+    imageUrl?: string;
 }
 
 export default function NewsBox() {
@@ -55,8 +55,21 @@ export default function NewsBox() {
 
     return (
         <>
-            <div className="mt-6">
-                <div className="grid grid-cols-1 gap-8 px-10 mx-auto md:grid-cols-3">
+            <div className="">
+                <div>
+                    <form action="">
+                        <input type="text" name="" id="" placeholder="검색하기" />
+                        <select name="" id="">
+                            <option value="">카테고리 선택</option>
+                            {NEWS_CATEGORY_ARR.map((data) => (
+                                <option className="">{data.slice(0, -2)}</option>
+                            ))}
+
+                        </select>
+                    </form>
+                </div>
+
+                <div className="grid grid-cols-1 gap-8 px-10 my-5 mx-auto md:grid-cols-3">
                     {posts.slice(offset, offset + limit).map((post, index) => (
                         <div className="" key={index}>
                             <div className="flex justify-center mx-auto">
