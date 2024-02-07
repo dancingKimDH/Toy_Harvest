@@ -45,7 +45,6 @@ export interface PostProps {
     imageUrl?: string;
     title?: string;
     name?: string;
-
 }
 
 export default function NewsBox() {
@@ -72,7 +71,7 @@ export default function NewsBox() {
             onSnapshot(postQuery, (snapshot) => {
                 let dataObj = snapshot.docs.map((doc) => ({
                     ...doc.data(),
-                    id: doc?.id
+                    id: doc?.id,
                 }))
                 setPosts(dataObj as PostProps[]);
             })
@@ -80,23 +79,31 @@ export default function NewsBox() {
         }
     })
 
+
     return (
         <>
-            <div className="">
-                <div>
+            <div className="lg:w-[1000px] mx-auto">
+                <div className="search__bar--newsbox">
                     <form action="">
-                        <input type="text" name="" id="" placeholder="검색하기" />
-                        <select name="" id="">
-                            <option value="">카테고리 선택</option>
-                            {NEWS_CATEGORY_ARR.map((data) => (
-                                <option className="">{data.slice(0, -2)}</option>
-                            ))}
-
-                        </select>
+                        <div className="px-3 mt-3 flex items-center justify-between">
+                            <select name="" id="" className="outline-none">
+                                <option value="title">제목</option> 
+                                <option value="content">내용</option> 
+                                <option value="hashtag">해시태그</option> 
+                            </select>
+                            <input type="text" name="" className="text-sm w-full outline-none p-1" id="" placeholder="제목..." />
+                            <select name="" id="" className="outline-none">
+                                <option value="" className="text-sm"><span className="text-sm">카테고리 선택</span></option>
+                                {NEWS_CATEGORY_ARR.map((data) => (
+                                    <option className="" key={data}>{data.slice(0, -2)}</option>
+                                ))}
+                            </select>
+                            <button type="submit" className="text-sm search__btn text-white font-semibold">검색하기</button>
+                        </div>
                     </form>
                 </div>
 
-                <div className="grid grid-cols-1 gap-8 px-10 my-5 mx-auto md:grid-cols-3">
+                <div className="grid grid-cols-1 gap-8 px-10 my-5 mx-auto md:grid-cols-3 ">
                     {posts.slice(offset, offset + limit).map((post, index) => (
                         <div className="" key={index}>
                             <div className="flex justify-center mx-auto">
@@ -120,6 +127,7 @@ export default function NewsBox() {
                 <div className="flex justify-center mt-5">
                     <Pagination total={posts.length} limit={limit} setPage={setPage} page={page} />
                 </div>
+
                 <div className="flex justify-end p-3">
                     <button type="button" className="bg-primaryYellow rounded-lg p-1 text-sm flex" onClick={() => { navigate("/news/new") }}>새 글 작성하기</button>
                 </div>

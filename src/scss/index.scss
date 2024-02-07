@@ -386,3 +386,21 @@ body {
     display: none;
   }
 }
+
+.search__bar--newsbox {
+  border-bottom: 3px solid gray;
+  padding-bottom: 10px;
+}
+
+.search__btn {
+  text-wrap: nowrap;
+  padding: 5px;
+  margin-left: 5px;
+  background-color: gray;
+  border-radius: 10px; 
+
+  &:hover {
+    background-color: $primaryDark;
+    color: white;
+  }
+}
