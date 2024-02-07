@@ -4,10 +4,14 @@
 
 @import "./_utils.scss";
 
+body {
+  min-width: 350px;
+}
+
 .footer {
   height: 60px;
   margin-top: 5vh;
-  background-color: #FFCC00;
+  background-color: #ffcc00;
 }
 
 .header {
@@ -16,7 +20,7 @@
 
   &__title {
     font-size: 2.5rem;
-    color: #8E8E93;
+    color: #8e8e93;
     display: flex;
     align-items: center;
     width: 100%;
@@ -32,7 +36,6 @@
       display: flex;
       gap: 20px;
     }
-
   }
 
   &__nav {
@@ -54,7 +57,11 @@
 
       &-back {
         overflow: hidden;
-        background-image: linear-gradient(to top, $primaryYellow 50%, transparent 50%);
+        background-image: linear-gradient(
+          to top,
+          $primaryYellow 50%,
+          transparent 50%
+        );
         background-repeat: no-repeat;
         background-size: 0% 100%;
         transition: background-size 0.8s;
@@ -89,7 +96,6 @@
   .header__nav-items {
     display: none;
   }
-
 }
 
 @include tablet {
@@ -105,31 +111,31 @@
   .header__nav-items {
     display: none;
   }
-
 }
 
 .carousel {
-
-  input:checked+.carousel__slides-container .carousel__slides-container-img {
+  input:checked + .carousel__slides-container .carousel__slides-container-img {
     opacity: 1;
     transform: scale(1);
     transition: opacity 1s ease-in-out;
   }
 
-  input:checked+.carousel__slides-container .carousel__slides-container-controls label {
+  input:checked
+    + .carousel__slides-container
+    .carousel__slides-container-controls
+    label {
     display: block;
   }
 
-  input#img-1:checked~.carousel__dots label#img-dot-1,
-  input#img-2:checked~.carousel__dots label#img-dot-2,
-  input#img-3:checked~.carousel__dots label#img-dot-3 {
+  input#img-1:checked ~ .carousel__dots label#img-dot-1,
+  input#img-2:checked ~ .carousel__dots label#img-dot-2,
+  input#img-3:checked ~ .carousel__dots label#img-dot-3 {
     opacity: 1;
   }
 
   margin: 0 auto;
   max-width: 800px;
   margin-top: 30px;
-
 
   &__slides {
     display: block;
@@ -181,6 +187,7 @@
     &-container {
       display: flex;
       justify-content: center;
+      width: 100%;
 
       &-img {
         display: block;
@@ -190,7 +197,7 @@
         top: 0;
         opacity: 0;
         transition: all 0.7s ease-in-out;
-        &:hover+.carousel__slides-container-controls label {
+        &:hover + .carousel__slides-container-controls label {
           opacity: 0.5;
         }
 
@@ -200,7 +207,6 @@
           height: 100%;
           border-radius: 20px;
         }
-
       }
 
       &-controls {
@@ -211,13 +217,13 @@
         z-index: 999;
         font-size: 50px;
         line-height: 400px;
-        color: #FFCC00;
+        color: #ffcc00;
 
         &-prev {
           width: 49%;
           text-align: left;
           left: 0;
-          color: #FFCC00;
+          color: #ffcc00;
           z-index: 999;
         }
 
@@ -235,26 +241,17 @@
           transition: opacity 0.2s;
           cursor: pointer;
         }
-
       }
-
     }
-
   }
-
 }
 
-.container {
-  background-color: #1F1F21;
-  background-image: url(../public/images/1.jpg);
+.login__container {
+  background-color: #1f1f21;
+  background-image: url(../../public/images/1.jpg);
   background-size: cover;
   width: 100%;
   height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }
 
 .button-prev {
@@ -264,17 +261,20 @@
   top: 6vh;
   left: 6vh;
   @extend .blue__button;
-
 }
 
 .background-blue {
   position: absolute;
-  background-color: #5AC8FA;
+  background-color: #5ac8fa;
 }
 
 .text-highlight {
   overflow: hidden;
-  background-image: linear-gradient(to top, $primaryYellow 50%, transparent 50%);
+  background-image: linear-gradient(
+    to top,
+    $primaryYellow 50%,
+    transparent 50%
+  );
 }
 
 .form__login {
@@ -282,13 +282,12 @@
 }
 
 .form__signup {
-
   &__title {
     font-size: 3vh;
   }
 
   overflow: hidden;
-  flex-wrap:nowrap;
+  flex-wrap: nowrap;
   width: 80%;
   margin: 10vh auto;
   padding: 5vh 3vh;
@@ -322,7 +321,6 @@
       font-weight: 700;
       cursor: pointer;
     }
-
   }
 
   &__block {
@@ -348,7 +346,7 @@
       &-link {
         text-decoration: none;
         padding-left: 5px;
-        color: #FFCC00;
+        color: #ffcc00;
         font-weight: 700;
       }
     }
@@ -357,7 +355,6 @@
       font-size: 3vh;
       padding-left: 1vh;
       padding-right: 1vh;
-
     }
 
     input {
@@ -371,11 +368,8 @@
       &:focus {
         border: none;
       }
-
     }
-
   }
-
 }
 
 .error__msg {
@@ -386,11 +380,9 @@
   color: white;
 }
 
-
-
 // mobile
-@media(max-width:820px) {
-  .header__nav{
+@media (max-width: 820px) {
+  .header__nav {
     display: none;
   }
 }

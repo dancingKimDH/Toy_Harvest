@@ -1,5 +1,5 @@
-import { limit } from "firebase/firestore";
-import { useState } from "react";
+import { collection, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
@@ -7,27 +7,29 @@ import { MdDateRange } from "react-icons/md";
 import { Navigate, useNavigate } from "react-router-dom";
 import Pagination from "../Utils/Pagination";
 import { NEWS_CATEGORY_ARR } from "../data/data";
+import AuthContext from "../../context/AuthContext";
+import { db } from "../../firebaseApp";
 
 
-const posts = [
-    { name: "DH", createdAt: "2024", likes: 5, title: "wow the farm looks nice!" },
-    { name: "John", createdAt: "2024", likes: 3, title: "The farm looks amazing!" },
-    { name: "Peter", createdAt: "2024", likes: 3, title: "That's such a nice farm!" },
-    { name: "James", createdAt: "2024", likes: 3, title: "Absolutely!" },
-    { name: "Ashley", createdAt: "2024", likes: 3, title: "How to enjoy your oats!" },
-    { name: "Kevin", createdAt: "2024", likes: 3, title: "Oats not on my table!" },
-    { name: "Ashley", createdAt: "2024", likes: 3, title: "I love oats!" },
-    { name: "DH", createdAt: "2024", likes: 3, title: "That's such a nice farm!" },
-    { name: "Peter", createdAt: "2024", likes: 6, title: "Best crops of the season" },
-    { name: "DH", createdAt: "2024", likes: 10, title: "I love oats!" },
-    { name: "Linda", createdAt: "2024", likes: 1, title: "I love oats!" },
-    { name: "Linda", createdAt: "2024", likes: 4, title: "Oats not on my table!" },
-    { name: "Emily", createdAt: "2024", likes: 5, title: "Best crops of the season" },
-    { name: "Maria", createdAt: "2024", likes: 8, title: "Best crops of the season" },
-    { name: "Emily", createdAt: "2024", likes: 4, title: "Stunning views of the countryside!" },
-    { name: "Linda", createdAt: "2024", likes: 8, title: "Farming techniques explained" },
-    { name: "Kevin", createdAt: "2024", likes: 4, title: "I love oats!" }
-]
+// const posts = [
+//     { name: "DH", createdAt: "2024", likes: 5, title: "wow the farm looks nice!" },
+//     { name: "John", createdAt: "2024", likes: 3, title: "The farm looks amazing!" },
+//     { name: "Peter", createdAt: "2024", likes: 3, title: "That's such a nice farm!" },
+//     { name: "James", createdAt: "2024", likes: 3, title: "Absolutely!" },
+//     { name: "Ashley", createdAt: "2024", likes: 3, title: "How to enjoy your oats!" },
+//     { name: "Kevin", createdAt: "2024", likes: 3, title: "Oats not on my table!" },
+//     { name: "Ashley", createdAt: "2024", likes: 3, title: "I love oats!" },
+//     { name: "DH", createdAt: "2024", likes: 3, title: "That's such a nice farm!" },
+//     { name: "Peter", createdAt: "2024", likes: 6, title: "Best crops of the season" },
+//     { name: "DH", createdAt: "2024", likes: 10, title: "I love oats!" },
+//     { name: "Linda", createdAt: "2024", likes: 1, title: "I love oats!" },
+//     { name: "Linda", createdAt: "2024", likes: 4, title: "Oats not on my table!" },
+//     { name: "Emily", createdAt: "2024", likes: 5, title: "Best crops of the season" },
+//     { name: "Maria", createdAt: "2024", likes: 8, title: "Best crops of the season" },
+//     { name: "Emily", createdAt: "2024", likes: 4, title: "Stunning views of the countryside!" },
+//     { name: "Linda", createdAt: "2024", likes: 8, title: "Farming techniques explained" },
+//     { name: "Kevin", createdAt: "2024", likes: 4, title: "I love oats!" }
+// ]
 
 export interface PostProps {
     id: string;
@@ -36,22 +38,47 @@ export interface PostProps {
     createdAt: string;
     uid: string;
     profileUrl?: string;
-    lilkes?: string;
+    likes?: string;
     likeCount?: string;
     comments: string[];
     hashTags?: string[];
     imageUrl?: string;
+    title?: string;
+    name?: string;
+
 }
 
 export default function NewsBox() {
+
+
+    const [posts, setPosts] = useState<PostProps[]>([]);
+
+    const user = useContext(AuthContext);
 
     const [limit, setLimit] = useState<number>(6);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(posts.length);
 
+
     const offset = (page - 1) * limit;
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            let postRef = collection(db, "posts");
+            let postQuery = query(postRef, orderBy("createdAt", "desc"));
+
+            onSnapshot(postQuery, (snapshot) => {
+                let dataObj = snapshot.docs.map((doc) => ({
+                    ...doc.data(),
+                    id: doc?.id
+                }))
+                setPosts(dataObj as PostProps[]);
+            })
+
+        }
+    })
 
     return (
         <>
