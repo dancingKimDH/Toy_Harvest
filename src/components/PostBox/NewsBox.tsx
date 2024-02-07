@@ -1,4 +1,4 @@
-import { collection, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -58,6 +58,9 @@ export default function NewsBox() {
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(posts.length);
 
+    const [searchTitle, setSearchTitle] = useState<string>("");
+    const [searchOption, setSearchOption] = useState<string>("");
+
 
     const offset = (page - 1) * limit;
 
@@ -75,10 +78,16 @@ export default function NewsBox() {
                 }))
                 setPosts(dataObj as PostProps[]);
             })
-
         }
-    })
+    }, [user])
 
+    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    
+    }
+
+    const handleSubmit = () => {
+
+    }
 
     return (
         <>
@@ -86,7 +95,7 @@ export default function NewsBox() {
                 <div className="search__bar--newsbox">
                     <form action="">
                         <div className="px-3 mt-3 flex items-center justify-between">
-                            <select name="" id="" className="outline-none">
+                            <select onChange={onChange} name="" id="" className="outline-none">
                                 <option value="title">제목</option> 
                                 <option value="content">내용</option> 
                                 <option value="hashtag">해시태그</option> 
