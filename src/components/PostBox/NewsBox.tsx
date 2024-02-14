@@ -30,6 +30,7 @@ export interface PostProps {
 export default function NewsBox() {
 
     const [posts, setPosts] = useState<PostProps[]>([]);
+    const [displayPosts, setDisplayPosts] = useState<PostProps[]>([]);
 
     const user = useContext(AuthContext);
 
@@ -56,6 +57,7 @@ export default function NewsBox() {
                     id: doc?.id,
                 }))
                 setPosts(dataObj as PostProps[]);
+                setDisplayPosts(dataObj as PostProps[]);
             })
 
         }
@@ -73,11 +75,17 @@ export default function NewsBox() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const keywords = searchWord.trim().split(/\s+/);
-
         const filteredPosts = posts.filter((post) => {
-            return keywords.some(keyword => post.subject?.toLowerCase().includes(keyword.toLowerCase()))
+            if(subject === "title") {
+                return keywords.some(keyword => post.title?.toLowerCase().includes(keyword.toLowerCase()));
+            } else if(subject === "content") {
+                return keywords.some(keyword => post.content?.toLowerCase().includes(keyword.toLowerCase()));
+            } else {
+                return keywords.some(keyword => post.hashTags?.includes(keyword.toLowerCase()));
+            }
+            
         })
-        setPosts(filteredPosts as PostProps[]);
+        setDisplayPosts(filteredPosts as PostProps[]);
     }
 
     return (
@@ -104,7 +112,7 @@ export default function NewsBox() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-8 px-10 my-5 mx-auto md:grid-cols-3 ">
-                    {posts.slice(offset, offset + limit).map((post, index) => (
+                    {displayPosts.slice(offset, offset + limit).map((post, index) => (
                         <div className="" key={index}>
                             <div className="flex justify-center mx-auto">
                                 <img className="rounded-lg shadow-sm" src="/images/3.jpg" alt="" />
