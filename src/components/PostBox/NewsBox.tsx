@@ -10,27 +10,6 @@ import { NEWS_CATEGORY_ARR } from "../data/data";
 import AuthContext from "../../context/AuthContext";
 import { db } from "../../firebaseApp";
 
-
-// const posts = [
-//     { name: "DH", createdAt: "2024", likes: 5, title: "wow the farm looks nice!" },
-//     { name: "John", createdAt: "2024", likes: 3, title: "The farm looks amazing!" },
-//     { name: "Peter", createdAt: "2024", likes: 3, title: "That's such a nice farm!" },
-//     { name: "James", createdAt: "2024", likes: 3, title: "Absolutely!" },
-//     { name: "Ashley", createdAt: "2024", likes: 3, title: "How to enjoy your oats!" },
-//     { name: "Kevin", createdAt: "2024", likes: 3, title: "Oats not on my table!" },
-//     { name: "Ashley", createdAt: "2024", likes: 3, title: "I love oats!" },
-//     { name: "DH", createdAt: "2024", likes: 3, title: "That's such a nice farm!" },
-//     { name: "Peter", createdAt: "2024", likes: 6, title: "Best crops of the season" },
-//     { name: "DH", createdAt: "2024", likes: 10, title: "I love oats!" },
-//     { name: "Linda", createdAt: "2024", likes: 1, title: "I love oats!" },
-//     { name: "Linda", createdAt: "2024", likes: 4, title: "Oats not on my table!" },
-//     { name: "Emily", createdAt: "2024", likes: 5, title: "Best crops of the season" },
-//     { name: "Maria", createdAt: "2024", likes: 8, title: "Best crops of the season" },
-//     { name: "Emily", createdAt: "2024", likes: 4, title: "Stunning views of the countryside!" },
-//     { name: "Linda", createdAt: "2024", likes: 8, title: "Farming techniques explained" },
-//     { name: "Kevin", createdAt: "2024", likes: 4, title: "I love oats!" }
-// ]
-
 export interface PostProps {
     id: string;
     email: string;
@@ -45,10 +24,10 @@ export interface PostProps {
     imageUrl?: string;
     title?: string;
     name?: string;
+    subject?: string;
 }
 
 export default function NewsBox() {
-
 
     const [posts, setPosts] = useState<PostProps[]>([]);
 
@@ -58,8 +37,8 @@ export default function NewsBox() {
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(posts.length);
 
-    const [searchTitle, setSearchTitle] = useState<string>("");
-    const [searchOption, setSearchOption] = useState<string>("");
+    const [subject, setSubject] = useState<string>("title");
+    const [searchWord, setSearchWord] = useState<string>("");
 
 
     const offset = (page - 1) * limit;
@@ -78,29 +57,41 @@ export default function NewsBox() {
                 }))
                 setPosts(dataObj as PostProps[]);
             })
+
         }
     }, [user])
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    
+        const { target: { name, value } } = e;
+        if (name === "subject") {
+            setSubject(value);
+        } else if (name === "searchWord") {
+            setSearchWord(value);
+        }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const keywords = searchWord.trim().split(/\s+/);
 
+        const filteredPosts = posts.filter((post) => {
+            return keywords.some(keyword => post.subject?.toLowerCase().includes(keyword.toLowerCase()))
+        })
+        setPosts(filteredPosts as PostProps[]);
     }
 
     return (
         <>
             <div className="lg:w-[1000px] mx-auto">
                 <div className="search__bar--newsbox">
-                    <form action="">
+                    <form action="" onSubmit={handleSubmit}>
                         <div className="px-3 mt-3 flex items-center justify-between">
-                            <select onChange={onChange} name="" id="" className="outline-none">
-                                <option value="title">제목</option> 
-                                <option value="content">내용</option> 
-                                <option value="hashtag">해시태그</option> 
+                            <select onChange={onChange} name="subject" id="" className="outline-none">
+                                <option value="title">제목</option>
+                                <option value="content">내용</option>
+                                <option value="hashtag">해시태그</option>
                             </select>
-                            <input type="text" name="" className="text-sm w-full outline-none p-1" id="" placeholder="제목..." />
+                            <input onChange={onChange} type="text" name="searchWord" className="text-sm w-full outline-none p-1" id="" placeholder="제목..." />
                             <select name="" id="" className="outline-none">
                                 <option value="" className="text-sm"><span className="text-sm">카테고리 선택</span></option>
                                 {NEWS_CATEGORY_ARR.map((data) => (
