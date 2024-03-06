@@ -44,7 +44,7 @@ export default function Header() {
                                 <a href="/community" className="text-lg text-white font-semibold tracking-wide">커뮤니티</a>
                             </li>
                             <li className="">
-                                <a href="#" className="text-lg text-white font-semibold tracking-wide">QnA</a>
+                                <a href="/housing" className="text-lg text-white font-semibold tracking-wide">QnA</a>
                             </li>
                             <li className="">
                                 <a href="/mypage" className="text-lg text-white font-semibold tracking-wide">마이페이지</a>
@@ -68,7 +68,7 @@ export default function Header() {
                             <a href="/community" className="header__nav-items-item">커뮤니티</a>
                         </li>
                         <li className="header__nav-items-back">
-                            <a href="#" className="header__nav-items-item">QnA</a>
+                            <a href="/housing" className="header__nav-items-item">QnA</a>
                         </li>
                         <li className="header__nav-items-back">
                             <a href="/mypage" className="header__nav-items-item">마이페이지</a>

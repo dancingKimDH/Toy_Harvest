@@ -12,6 +12,7 @@ import CommunityPostDetail from "../pages/community/details";
 import CommunityPostEdit from "../pages/community/edit";
 import CommunityPostNew from "../pages/community/new";
 import CreateNews from "../pages/news/new";
+import Housing from "../pages/housing";
 
 interface RouterProps {
     isAuthenticated: boolean;
@@ -41,6 +42,8 @@ export default function Router({ isAuthenticated }: RouterProps) {
 
                     <Route path="/mypage" element={<ProfileDetail />} />
                     <Route path="/login" element={<LogIn />} />
+
+                    <Route path="/housing" element={<Housing />} />
                 </>
 
             )
@@ -50,9 +53,6 @@ export default function Router({ isAuthenticated }: RouterProps) {
                         <Route path="/login" element={<LogIn />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/*" element={<LogIn />} />
-                        <Route path="/community" element={<CommunityPost />} />
-                        <Route path="/news" element={<NewsPost />} />
-                        <Route path="/news/new" element={<CreateNews />} />
                     </>
                 )}
 

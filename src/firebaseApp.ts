@@ -7,13 +7,13 @@ import { getStorage } from "firebase/storage";
 export let app: FirebaseApp;
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDLESmzFKIMT-e_zpAxBpqPa82Cuvoo49o",
-    authDomain: "toy-harvest.firebaseapp.com",
-    projectId: "toy-harvest",
-    storageBucket: "toy-harvest.appspot.com",
-    messagingSenderId: "702289016303",
-    appId: "1:702289016303:web:6f252a4611cff91305321a",
-    measurementId: "G-45YDVWFY59"
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENTID,
 };
 
 try {
