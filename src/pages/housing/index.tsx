@@ -3,14 +3,39 @@ import Header from "../../components/Utils/Header";
 import convert from "xml-js";
 import { useEffect, useState } from "react";
 
+import React from 'react';
+import ReactDOM from "react";
+
+import { FaHouse } from "react-icons/fa6";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { MdOutlineApartment } from "react-icons/md";
+import { FaThLarge } from "react-icons/fa";
+import { CiCalendarDate } from "react-icons/ci";
+import { IoPerson } from "react-icons/io5";
+import { MdLocalPhone } from "react-icons/md";
+
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from "react-toastify";
+
 interface RowData {
-    BIZ_NM: any;
-    LC_NM: any;
-    PLAN_HSCNT: any;
-    TOT_PLOT_AR: any;
-    LTTOT_PBLANC_DE: any;
-    CHARGER_NM: any;
-    CHARGER_TELNO: any;
+    BIZ_NM: stringArray;
+    LC_NM: stringArray;
+    PLAN_HSCNT: stringArray;
+    TOT_PLOT_AR: stringArray;
+    LTTOT_PBLANC_DE: stringArray;
+    CHARGER_NM: stringArray;
+    CHARGER_TELNO: stringArray;
+}
+
+interface stringArray {
+    _text: string;
+}
+
+class App extends React.Component {
+    state = {
+        value: '',
+        copied: false,
+    }
 }
 
 
@@ -41,12 +66,16 @@ export default function Housing() {
         setYear(parseInt(value));
     }
 
+    const handleTelephoneClick = () => {
+        toast.success('클립보드에 복사하였습니다');
+    }
+
     return (
         <>
             <Header />
             <div>
                 <h1 className="font-semibold text-center text-[30px] p-[5px] mt-[20px]">전원마을 분양 공고 정보</h1>
-                <h2 className="text-right p-[5px]">농림수산식품교육문화정보원 제공 2005 ~ 2020</h2>
+                <h2 className="text-center md:text-right p-[5px]">농림수산식품교육문화정보원 제공 2005 ~ 2020</h2>
             </div>
             <div className="">
                 <div className="flex justify-center">
@@ -72,9 +101,9 @@ export default function Housing() {
                         </select>
                     </div>
                 </div>
-                <div className="flex justify-center my-[50px]">
+                <div className="flex justify-center my-[25px]">
                     <table className="border border-solid border-black-900 p-5">
-                        <thead className="">
+                        <thead className="hidden md:table-header-group">
                             <tr className="bg-gray-300">
                                 <th className="p-5">사업 명</th>
                                 <th className="p-5">위치</th>
@@ -85,18 +114,31 @@ export default function Housing() {
                                 <th className="p-5">담당자 전화번호</th>
                             </tr>
                         </thead>
+                        <thead>
+                            <tr className="bg-gray-300 md:hidden">
+                                <th className="p-5 "><FaHouse className="mx-auto" /></th>
+                                <th className="p-5"><FaMapMarkerAlt className="mx-auto" /></th>
+                                <th className="p-5"><MdOutlineApartment className="mx-auto" /></th>
+                                <th className="p-5"><FaThLarge className="mx-auto" /></th>
+                                <th className="p-5"><CiCalendarDate className="mx-auto" /></th>
+                                <th className="p-5"><IoPerson className="mx-auto" /></th>
+                                <th className="p-5"><MdLocalPhone className="mx-auto" /></th>
+                            </tr>
+                        </thead>
 
                         {rowData ? (
                             Object.keys(rowData).map((key: any, index) => (
                                 <tbody>
-                                    <tr key={index} className="hover:bg-gray-200 border border-solid border-black-200">
+                                    <tr key={index} className="hover:bg-gray-200 border border-solid border-black-200 text-[13px] md:text-[20px]">
                                         <td className="p-5 text-center">{rowData[key].BIZ_NM._text}</td>
                                         <td className="p-5 text-center">{rowData[key].LC_NM._text}</td>
                                         <td className="p-5 text-center">{rowData[key].PLAN_HSCNT._text}</td>
                                         <td className="p-5 text-center">{rowData[key].TOT_PLOT_AR._text}</td>
                                         <td className="p-5 text-center">{rowData[key].LTTOT_PBLANC_DE._text}</td>
                                         <td className="p-5 text-center">{rowData[key].CHARGER_NM._text}</td>
-                                        <td className="p-5 text-center">{rowData[key].CHARGER_TELNO._text}</td>
+                                        <CopyToClipboard text={rowData[key].CHARGER_TELNO._text}>
+                                            <td className="p-5 text-center hover:cursor-pointer" onClick={handleTelephoneClick}>{rowData[key].CHARGER_TELNO._text}</td>
+                                        </CopyToClipboard>
                                     </tr>
                                 </tbody>
                             ))
