@@ -2,9 +2,8 @@ import { collection, limit, onSnapshot, orderBy, query, where } from "firebase/f
 import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
-import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { MdDateRange } from "react-icons/md";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Pagination from "../Utils/Pagination";
 import { NEWS_CATEGORY_ARR } from "../data/data";
 import AuthContext from "../../context/AuthContext";
@@ -100,23 +99,23 @@ export default function NewsBox() {
 
                 <div className="grid grid-cols-1 gap-8 px-10 my-5 mx-auto md:grid-cols-3 ">
                     {displayPosts.slice(offset, offset + limit).map((post, index) => (
-                            <div className="" key={index} onClick={() => navigate(`/community/${post?.id}`)}>
-                                <div className="flex justify-center mx-auto">
-                                    <img className="rounded-lg shadow-sm" src="/images/3.jpg" alt="" />
-                                </div>
-                                <div className="flex justify-center font-semibold py-1">
-                                    {post.title}
-                                </div>
-                                <div className="flex justify-between">
-                                    <div className="flex items-center gap-2 text-gray-500">
-                                        <FaRegUserCircle />{post.name}</div>
-                                    <div className="flex items-center gap-2 text-gray-500">
-                                        <MdDateRange /> {post.createdAt}</div>
-                                    <div className="flex items-center gap-2 text-gray-500">
-                                        <CiHeart /> {post.likes}</div>
-                                </div>
+                        <div className="" key={index} onClick={() => navigate(`/community/${post?.id}`)}>
+                            <div className="flex justify-center mx-auto">
+                                <img className="rounded-lg shadow-sm" src="/images/3.jpg" alt="" />
                             </div>
-                
+                            <div className="flex justify-center font-semibold py-1">
+                                {post.title}
+                            </div>
+                            <div className="flex justify-between">
+                                <div className="flex items-center gap-2 text-gray-500">
+                                    <FaRegUserCircle />{post.name}</div>
+                                <div className="flex items-center gap-2 text-gray-500">
+                                    <MdDateRange /> {post.createdAt}</div>
+                                <div className="flex items-center gap-2 text-gray-500">
+                                    <CiHeart /> {post.likes}</div>
+                            </div>
+                        </div>
+
                     ))}
                 </div>
 
