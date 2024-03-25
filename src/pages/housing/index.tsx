@@ -17,19 +17,8 @@ import { MdLocalPhone } from "react-icons/md";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from "react-toastify";
 
-interface RowData {
-    BIZ_NM: stringArray;
-    LC_NM: stringArray;
-    PLAN_HSCNT: stringArray;
-    TOT_PLOT_AR: stringArray;
-    LTTOT_PBLANC_DE: stringArray;
-    CHARGER_NM: stringArray;
-    CHARGER_TELNO: stringArray;
-}
+import { RowData } from "../../interface";
 
-interface stringArray {
-    _text: string;
-}
 
 class App extends React.Component {
     state = {
@@ -38,16 +27,17 @@ class App extends React.Component {
     }
 }
 
-
 export default function Housing() {
 
     const [rowData, setRowData] = useState<RowData[]>([]);
-    const [year, setYear] = useState<Number>(2015);
+    const [selectedYear, setYear] = useState<Number>(2015);
+
+    const years = Array.from({length: 2020 - 2005}, (_, index) => 2021 - index);
 
     useEffect(
         () => {
             const fetchData = async () => {
-                const { data: response } = await axios.get(`/fetch-housing-data/${year}`);
+                const { data: response } = await axios.get(`/fetch-housing-data/${selectedYear}`);
                 const result: any = convert.xml2json(response, {
                     compact: true,
                     spaces: 4
@@ -58,7 +48,7 @@ export default function Housing() {
                 setRowData(rows);
             }
             fetchData();
-        }, [year]
+        }, [selectedYear]
     )
 
     const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -79,30 +69,17 @@ export default function Housing() {
             </div>
             <div className="">
                 <div className="flex justify-center">
-                    <div className="my-[20px] w-[80%]">
+                    <div className="my-[20px] w-[80%] md:w-full">
                         <select onChange={handleYearChange} id="spe_year" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="2015" selected>년도 선택 (2015)</option>
-                            <option value="2005">2005</option>
-                            <option value="2006">2006</option>
-                            <option value="2007">2007</option>
-                            <option value="2008">2008</option>
-                            <option value="2009">2009</option>
-                            <option value="2010">2010</option>
-                            <option value="2011">2011</option>
-                            <option value="2012">2012</option>
-                            <option value="2013">2013</option>
-                            <option value="2014">2014</option>
-                            <option value="2015">2015</option>
-                            <option value="2016">2016</option>
-                            <option value="2017">2017</option>
-                            <option value="2018">2018</option>
-                            <option value="2019">2019</option>
-                            <option value="2020">2020</option>
+                            {years.map((year) => (
+                                <option key={year} value={year} selected={year === selectedYear}>{year}</option>
+                            ))}
                         </select>
                     </div>
                 </div>
                 <div className="flex justify-center my-[25px]">
-                    <table className="border border-solid border-black-900 p-5">
+                    <table className="border border-solid border-black-900 p-5 w-full md:w-[80%]">
                         <thead className="hidden md:table-header-group">
                             <tr className="bg-gray-300">
                                 <th className="p-5">사업 명</th>
