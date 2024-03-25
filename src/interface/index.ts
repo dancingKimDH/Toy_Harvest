@@ -11,3 +11,20 @@ export interface RowData {
 export interface stringArray {
     _text: string;
 }
+
+export interface PostProps {
+    id: string;
+    email: string;
+    content: string;
+    createdAt: string;
+    uid: string;
+    profileUrl?: string;
+    likes?: string;
+    likeCount?: string;
+    comments: string[];
+    hashTags?: string[];
+    imageUrl?: string;
+    title?: string;
+    name?: string;
+    subject?: string;
+}

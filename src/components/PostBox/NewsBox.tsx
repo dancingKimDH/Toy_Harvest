@@ -10,22 +10,9 @@ import { NEWS_CATEGORY_ARR } from "../data/data";
 import AuthContext from "../../context/AuthContext";
 import { db } from "../../firebaseApp";
 
-export interface PostProps {
-    id: string;
-    email: string;
-    content: string;
-    createdAt: string;
-    uid: string;
-    profileUrl?: string;
-    likes?: string;
-    likeCount?: string;
-    comments: string[];
-    hashTags?: string[];
-    imageUrl?: string;
-    title?: string;
-    name?: string;
-    subject?: string;
-}
+import { PostProps } from "../../interface";
+
+import Link from "next/link";
 
 export default function NewsBox() {
 
@@ -76,14 +63,14 @@ export default function NewsBox() {
         e.preventDefault();
         const keywords = searchWord.trim().split(/\s+/);
         const filteredPosts = posts.filter((post) => {
-            if(subject === "title") {
+            if (subject === "title") {
                 return keywords.some(keyword => post.title?.toLowerCase().includes(keyword.toLowerCase()));
-            } else if(subject === "content") {
+            } else if (subject === "content") {
                 return keywords.some(keyword => post.content?.toLowerCase().includes(keyword.toLowerCase()));
             } else {
                 return keywords.some(keyword => post.hashTags?.includes(keyword.toLowerCase()));
             }
-            
+
         })
         setDisplayPosts(filteredPosts as PostProps[]);
     }
@@ -113,22 +100,23 @@ export default function NewsBox() {
 
                 <div className="grid grid-cols-1 gap-8 px-10 my-5 mx-auto md:grid-cols-3 ">
                     {displayPosts.slice(offset, offset + limit).map((post, index) => (
-                        <div className="" key={index}>
-                            <div className="flex justify-center mx-auto">
-                                <img className="rounded-lg shadow-sm" src="/images/3.jpg" alt="" />
+                            <div className="" key={index} onClick={() => navigate(`/community/${post?.id}`)}>
+                                <div className="flex justify-center mx-auto">
+                                    <img className="rounded-lg shadow-sm" src="/images/3.jpg" alt="" />
+                                </div>
+                                <div className="flex justify-center font-semibold py-1">
+                                    {post.title}
+                                </div>
+                                <div className="flex justify-between">
+                                    <div className="flex items-center gap-2 text-gray-500">
+                                        <FaRegUserCircle />{post.name}</div>
+                                    <div className="flex items-center gap-2 text-gray-500">
+                                        <MdDateRange /> {post.createdAt}</div>
+                                    <div className="flex items-center gap-2 text-gray-500">
+                                        <CiHeart /> {post.likes}</div>
+                                </div>
                             </div>
-                            <div className="flex justify-center font-semibold py-1">
-                                {post.title}
-                            </div>
-                            <div className="flex justify-between">
-                                <div className="flex items-center gap-2 text-gray-500">
-                                    <FaRegUserCircle />{post.name}</div>
-                                <div className="flex items-center gap-2 text-gray-500">
-                                    <MdDateRange /> {post.createdAt}</div>
-                                <div className="flex items-center gap-2 text-gray-500">
-                                    <CiHeart /> {post.likes}</div>
-                            </div>
-                        </div>
+                
                     ))}
                 </div>
 

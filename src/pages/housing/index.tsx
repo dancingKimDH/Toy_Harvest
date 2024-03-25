@@ -32,7 +32,7 @@ export default function Housing() {
     const [rowData, setRowData] = useState<RowData[]>([]);
     const [selectedYear, setYear] = useState<Number>(2015);
 
-    const years = Array.from({length: 2020 - 2005}, (_, index) => 2021 - index);
+    const years = Array.from({length: 2020 - 2004}, (_, index) => 2020 - index);
 
     useEffect(
         () => {
@@ -114,7 +114,7 @@ export default function Housing() {
                                         <td className="p-5 text-center">{rowData[key].LTTOT_PBLANC_DE._text}</td>
                                         <td className="p-5 text-center">{rowData[key].CHARGER_NM._text}</td>
                                         <CopyToClipboard text={rowData[key].CHARGER_TELNO._text}>
-                                            <td className="p-5 text-center hover:cursor-pointer" onClick={handleTelephoneClick}>{rowData[key].CHARGER_TELNO._text}</td>
+                                            <td className="p-5 text-center hover:cursor-pointer text-blue-500 font-semibold" onClick={handleTelephoneClick}>{rowData[key].CHARGER_TELNO._text}</td>
                                         </CopyToClipboard>
                                     </tr>
                                 </tbody>
@@ -126,12 +126,6 @@ export default function Housing() {
                                 </tr>
                             </tbody>
                         )}
-
-
-
-
-
-
                         <tbody>
 
                         </tbody>
