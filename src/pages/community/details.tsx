@@ -23,7 +23,7 @@ export default function CommunityPostDetail() {
 
     useEffect(() => {
         getPost();
-    }, [user])
+    }, [user, id])
 
     console.log(post);
     console.log(user);

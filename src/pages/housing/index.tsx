@@ -106,13 +106,13 @@ export default function Housing() {
                         {rowData ? (
                             Object.keys(rowData).map((key: any, index) => (
                                 <tbody>
-                                    <tr key={index} className="hover:bg-gray-200 border border-solid border-black-200 text-[13px] md:text-[20px]">
-                                        <td className="p-5 text-center">{rowData[key].BIZ_NM._text}</td>
-                                        <td className="p-5 text-center">{rowData[key].LC_NM._text}</td>
-                                        <td className="p-5 text-center">{rowData[key].PLAN_HSCNT._text}</td>
-                                        <td className="p-5 text-center">{rowData[key].TOT_PLOT_AR._text}</td>
-                                        <td className="p-5 text-center">{rowData[key].LTTOT_PBLANC_DE._text}</td>
-                                        <td className="p-5 text-center">{rowData[key].CHARGER_NM._text}</td>
+                                    <tr key={index} className="hover:bg-gray-200 border border-solid border-black-200 text-[9px] md:text-[20px]">
+                                        <td className="p-2 text-center break-all">{rowData[key].BIZ_NM._text}</td>
+                                        <td className="p-2 text-center break-all">{rowData[key].LC_NM._text}</td>
+                                        <td className="p-2 text-center">{rowData[key].PLAN_HSCNT._text}</td>
+                                        <td className="p-2 text-center">{rowData[key].TOT_PLOT_AR._text}</td>
+                                        <td className="p-2 text-center">{rowData[key].LTTOT_PBLANC_DE._text}</td>
+                                        <td className="p-2 text-center">{rowData[key].CHARGER_NM._text}</td>
                                         <CopyToClipboard text={rowData[key].CHARGER_TELNO._text}>
                                             <td className="p-5 text-center hover:cursor-pointer text-blue-500 font-semibold" onClick={handleTelephoneClick}>{rowData[key].CHARGER_TELNO._text}</td>
                                         </CopyToClipboard>
