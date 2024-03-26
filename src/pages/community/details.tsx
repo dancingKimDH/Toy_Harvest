@@ -3,7 +3,7 @@ import Header from "components/Utils/Header"
 import AuthContext from "context/AuthContext";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
-import { PostProps } from "interface";
+import { CommentProps, PostProps } from "interface";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -65,12 +65,11 @@ export default function CommunityPostDetail() {
         },
     ]
 
-
-
     const { id } = useParams();
     const { user } = useContext(AuthContext);
     const [post, setPost] = useState<PostProps | null>(null);
-    const [comment, setComment] = useState<string>("");
+    const [commentValue, setCommentValue] = useState<string>("");
+    const [comment, setComment] = useState<CommentProps[]>([]);
 
     const getPost = async () => {
         if (id) {
@@ -86,11 +85,12 @@ export default function CommunityPostDetail() {
 
     const handleCommentSubmit = async (e: any) => {
         e.preventDefault();
-        if (post && user && comment?.length > 1) {
+        if (id && post && user && commentValue?.length > 1) {
             try {
-                const postRef = doc(db, "posts", post?.id);
+                const postRef = doc(db, "posts", id);
                 const commentObj = {
-                    comment: comment,
+                    comment: commentValue,
+                    userName: user?.displayName || "익명",
                     uid: user?.uid,
                     email: user?.email,
                     createdAt: new Date()?.toLocaleDateString("ko", {
@@ -103,6 +103,8 @@ export default function CommunityPostDetail() {
                     comments: arrayUnion(commentObj)
                 })
 
+                toast.success("댓글을 성공적으로 등록하였습니다");
+
             } catch (error) {
                 toast.error("에러가 발생하였습니다")
                 console.log(error);
@@ -113,7 +115,7 @@ export default function CommunityPostDetail() {
     const commentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { target: { name, value } } = e;
         if (name === "comment") {
-            setComment(value);
+            setCommentValue(value);
         }
     }
 
@@ -128,31 +130,23 @@ export default function CommunityPostDetail() {
                 )}
 
             </div>
-            <div className="mx-auto lg:w[1600px] md:w-[1000px] w-[300px] box-border">
+            <div className=" border-primaryGrey mx-auto lg:w[1600px] md:w-[1000px] w-[300px] box-border">
+                <div className="border-y-4 p-2 my-5 border-primaryGrey">
+                    댓글
+                </div>
                 <ul role="list" className="divide-y divide-gray-100">
-                    {people.map((person) => (
-                        <li key={person.email} className="flex justify-between gap-x-6 py-5">
+                    {post?.comments?.map((comment, index) => (
+                        <li key={index} className="gap-x-6 py-5">
                             <div className="flex min-w-0 gap-x-4">
-                                <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={person.imageUrl} alt="" />
+                                <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80' alt="" />
                                 <div className="min-w-0 flex-auto">
-                                    <p className="text-sm font-semibold leading-6 text-gray-900">{person.name}</p>
-                                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">{person.email}</p>
+                                    <p className="text-sm font-semibold leading-6 text-gray-900">{comment?.userName ? comment?.userName : '익명'}</p>
+                                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">{comment.email}</p>
                                 </div>
                             </div>
-                            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                <p className="text-sm leading-6 text-gray-900">{person.role}</p>
-                                {person.lastSeen ? (
-                                    <p className="mt-1 text-xs leading-5 text-gray-500">
-                                        Last seen <time dateTime={person.lastSeenDateTime}>{person.lastSeen}</time>
-                                    </p>
-                                ) : (
-                                    <div className="mt-1 flex items-center gap-x-1.5">
-                                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                                        </div>
-                                        <p className="text-xs leading-5 text-gray-500">Online</p>
-                                    </div>
-                                )}
+                            <div className="mt-3 sm:flex sm:flex-col sm:items-end">
+                                <p className="text-sm leading-6 text-gray-900">{comment.comment}</p>
+                                <span className="text-sm">{comment?.createdAt}</span>
                             </div>
                         </li>
                     ))}

@@ -12,6 +12,14 @@ export interface stringArray {
     _text: string;
 }
 
+export interface CommentProps {
+    comment: string,
+    createdAt?: string,
+    uid?: string,
+    userName?: string,
+    email?: string,
+}
+
 export interface PostProps {
     id: string;
     email: string;
@@ -21,7 +29,7 @@ export interface PostProps {
     profileUrl?: string;
     likes?: string;
     likeCount?: string;
-    comments: string[];
+    comments: CommentProps[];
     hashTags?: string[];
     imageUrl?: string;
     title?: string;
