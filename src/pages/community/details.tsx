@@ -46,7 +46,6 @@ export default function CommunityPostDetail() {
                 setCommentValue("");
                 fetchPostAfterComment();
                 toast.success("댓글을 성공적으로 등록하였습니다");
-
             } catch (error) {
                 toast.error("에러가 발생하였습니다")
                 console.log(error);
@@ -110,7 +109,7 @@ export default function CommunityPostDetail() {
                         <span className="font-semibold">{user?.displayName ? user?.displayName : '사용자'}</span>
                     </div>
                     <div className="py-2 my-5">
-                        <textarea name="comment" onChange={commentChange} className="w-full outline-none" placeholder="의견을 남겨보세요"></textarea>
+                        <textarea name="comment" onChange={commentChange} className="w-full outline-none" placeholder="의견을 남겨보세요" value={commentValue}></textarea>
                     </div>
                     <button className="hover:bg-gray-300 rounded-lg bg-gray-100 p-2 w-full my-4" type="submit">작성하기</button>
                 </form>
