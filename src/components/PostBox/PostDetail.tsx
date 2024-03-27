@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { db, storage } from "firebaseApp";
 import { deleteObject, ref } from "firebase/storage";
+import { GrUpdate } from "react-icons/gr";
 
 interface PostDetailProp {
     post: PostProps;
@@ -49,7 +50,10 @@ export default function PostDetail({ post, user }: PostDetailProp) {
                         <div className="flex left-0 right-0 mt-8 px-2 sm:px-0">
                             <h3 className="w-full bg-gray-100 rounded-lg p-3 text-lg underline font-semibold leading-7 text-gray-900">{post?.title}</h3>
                             {user?.uid === post?.uid && (
-                                <button className="p-4" type="button" onClick={handleDelete}><RiDeleteBin5Line /></button>
+                                <>
+                                    <button className="p-4 w-4 h-4" type="button" onClick={handleDelete}><RiDeleteBin5Line /></button>
+                                    <button className="p-4 w-2 h-2" type="button" onClick={() => navigate(`/community/edit/${id}`)}><GrUpdate /></button>
+                                </>
                             )}
                         </div>
                         <div className="px-4 py-6">

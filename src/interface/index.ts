@@ -25,6 +25,7 @@ export interface PostProps {
     email: string;
     content: string;
     createdAt: string;
+    summary?: string;
     uid: string;
     profileUrl?: string;
     likes?: string;

@@ -13,7 +13,7 @@ import { PostProps } from "../../interface";
 
 import Link from "next/link";
 
-export default function NewsBox() {
+export default function PostBox() {
 
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [displayPosts, setDisplayPosts] = useState<PostProps[]>([]);

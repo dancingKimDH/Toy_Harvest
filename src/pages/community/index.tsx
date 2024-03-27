@@ -1,5 +1,5 @@
 import Header from "../../components/Utils/Header";
-import PostBox from "../../components/PostBox/NewsBox";
+import PostBox from "../../components/PostBox/PostBox";
 import { useRouter } from "next/router";
 
 export default function CommunityPost () {

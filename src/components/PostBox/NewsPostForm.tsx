@@ -6,13 +6,20 @@ import { v4 as uuidv4, v4 } from 'uuid';
 import { FiImage } from "react-icons/fi";
 import { NEWS_CATEGORY_ARR } from "../data/data";
 import { toast } from "react-toastify";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storage } from "../../firebaseApp";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { PostProps } from "interface";
 // yarn add --dev @types/uuid
 
-export default function NewsPostForm() {
+interface PostFormProps {
+    id?: string,
+}
+
+export default function NewsPostForm({ id }: PostFormProps) {
+
+    const [post, setPost] = useState<PostProps | null>(null);
 
     const [title, setTitle] = useState<string>("");
     const [summary, setSummary] = useState<string>("");
@@ -32,6 +39,38 @@ export default function NewsPostForm() {
 
     const navigate = useNavigate();
 
+    const checkId = async () => {
+        if (id && user) {
+            let docRef = doc(db, "posts", id);
+            const docSnap = await getDoc(docRef);
+            setPost({ ...(docSnap.data() as PostProps) })
+        } else {
+            return;
+        }
+    }
+
+    const inputPost = async () => {
+        if (post && post?.uid === user?.uid) {
+
+            await setTags(post?.hashTags ?? []);
+            await setTitle(post?.title ?? "");
+            await setSummary(post?.summary ?? "");
+            await setContent(post?.content ?? "");
+            await setImageFile(post?.imageUrl ?? null);
+
+        } else {
+            navigate("-1");
+            toast.warn("존재하지 않는 사이트입니다");
+        }
+    }
+
+    useEffect(() => {
+        checkId();
+        inputPost();
+    }, [id, user])
+
+    console.log(post);
+
     const onSubmit = async (e: any) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -40,41 +79,68 @@ export default function NewsPostForm() {
 
         try {
 
-            let imageUrl = "";
-            if(imageFile) {
-                const data = await uploadString(storageRef, imageFile, "data_url")
-                imageUrl = await getDownloadURL(data?.ref);
+            if (id) {
+                let imageUrl = "";
+                if (post?.imageUrl && !imageFile) {
+                    let imageRef = ref(storage, post?.imageUrl);
+                    await deleteObject(imageRef).catch((error) => { console.log(error) })
+                } else if (post?.imageUrl && imageFile) {
+                    const data = await uploadString(storageRef, imageFile, "data_url");
+                    imageUrl = await getDownloadURL(data?.ref);
+                } else {
+                    return;
+                }
+
+                let docRef = doc(db, "posts", id);
+
+                await updateDoc(docRef, {
+                    content: content,
+                    hashTags: tags,
+                    title: title,
+                    sumamry: summary,
+                    imageUrl: imageUrl,
+                })
+
+            } else {
+
+                let imageUrl = "";
+                if (imageFile) {
+                    const data = await uploadString(storageRef, imageFile, "data_url")
+                    imageUrl = await getDownloadURL(data?.ref);
+                }
+
+                await addDoc(collection(db, "posts"), {
+                    title: title,
+                    summary: summary,
+                    content: content,
+                    createdAt: new Date()?.toLocaleDateString("ko", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                    }),
+                    uid: user?.uid,
+                    email: user?.email,
+                    hashTags: tags,
+                    imageUrl: imageUrl,
+                })
+
+                setTags([]);
+                setHashTag("");
+                setTitle("");
+                setSummary("");
+                setContent("");
+                setImageFile(null);
+                setIsSubmitting(false);
+
+                toast.success("게시글을 성공적으로 등록하였습니다")
+                navigate(-1);
             }
 
-            await addDoc(collection(db, "posts"), {
-                title: title,
-                summary: summary,
-                content: content,
-                createdAt: new Date()?.toLocaleDateString("ko", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                }), 
-                uid: user?.uid,
-                email: user?.email,
-                hashTags: tags,
-                imageUrl: imageUrl,
-            })
-
-            setTags([]);
-            setHashTag("");
-            setTitle("");
-            setSummary("");
-            setContent("");
-            setImageFile(null);
-            setIsSubmitting(false);
-
-            toast.success("게시글을 성공적으로 등록하였습니다")
-            navigate(-1);
-            
         } catch (error) {
             console.log(error);
+            toast.error("문제가 발생하였습니다");
         }
+
     }
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

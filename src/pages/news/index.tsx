@@ -1,5 +1,5 @@
 import Header from "../../components/Utils/Header";
-import NewsBox from "../../components/PostBox/NewsBox";
+import NewsBox from "../../components/PostBox/PostBox";
 
 
 
