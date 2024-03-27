@@ -39,37 +39,27 @@ export default function NewsPostForm({ id }: PostFormProps) {
 
     const navigate = useNavigate();
 
-    const checkId = async () => {
+    const inputPost = async () => {
         if (id && user) {
             let docRef = doc(db, "posts", id);
             const docSnap = await getDoc(docRef);
-            setPost({ ...(docSnap.data() as PostProps) })
+            await setPost({ ...(docSnap.data() as PostProps) });
+            if (docSnap.exists()) {
+                const postData = docSnap.data() as PostProps
+                await setTags(postData?.hashTags ?? []);
+                await setTitle(postData?.title ?? "");
+                await setSummary(postData?.summary ?? "");
+                await setContent(postData?.content ?? "");
+                await setImageFile(postData?.imageUrl ?? null);
+            }
         } else {
             return;
         }
     }
 
-    const inputPost = async () => {
-        if (post && post?.uid === user?.uid) {
-
-            await setTags(post?.hashTags ?? []);
-            await setTitle(post?.title ?? "");
-            await setSummary(post?.summary ?? "");
-            await setContent(post?.content ?? "");
-            await setImageFile(post?.imageUrl ?? null);
-
-        } else {
-            navigate("-1");
-            toast.warn("존재하지 않는 사이트입니다");
-        }
-    }
-
     useEffect(() => {
-        checkId();
         inputPost();
     }, [id, user])
-
-    console.log(post);
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
@@ -81,15 +71,15 @@ export default function NewsPostForm({ id }: PostFormProps) {
 
             if (id) {
                 let imageUrl = "";
-                if (post?.imageUrl && !imageFile) {
-                    let imageRef = ref(storage, post?.imageUrl);
-                    await deleteObject(imageRef).catch((error) => { console.log(error) })
-                } else if (post?.imageUrl && imageFile) {
-                    const data = await uploadString(storageRef, imageFile, "data_url");
-                    imageUrl = await getDownloadURL(data?.ref);
-                } else {
-                    return;
-                }
+                // if (!post?.imageUrl) {
+                //     let imageRef = ref(storage, post?.imageUrl);
+                //     await deleteObject(imageRef).catch((error) => { console.log(error) })
+                // } else if (post?.imageUrl && imageFile) {
+                //     const data = await uploadString(storageRef, imageFile, "data_url");
+                //     imageUrl = await getDownloadURL(data?.ref);
+                // } else {
+                //     return;
+                // }
 
                 let docRef = doc(db, "posts", id);
 
@@ -98,8 +88,9 @@ export default function NewsPostForm({ id }: PostFormProps) {
                     hashTags: tags,
                     title: title,
                     sumamry: summary,
-                    imageUrl: imageUrl,
                 })
+                toast.success("성공적으로 수정하였습니다");
+                navigate("-1");
 
             } else {
 
