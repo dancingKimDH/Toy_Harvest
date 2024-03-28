@@ -12,6 +12,7 @@ import { db } from "../../firebaseApp";
 import { PostProps } from "../../interface";
 
 import Link from "next/link";
+import ProfileModal from "components/Modal/ProfileModal";
 
 export default function PostBox() {
 
@@ -27,6 +28,7 @@ export default function PostBox() {
     const [subject, setSubject] = useState<string>("title");
     const [searchWord, setSearchWord] = useState<string>("");
 
+    const [modal, setModal] = useState<string>("");
 
     const offset = (page - 1) * limit;
 
@@ -76,6 +78,10 @@ export default function PostBox() {
 
     return (
         <>
+            {modal &&
+                <ProfileModal name={"name"} email={"email"} createdAt={"date"} modal={modal} setModal={setModal}/>
+            }
+
             <div className="lg:w-[1000px] mx-auto">
                 <div className="search__bar--newsbox">
                     <form action="" onSubmit={handleSubmit}>
@@ -99,16 +105,16 @@ export default function PostBox() {
 
                 <div className="grid grid-cols-1 gap-8 px-10 my-5 mx-auto md:grid-cols-3 ">
                     {displayPosts.slice(offset, offset + limit).map((post, index) => (
-                        <div className="" key={index} onClick={() => navigate(`/community/${post?.id}`)}>
-                            <div className="flex justify-center mx-auto">
-                                <img className="rounded-lg shadow-sm" src="/images/3.jpg" alt="" />
+                        <div className="" key={index} >
+                            <div onClick={() => navigate(`/community/${post?.id}`)} className="flex justify-center mx-auto">
+                                <img className="w-full md:h-[200px] hover:cursor-pointer rounded-lg shadow-sm" src={post?.imageUrl ? post?.imageUrl : "/images/4.jpg"} alt="" />
                             </div>
-                            <div className="flex justify-center font-semibold py-1">
+                            <div onClick={() => navigate(`/community/${post?.id}`)} className="flex justify-center font-semibold py-1 hover:cursor-pointer">
                                 {post.title}
                             </div>
                             <div className="flex justify-between">
                                 <div className="flex items-center gap-2 text-gray-500">
-                                    <FaRegUserCircle />{post.name}</div>
+                                    <FaRegUserCircle onClick={() => setModal(post?.uid || "")} className="text-blue-600 hover:cursor-pointer" />{post.name}</div>
                                 <div className="flex items-center gap-2 text-gray-500">
                                     <MdDateRange /> {post.createdAt}</div>
                                 <div className="flex items-center gap-2 text-gray-500">
