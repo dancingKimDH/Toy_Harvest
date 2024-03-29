@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if(user) {
+      if (user) {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
@@ -30,7 +30,7 @@ function App() {
 
     <div>
       <ToastContainer />
-      {init ? <Router isAuthenticated={isAuthenticated}/> : <Loader /> }
+      {init ? <Router isAuthenticated={isAuthenticated} /> : <Loader />}
     </div>
 
   );
