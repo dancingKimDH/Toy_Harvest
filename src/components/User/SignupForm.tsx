@@ -4,7 +4,7 @@ import { MdOutlineMail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { GrFormPrevious } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa";
-import { app } from "../../firebaseApp";
+import { app, db } from "../../firebaseApp";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -12,6 +12,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { toast } from "react-toastify";
+import { addDoc, collection, doc } from "firebase/firestore";
 
 export default function SignUpForm() {
   const [email, setEmail] = useState<string>("");
@@ -22,7 +23,19 @@ export default function SignUpForm() {
     e.preventDefault();
     try {
       const auth = getAuth(app);
-      await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      await addDoc(collection(db, "users"), {
+        name: user?.displayName || "사용자",
+        uid: user?.uid,
+        createdAt: new Date()?.toLocaleDateString("ko", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+        email: user?.email,
+        imageUrl: user?.photoURL || "",
+      })
+
       navigate("/");
       toast.success("회원가입에 성공하였습니다");
     } catch (error: any) {
@@ -63,12 +76,20 @@ export default function SignUpForm() {
     const auth = getAuth(app);
     let provider;
     provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider as GoogleAuthProvider).then(
-      (result) => {
-        toast.success("회원가입되었습니다");
-        navigate("/");
-      }
-    );
+    const { user } = await signInWithPopup(auth, provider as GoogleAuthProvider);
+    await addDoc(collection(db, "users"), {
+      name: user?.displayName || "사용자",
+      uid: user?.uid,
+      createdAt: new Date()?.toLocaleDateString("ko", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+      email: user?.email,
+      imageUrl: user?.photoURL || "",
+    })
+    navigate("/");
+    toast.success("회원가입에 성공하였습니다");
   };
 
   const [error, setError] = useState<string>("");
@@ -91,12 +112,12 @@ export default function SignUpForm() {
             </button>
           </div>
           <form action="" onSubmit={onSubmit} className="form__signup">
-          <h1 className="form__signup__title">
-            <span className="font-semibold"> 푸른대로와 </span> <br />
-            <span className="font-semibold text-highlight">
-              함께 시작해 볼까요?
-            </span>
-          </h1>
+            <h1 className="form__signup__title">
+              <span className="font-semibold"> 푸른대로와 </span> <br />
+              <span className="font-semibold text-highlight">
+                함께 시작해 볼까요?
+              </span>
+            </h1>
             <div className="form__signup__block">
               <label htmlFor="email">
                 <MdOutlineMail />

@@ -13,17 +13,9 @@ export default function ProfileModal({ postUid, modal, setModal }: ProfileModalP
     const [email, setEmail] = useState<string>("");
     const [createdAt, setCreatedAt] = useState<string>("");
 
-    useEffect(() => {
-
-        fetchUser();
-    }, [postUid]);
-
-    const fetchUser = () => {
-
-    }
+    // getAccountInfo
 
     const isOpen = !!modal;
-    console.log(postUid);
 
     const modalStyle = {
         overlay: {
@@ -31,9 +23,9 @@ export default function ProfileModal({ postUid, modal, setModal }: ProfileModalP
         }
     }
 
-    return ( 
-        <ReactModal  appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center" 
-        isOpen={isOpen} onRequestClose={() => setModal("")} ariaHideApp={false} shouldCloseOnEsc={true} style={modalStyle}>
+    return (
+        <ReactModal appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center"
+            isOpen={isOpen} onRequestClose={() => setModal("")} ariaHideApp={false} shouldCloseOnEsc={true} style={modalStyle}>
             <div className="flex flex-col items-center">
                 <img className="lg:m-[30px] mt-[25px] mb-[10px] w-[150px] h-[150px] rounded-full" src="/images/2.jpg" alt="" />
                 <h2 className="lg:text-[30px] text-center text-lg font-semibold">{name}</h2>
