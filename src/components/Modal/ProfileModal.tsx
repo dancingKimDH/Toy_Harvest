@@ -48,13 +48,13 @@ export default function ProfileModal({ postUid, modal, setModal }: ProfileModalP
     }
 
     return (
-        <ReactModal appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center"
+        <ReactModal appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center outline-none"
             isOpen={isOpen} onRequestClose={() => setModal("")} ariaHideApp={false} shouldCloseOnEsc={true} style={modalStyle}>
 
             {user && user?.email && user?.email.length > 1 ?
                 <div className="flex flex-col items-center">
-                    <img className="lg:m-[30px] mt-[25px] mb-[10px] w-[150px] h-[150px] rounded-full" src="/images/2.jpg" alt="" />
-                    <h2 className="lg:text-[30px] text-center text-lg font-semibold">{user?.name || ""}</h2>
+                    <img className="lg:m-[30px] mt-[25px] mb-[10px] w-[150px] h-[150px] rounded-full" src={user?.imageUrl || "/images/3.jpg"} alt="" />
+                    <h2 className="lg:text-[30px] lg:p-[15px] text-center text-lg font-semibold">{user?.name || ""}</h2>
                     <h3 className="lg:text-[20px] text-center text-gray-600">{user?.email || ""}</h3>
                     <h3 className="lg:text-[20px] mb-3 text-center text-gray-600">{user?.createdAt || ""}</h3>
                 </div> :
