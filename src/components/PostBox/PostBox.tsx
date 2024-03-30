@@ -21,6 +21,8 @@ export default function PostBox() {
 
     const user = useContext(AuthContext);
 
+    const [postUid, setPostUid] = useState<string>("");
+
     const [limit, setLimit] = useState<number>(6);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(posts.length);
@@ -76,6 +78,11 @@ export default function PostBox() {
         setDisplayPosts(filteredPosts as PostProps[]);
     }
 
+    const activateModal = (postId: string) => {
+        setModal(postId);
+        setPostUid(postId);
+    }
+
     return (
         <>
             <div className="lg:w-[1000px] mx-auto">
@@ -112,7 +119,7 @@ export default function PostBox() {
                                 </div>
                                 <div className="flex justify-between">
                                     <div className="flex items-center gap-2 text-gray-500">
-                                        <FaRegUserCircle onClick={() => setModal(post?.uid || "")} className="text-blue-600 hover:cursor-pointer" />{post.name}</div>
+                                        <FaRegUserCircle onClick={() => activateModal(post?.uid)} className="text-blue-600 hover:cursor-pointer" />{post.name}</div>
                                     <div className="flex items-center gap-2 text-gray-500">
                                         <MdDateRange /> {post.createdAt}</div>
                                     <div className="flex items-center gap-2 text-gray-500">
@@ -120,7 +127,7 @@ export default function PostBox() {
                                 </div>
                             </div>
                             {modal &&
-                                <ProfileModal postUid={post?.uid} modal={modal} setModal={setModal} />
+                                <ProfileModal postUid={postUid} modal={modal} setModal={setModal} />
                             }
                         </>
 
