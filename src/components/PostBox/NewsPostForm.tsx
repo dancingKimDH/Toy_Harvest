@@ -28,6 +28,8 @@ export default function NewsPostForm({ id }: PostFormProps) {
 
     const [inputKey, setInputKey] = useState(uuidv4());
 
+    const [initialImage, setInitialImage] = useState<string | null>(null);
+
     const [imageFile, setImageFile] = useState<string | null>(null);
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -43,14 +45,15 @@ export default function NewsPostForm({ id }: PostFormProps) {
         if (id && user) {
             let docRef = doc(db, "posts", id);
             const docSnap = await getDoc(docRef);
-            await setPost({ ...(docSnap.data() as PostProps) });
+            setPost({ ...(docSnap.data() as PostProps) });
             if (docSnap.exists()) {
                 const postData = docSnap.data() as PostProps
-                await setTags(postData?.hashTags ?? []);
-                await setTitle(postData?.title ?? "");
-                await setSummary(postData?.summary ?? "");
-                await setContent(postData?.content ?? "");
-                await setImageFile(postData?.imageUrl ?? null);
+                setTags(postData?.hashTags ?? []);
+                setTitle(postData?.title ?? "");
+                setSummary(postData?.summary ?? "");
+                setContent(postData?.content ?? "");
+                setImageFile(postData?.imageUrl ?? null);
+                setInitialImage(postData?.imageUrl ?? null);
             }
         } else {
             return;
@@ -70,16 +73,17 @@ export default function NewsPostForm({ id }: PostFormProps) {
         try {
 
             if (id) {
+
+                if(id  && initialImage && initialImage.length > 1) {
+                    let imageRef = ref(storage, initialImage);
+                    await deleteObject(imageRef).catch((error) => console.log(error));
+                }
+
                 let imageUrl = "";
-                // if (!post?.imageUrl) {
-                //     let imageRef = ref(storage, post?.imageUrl);
-                //     await deleteObject(imageRef).catch((error) => { console.log(error) })
-                // } else if (post?.imageUrl && imageFile) {
-                //     const data = await uploadString(storageRef, imageFile, "data_url");
-                //     imageUrl = await getDownloadURL(data?.ref);
-                // } else {
-                //     return;
-                // }
+                if(imageFile && imageFile.length > 1) {
+                    const data = await uploadString(storageRef, imageFile, "data_url");
+                    imageUrl = await getDownloadURL(data?.ref);
+                }
 
                 let docRef = doc(db, "posts", id);
 
@@ -88,6 +92,7 @@ export default function NewsPostForm({ id }: PostFormProps) {
                     hashTags: tags,
                     title: title,
                     sumamry: summary,
+                    imageUrl: imageUrl,
                 })
                 toast.success("성공적으로 수정하였습니다");
                 navigate("-1");
@@ -186,7 +191,7 @@ export default function NewsPostForm({ id }: PostFormProps) {
         }
     }
 
-    const handleDeleteImage = () => {
+    const handleDeleteImage = async () => {
         setImageFile(null);
         // 동일 사진 업로드 다르게 취급
         setInputKey(uuidv4());
