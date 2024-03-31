@@ -112,7 +112,7 @@ export default function PostBox() {
                         <>
                             <div className="" key={index} >
                                 <div onClick={() => navigate(`/community/${post?.id}`)} className="flex justify-center mx-auto">
-                                    <img className="w-full md:h-[200px] hover:cursor-pointer rounded-lg shadow-sm" src={post?.imageUrl ? post?.imageUrl : "/images/4.jpg"} alt="" />
+                                    <img className="w-full md:h-[200px] hover:cursor-pointer rounded-lg shadow-sm" src={post?.imageUrl && post?.imageUrl.length > 1 ? post?.imageUrl : "/images/4.jpg"} alt="" />
                                 </div>
                                 <div onClick={() => navigate(`/community/${post?.id}`)} className="flex justify-center font-semibold py-1 hover:cursor-pointer">
                                     {post.title}

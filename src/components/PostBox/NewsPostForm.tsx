@@ -73,29 +73,32 @@ export default function NewsPostForm({ id }: PostFormProps) {
         try {
 
             if (id) {
-
-                if(id  && initialImage && initialImage.length > 1) {
-                    let imageRef = ref(storage, initialImage);
-                    await deleteObject(imageRef).catch((error) => console.log(error));
-                }
-
-                let imageUrl = "";
-                if(imageFile && imageFile.length > 1) {
-                    const data = await uploadString(storageRef, imageFile, "data_url");
-                    imageUrl = await getDownloadURL(data?.ref);
-                }
-
                 let docRef = doc(db, "posts", id);
-
+                if (imageFile !== initialImage) {
+                    let imageUrl = "";
+                    if (id && initialImage && initialImage.length > 1) {
+                        let imageRef = ref(storage, initialImage);
+                        await deleteObject(imageRef).catch((error) => console.log(error));
+                        await updateDoc(docRef, {
+                            imageUrl: "",
+                        })
+                    }
+                    if (imageFile && imageFile.length > 1) {
+                        const data = await uploadString(storageRef, imageFile, "data_url");
+                        imageUrl = await getDownloadURL(data?.ref);
+                        await updateDoc(docRef, {
+                            imageUrl: imageUrl,
+                        })
+                    }
+                }
                 await updateDoc(docRef, {
                     content: content,
                     hashTags: tags,
                     title: title,
                     sumamry: summary,
-                    imageUrl: imageUrl,
                 })
                 toast.success("성공적으로 수정하였습니다");
-                navigate("-1");
+                navigate("/community");
 
             } else {
 
@@ -129,7 +132,7 @@ export default function NewsPostForm({ id }: PostFormProps) {
                 setIsSubmitting(false);
 
                 toast.success("게시글을 성공적으로 등록하였습니다")
-                navigate(-1);
+                navigate('/community');
             }
 
         } catch (error) {
@@ -245,7 +248,12 @@ export default function NewsPostForm({ id }: PostFormProps) {
                                         )}
                                     </div>
                                     <div>
-                                        <button className="p-[5px] text-sm rounded-lg bg-primaryBlue text-white font-semibold" type="submit">새 글 등록하기</button>
+                                        {id ?
+                                            <button className="p-[5px] text-sm rounded-lg bg-primaryBlue text-white font-semibold" type="submit">글 수정하기</button>
+                                            :
+                                            <button className="p-[5px] text-sm rounded-lg bg-primaryBlue text-white font-semibold" type="submit">새 글 등록하기</button>
+                                        }
+
                                     </div>
                                 </div>
                             </form>

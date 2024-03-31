@@ -15,6 +15,9 @@ interface PostDetailProp {
 
 export default function PostDetail({ post, user }: PostDetailProp) {
 
+
+    console.log(post?.imageUrl);
+
     const navigate = useNavigate();
 
     const { id } = useParams();
