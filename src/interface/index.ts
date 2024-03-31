@@ -8,6 +8,11 @@ export interface RowData {
     CHARGER_TELNO: stringArray;
 }
 
+export interface UserProps {
+    displayName: string,
+
+}
+
 export interface stringArray {
     _text: string;
 }
