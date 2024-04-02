@@ -6,13 +6,20 @@ import { AiOutlineClose } from "react-icons/ai";
 import AuthContext from "../../context/AuthContext";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../../firebaseApp";
+import { useRecoilState } from "recoil";
+import { searchPageVisibilityState } from "atom";
+import SearchPage from "./SearchPage";
 
 export default function Header() {
 
+    const [isSearchOpen, setIsSearchOpen] = useRecoilState(searchPageVisibilityState);
+
     const [isOpen, setIsOpen] = useState(false);
 
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const auth = getAuth(app);
+
+    console.log(isSearchOpen);
 
     return (
         <>
@@ -20,15 +27,19 @@ export default function Header() {
                 <div className="header__title">
                     <div className="header__title-name">푸른대로</div>
                     <div className="flex gap-5 items-center">
-                        <div className="header__title__menu-item"><IoSearch /></div>
+                        <div className="header__title__menu-item" onClick={() => setIsSearchOpen((val) => !val)}><IoSearch /></div>
                         <div role="presentation" className="header__title__menu-item" onClick={() => setIsOpen((val) => !val)}>
                             {isOpen ? <AiOutlineClose /> : <MdMenu />}
                         </div>
                         <div className="header__title__menu-item">
                             {(user) ? <button className="" onClick={() => signOut(auth)}><IoMdLogIn /></button> : <a href="/login"><IoMdLogIn /></a>}
-                            </div>
+                        </div>
                     </div>
                 </div>
+
+                {isSearchOpen &&
+                    <SearchPage />
+                }
 
                 {isOpen && (
                     <div className="bg-primaryBlue w-screen h-screen z-50 px-4 py-4 leading-10 transition duration-300 ease-in-out

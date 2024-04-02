@@ -5,6 +5,7 @@ import { app } from './firebaseApp';
 import Loader from './components/Loader/Loader';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RecoilRoot } from 'recoil';
 
 function App() {
 
@@ -29,8 +30,10 @@ function App() {
   return (
 
     <div>
-      <ToastContainer />
-      {init ? <Router isAuthenticated={isAuthenticated} /> : <Loader />}
+      <RecoilRoot>
+        <ToastContainer />
+        {init ? <Router isAuthenticated={isAuthenticated} /> : <Loader />}
+      </RecoilRoot>
     </div>
 
   );
