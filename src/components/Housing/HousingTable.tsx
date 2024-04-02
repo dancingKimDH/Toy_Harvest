@@ -21,10 +21,16 @@ export default function HousingTable({ rowData, handleYearChange, handleTelephon
 
     const [open, isOpen] = useState<boolean>(false);
 
-    console.log(rowData);
+    const [number, setNumber] = useState<number>(0);
+
+    const rowClick = (index: number) => {
+        isOpen(!open);
+        setNumber(index);
+    }
 
     return (
         <>
+
             <div>
                 <h1 className="font-semibold text-center text-[30px] p-[5px] mt-[20px]">전원마을 분양 공고 정보</h1>
                 <h2 className="text-center p-[5px]">농림수산식품교육문화정보원 제공 2005 ~ 2020</h2>
@@ -68,10 +74,10 @@ export default function HousingTable({ rowData, handleYearChange, handleTelephon
                         {rowData ? (
                             Object.keys(rowData).map((key: any, index) => (
                                 <>
+                                    <HousingModal open={open} isOpen={isOpen} rowData={rowData[number]} />
                                     <tbody>
-                                        <tr key={index} onClick={() => isOpen(!open)}
+                                        <tr key={index} onClick={() => rowClick(index)}
                                             className="hover:bg-gray-200 border border-solid border-black-200 text-[9px] md:text-[20px]">
-                                            <HousingModal open={open} isOpen={isOpen} rowData={rowData[index]} />
                                             <td className="p-2 text-center break-all">{rowData[key].BIZ_NM._text}</td>
                                             <td className="p-2 text-center break-all">{rowData[key].LC_NM._text}</td>
                                             <td className="p-2 text-center">{rowData[key].PLAN_HSCNT._text}</td>
