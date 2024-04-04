@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdDateRange } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Pagination from "../Utils/Pagination";
 import { NEWS_CATEGORY_ARR } from "../data/data";
 import AuthContext from "../../context/AuthContext";
@@ -13,8 +13,14 @@ import { PostProps } from "../../interface";
 
 import Link from "next/link";
 import ProfileModal from "components/Modal/ProfileModal";
+import { useParams } from "next/navigation";
 
 export default function PostBox() {
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const keyword = searchParams.get("keyword");
+    console.log(keyword);
 
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [displayPosts, setDisplayPosts] = useState<PostProps[]>([]);
