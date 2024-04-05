@@ -20,7 +20,6 @@ export default function PostBox() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const keyword = searchParams.get("keyword");
-    console.log(keyword);
 
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [displayPosts, setDisplayPosts] = useState<PostProps[]>([]);

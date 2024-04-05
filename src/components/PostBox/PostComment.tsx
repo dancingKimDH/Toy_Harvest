@@ -1,9 +1,13 @@
+import { QuerySnapshot, collection, doc, getDocs, query, where } from "firebase/firestore";
+import firebase, { db } from "firebaseApp";
 import { CommentProps, PostProps, UserProps } from "interface";
+import { useEffect, useState } from "react";
 
 
 interface PostCommentProps {
     post: PostProps | null,
 }
+
 
 export default function PostComment({ post }: PostCommentProps) {
 
@@ -13,7 +17,7 @@ export default function PostComment({ post }: PostCommentProps) {
                 <div className="border-b-2 p-2 my-5 border-primaryGrey bg-primaryBrown rounded-lg text-primaryDark font-semibold">
                     댓글
                 </div>
-                <ul role="list" className="divide-y divide-gray-100">
+                <ul className="divide-y divide-gray-100">
                     {post?.comments?.map((comment: CommentProps, index: number) => (
                         <li key={index} className="gap-x-6 py-5">
                             <div className="flex min-w-0 gap-x-4">
