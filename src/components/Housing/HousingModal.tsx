@@ -16,7 +16,7 @@ export default function HousingModal({ open, isOpen, rowData }: HousingModalProp
     }
 
     return (
-        <ReactModal appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center outline-none"
+        <ReactModal appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[60%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center outline-none"
             isOpen={open} onRequestClose={() => !open} ariaHideApp={false} shouldCloseOnEsc={true} style={modalStyle}>
             <div className="w-[80%]">
                 <h1 className="mt-[30px] mb-[40px] text-[25px] font-semibold text-center">상세정보</h1>

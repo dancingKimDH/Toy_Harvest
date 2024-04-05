@@ -31,7 +31,7 @@ export default function HousingTable({ rowData, handleYearChange, handleTelephon
     return (
         <>
 
-            <div>
+            <div className="mt-[110px] lg:mt-[180px]">
                 <h1 className="font-semibold text-center text-[30px] p-[5px] mt-[20px]">전원마을 분양 공고 정보</h1>
                 <h2 className="text-center p-[5px]">농림수산식품교육문화정보원 제공 2005 ~ 2020</h2>
             </div>
@@ -92,11 +92,14 @@ export default function HousingTable({ rowData, handleYearChange, handleTelephon
                                 </>
                             ))
                         ) : (
-                            <tbody>
-                                <tr key="no-data">
-                                    <td colSpan={7}>데이터가 존재하지 않습니다</td>
-                                </tr>
-                            </tbody>
+                            <tr key={"nodata"}>
+                                <th className="p-9" colSpan={7}>
+                                    <div className="flex flex-col justify-center items-center">
+                                        <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48H0V0z" fill="none" /><path d="M22 30h4v4h-4zm0-16h4v12h-4zm1.99-10C12.94 4 4 12.95 4 24s8.94 20 19.99 20S44 35.05 44 24 35.04 4 23.99 4zM24 40c-8.84 0-16-7.16-16-16S15.16 8 24 8s16 7.16 16 16-7.16 16-16 16z" /></svg>
+                                        <span>데이터가 존재하지 않습니다</span>
+                                    </div>
+                                </th>
+                            </tr>
                         )}
                         <tbody>
 

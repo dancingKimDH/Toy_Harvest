@@ -10,7 +10,7 @@ export default function PostComment({ post }: PostCommentProps) {
     return (
         <>
             <div className=" border-primaryGrey mx-auto lg:w[1600px] md:w-[1000px] w-[300px] box-border">
-                <div className="border-y-4 p-2 my-5 border-primaryGrey">
+                <div className="border-b-2 p-2 my-5 border-primaryGrey bg-primaryBrown rounded-lg text-primaryDark font-semibold">
                     댓글
                 </div>
                 <ul role="list" className="divide-y divide-gray-100">
@@ -23,7 +23,7 @@ export default function PostComment({ post }: PostCommentProps) {
                                     <p className="mt-1 truncate text-xs leading-5 text-gray-500">{comment.email}</p>
                                 </div>
                             </div>
-                            <div className="mt-3 sm:flex sm:flex-col sm:items-end">
+                            <div className="mt-3 sm:flex sm:flex-col sm:items-end border-b-2 border-primaryBrown pb-3">
                                 <p className="text-sm leading-6 text-gray-900">{comment.comment}</p>
                                 <span className="text-sm">{comment?.createdAt}</span>
                             </div>

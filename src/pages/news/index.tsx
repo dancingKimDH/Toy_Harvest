@@ -7,7 +7,7 @@ export default function NewsPost() {
     return (
         <>
             <Header />
-            <NewsBox />
+            <NewsBox mt-3 />
         </>
     )
 }

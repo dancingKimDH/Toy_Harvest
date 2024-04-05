@@ -6,6 +6,7 @@ import Loader from './components/Loader/Loader';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { RecoilRoot } from 'recoil';
+import Header from 'components/Utils/Header';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
       } setInit(true);
     })
   }, [auth])
+  
 
   return (
 

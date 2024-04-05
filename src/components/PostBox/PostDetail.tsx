@@ -48,7 +48,7 @@ export default function PostDetail({ post, user }: PostDetailProp) {
     return (
         <div className="px-5">
             {post ? (
-                <div className="flex justify-center">
+                <div className="mt-[110px] lg:mt-[180px] flex justify-center">
                     <div className="mx-auto lg:w[1600px] md:w-[1000px] w-[300px] box-border">
                         <div className="flex left-0 right-0 mt-8 px-2 sm:px-0">
                             <h3 className="w-full bg-gray-100 rounded-lg p-3 text-lg underline font-semibold leading-7 text-gray-900">{post?.title}</h3>
