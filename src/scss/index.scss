@@ -3,16 +3,12 @@
 @tailwind utilities;
 
 @import "./_utils.scss";
+@import "./font.scss";
 
 body {
   min-width: 350px;
 }
 
-.footer {
-  height: 60px;
-  margin-top: 5vh;
-  background-color: $primaryDark;
-}
 
 .scrolled-header {
   background-color: $primaryBrown !important;
@@ -133,9 +129,6 @@ body {
 
 .carousel {
   z-index: 1;
-  position: relative;
-  background-color: black;
-  top: 140px;
   input:checked + .carousel__slides-container .carousel__slides-container-img {
     opacity: 1;
     transform: scale(1);
@@ -157,7 +150,6 @@ body {
 
   margin: 0 auto;
   max-width: 800px;
-  margin-top: 30px;
 
   &__slides {
     display: block;
@@ -170,7 +162,7 @@ body {
 
     @media (max-width: 768px) {
       width: 80%;
-      height: 30vh;
+      height: 250px;
     }
 
     &-dots {

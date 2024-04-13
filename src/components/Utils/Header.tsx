@@ -52,9 +52,6 @@ export default function Header() {
                                     <a href="/" className="text-lg w-full text-white font-semibold tracking-wide">홈페이지</a>
                                 </li>
                                 <li className="px-3 py-1 lg:hover:bg-primaryYellow rounded-lg">
-                                    <a href="/news" className="text-lg w-full text-white font-semibold tracking-wide">귀농뉴스</a>
-                                </li>
-                                <li className="px-3 py-1 lg:hover:bg-primaryYellow rounded-lg">
                                     <a href="/community" className="text-lg text-white font-semibold tracking-wide">커뮤니티</a>
                                 </li>
                                 <li className="px-3 py-1 lg:hover:bg-primaryYellow rounded-lg">
@@ -75,9 +72,6 @@ export default function Header() {
                         <ul className="header__nav-items">
                             <li className="header__nav-items-back">
                                 <a href="/" className="header__nav-items-item">홈페이지</a>
-                            </li>
-                            <li className="header__nav-items-back">
-                                <a href="/news" className="header__nav-items-item">귀농뉴스</a>
                             </li>
                             <li className="header__nav-items-back">
                                 <a href="/community" className="header__nav-items-item">커뮤니티</a>
