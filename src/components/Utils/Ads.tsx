@@ -18,7 +18,7 @@ export default function Ads() {
 
     return (
 
-        <div className="carousel">s
+        <div className="carousel">
             <ul className="carousel__slides">
                 <input type="radio" name="radio-buttons" id="img-1" checked={activeImage === 1} readOnly />
                 <li className="carousel__slides-container" >

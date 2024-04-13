@@ -9,8 +9,10 @@ export default function IntroCommunity() {
                     <span className="font-semibold text-[22px]">입니다</span>
                 </div>
             </div>
-            <div className="flex justify-end pt-5">
+            <div className="flex flex-col  pt-5">
                 <span className="bg-primaryYellow font-semibold text-[36px] text-primaryBlue">1. CRUD 구현</span>
+                <span className="font-semibold texta-[22px]">1) 커뮤니티 페이지</span>
+                <span className="font-semibold text-[22px]">본문 및 댓글 CRUD 구현</span>
             </div>
         </>
     )
