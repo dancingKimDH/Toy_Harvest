@@ -44,7 +44,7 @@ export default function Home() {
                 <Header />
                 <div className="w-full h-[100vh] mt-[100px] md:mt-[130px] lg:mt-[180px] mx-auto">
                     <Ads />
-                    <div className="p-5">
+                    <div className="p-3 flex flex-col justify-center">
                         <IntroCommunity />
                     </div>
                 </div>
