@@ -40,13 +40,11 @@ export default function Home() {
 
     return (
         <>
-            <div className="h-[100vh] relative">
+            <div className="h-full wrap">
                 <Header />
                 <div className="w-full h-[100vh] mt-[100px] md:mt-[130px] lg:mt-[180px] mx-auto">
                     <Ads />
-                    <div className="p-3 flex flex-col justify-center">
-                        <IntroCommunity />
-                    </div>
+                    <IntroCommunity/>
                 </div>
                 <Footer />
             </div>
