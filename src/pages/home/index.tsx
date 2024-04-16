@@ -40,9 +40,9 @@ export default function Home() {
 
     return (
         <>
-            <div className="h-full wrap">
+            <div className="h-full container mx-auto">
                 <Header />
-                <div className="w-full h-[100vh] mt-[100px] md:mt-[130px] lg:mt-[180px] mx-auto">
+                <div className="w-full mt-[100px] md:mt-[130px] lg:mt-[180px] mx-auto">
                     <Ads />
                     <IntroCommunity/>
                 </div>
