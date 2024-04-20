@@ -25,7 +25,7 @@ export default function Header() {
 
     return (
         <>
-            <div className="headerBox flex flex-col mb-9">
+            <div className="headerBox flex flex-col">
                 <div id="header" className={headerExpand ? "scrolled-header header" : "normal-header header"}>
                     <div className="header__title">
                         <div className="header__title-name">푸른대로</div>
@@ -46,7 +46,7 @@ export default function Header() {
 
 
                     {isOpen &&
-                        <div className="bg-primaryBlue z-50 px-4 py-4 leading-10 fixed top-[85px] lg:top-[90px] right-0 bottom-0 left-0">
+                        <div className="bg-primaryBlue z-999 px-4 py-4 leading-10 fixed top-[85px] lg:top-[90px] right-0 bottom-0 left-0">
                             <ul className="flex flex-col justify-center items-left">
                                 <li className="transitionYellow px-3 py-1 w-full h-full lg:hover:bg-primaryYellow  rounded-lg">
                                     <a href="/" className="text-lg w-full text-white font-semibold tracking-wide">홈페이지</a>

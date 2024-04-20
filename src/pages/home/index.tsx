@@ -24,28 +24,11 @@ export default function Home() {
         }
     }, [])
 
-
-    window.addEventListener("scroll", headerFunction);
-
-    const headerBox = document.getElementById("headerBox");
-    const sticky = headerBox ? headerBox.offsetTop : 0;
-
-    function headerFunction() {
-        if (headerBox && sticky && window.screenY >= sticky) {
-            headerBox.classList.add("sticky")
-        } else {
-            headerBox?.classList.remove("sticky")
-        }
-    }
-
     return (
         <>
-            <div className="h-full container mx-auto">
+            <div className="h-full mx-auto">
                 <Header />
-                <div className="w-full mt-[100px] md:mt-[130px] lg:mt-[180px] mx-auto">
-                    <Ads />
-                    <IntroCommunity/>
-                </div>
+                <IntroCommunity />
                 <Footer />
             </div>
 
