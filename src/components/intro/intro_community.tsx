@@ -6,8 +6,8 @@ import { FullPage, Slide } from "react-full-page";
 export default function IntroCommunity() {
 
     return (
-        <div className="w-full relative top-[100px]">
-            <FullPage controls={true} duration={300} >
+        <div className="w-full h-full block relative top-0">
+            <FullPage duration={300} >
                 <Slide>
                     <Ads />
                 </Slide>

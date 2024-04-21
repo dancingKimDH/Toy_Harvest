@@ -26,12 +26,15 @@ export default function Home() {
 
     return (
         <>
-            <div className="h-full mx-auto">
+            <div className="body grid grid-cols-3">
                 <Header />
-                <IntroCommunity />
-                <Footer />
+                <div className="col-span-3 flex items-center w-full h-full">
+                    <IntroCommunity />
+                </div>
+                <div className="col-span-3">
+                    <Footer />
+                </div>
             </div>
-
         </>
     )
 }
