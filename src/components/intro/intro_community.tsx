@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 
 import Ads from "components/Utils/Ads";
-import { FullPage, Slide } from "react-full-page";
 
 export default function IntroCommunity() {
 
     return (
         <div className="w-full h-full">
-            <FullPage duration={300} >
-                <Slide>
+
+
                     <Ads />
-                </Slide>
-                <Slide>
+
                     <div className="onepage_container flex flex-col">
                         <span className="font-semibold text-[36px]">안녕하세요!</span>
                         <span className="pb-1 font-semibold text-[22px]">React & Typescript 연습프로젝트</span>
@@ -20,8 +18,7 @@ export default function IntroCommunity() {
                             <span className="font-semibold text-[22px]">입니다</span>
                         </div>
                     </div>
-                </Slide>
-                <Slide>
+ 
                     <div className="onepage_container flex flex-col">
                         <div className="flex justify-end">
                             <span className="max-w-[500px] w-[60%] text-right bg-primaryGrey rounded-lg  font-semibold text-[36px] text-white">1. CRUD 구현</span>
@@ -35,8 +32,7 @@ export default function IntroCommunity() {
                             <img width={300} src="/images/intro/new_comment.png" alt="코멘트" />
                         </div>
                     </div>
-                </Slide>
-            </FullPage>
+
         </div>
     )
 }

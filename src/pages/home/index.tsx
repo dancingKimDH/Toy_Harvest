@@ -26,10 +26,12 @@ export default function Home() {
 
     return (
         <>
-            <div className="w-full h-full relative">
-                <Header />
-                <div className="body flex items-center relative top-[12vh] lg:top-[20vh]">
-                    <IntroCommunity />
+            <div className="flex flex-col justify-between">
+                <div className="w-full h-full relative">
+                    <Header />
+                    <div className="body flex items-center relative top-[12vh] lg:top-[20vh]">
+                        <IntroCommunity />
+                    </div>
                 </div>
                 <Footer />
             </div>
