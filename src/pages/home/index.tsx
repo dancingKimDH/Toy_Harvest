@@ -33,7 +33,6 @@ export default function Home() {
                         <IntroCommunity />
                     </div>
                 </div>
-                <Footer />
             </div>
         </>
     )
