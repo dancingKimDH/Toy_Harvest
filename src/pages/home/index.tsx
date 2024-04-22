@@ -28,7 +28,7 @@ export default function Home() {
         <>
             <div className="body grid grid-cols-3">
                 <Header />
-                <div className="col-span-3 flex items-center w-full h-full">
+                <div className="col-span-3 w-full h-full">
                     <IntroCommunity />
                 </div>
                 <div className="col-span-3">
