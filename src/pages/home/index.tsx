@@ -26,14 +26,12 @@ export default function Home() {
 
     return (
         <>
-            <div className="body grid grid-cols-3">
+            <div className="w-full h-full relative">
                 <Header />
-                <div className="col-span-3 w-full h-full">
+                <div className="body flex items-center relative top-[12vh] lg:top-[20vh]">
                     <IntroCommunity />
                 </div>
-                <div className="col-span-3">
-                    <Footer />
-                </div>
+                <Footer />
             </div>
         </>
     )

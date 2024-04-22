@@ -24,7 +24,7 @@ export default function IntroCommunity() {
                 <Slide>
                     <div className="onepage_container flex flex-col">
                         <div className="flex justify-end">
-                            <span className="my-3 p-2 mr-2 max-w-[500px] w-[60%] text-right bg-primaryGrey rounded-lg  font-semibold text-[36px] text-white">1. CRUD 구현</span>
+                            <span className="max-w-[500px] w-[60%] text-right bg-primaryGrey rounded-lg  font-semibold text-[36px] text-white">1. CRUD 구현</span>
                         </div>
                         <div className="flex flex-wrap relative justify-between">
                             <div className="flex flex-col absolute bottom-0 right-0 z-999 bg-primaryDark rounded-lg text-white font-semibold p-4 text-[20px] hover:cursor-pointer">

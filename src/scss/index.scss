@@ -5,12 +5,19 @@
 @import "./_utils.scss";
 @import "./font.scss";
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   min-width: 350px;
+  margin-bottom: 60px;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   padding: 0;
   margin: 0;
+  padding-bottom: 60px;
 }
 
 .onepage_wrap {
@@ -23,7 +30,7 @@ body {
 
 .onepage_container {
   width: 100%;
-  height: 88vh;
+  height: 80vh;
 }
 
 .onepage_container:nth-child(1){
@@ -140,6 +147,10 @@ body {
   .header__nav-items {
     display: none;
   }
+
+  .onepage_container{
+    height: 90vh;
+  }
 }
 
 @include tablet {
@@ -154,6 +165,10 @@ body {
 
   .header__nav-items {
     display: none;
+  }
+
+  .onepage_container {
+    height: 90vh;
   }
 }
 
