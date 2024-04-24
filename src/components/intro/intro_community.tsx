@@ -5,6 +5,7 @@ import Ads from "components/Utils/Ads";
 import { FullPage, Slide } from "react-full-page";
 
 import PropTypes from 'prop-types';
+import { GoArrowUp, GoArrowDown } from "react-icons/go";
 
 interface CustomControlsProps {
     className?: string;
@@ -35,10 +36,15 @@ const CustomControls: React.FC<CustomControlsProps> = ({
     scrollToSlide,
     slidesCount,
     style = {
-        left: '50%',
-        paddingTop: '10px',
+        top: '50%',
+        paddingLeft: "3vh",
         position: 'fixed',
-        transform: 'translateX(-50%)',
+        transform: 'translateY(-35%)',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "1rem",
+        zIndex: 9,
     },
     buttonClassName = "custom-button"
 }) => {
@@ -49,7 +55,7 @@ const CustomControls: React.FC<CustomControlsProps> = ({
                 disabled: currentSlideIndex === i,
                 key: i,
                 onClick: () => scrollToSlide(i),
-                className: buttonClassName,
+                className: `${buttonClassName} ${currentSlideIndex === i ? 'activeSlideIndex' : ''}`,
             };
             slidesNumbers.push(<button type="button" {...buttonProps}>{i + 1}</button>);
         }
@@ -66,7 +72,7 @@ const CustomControls: React.FC<CustomControlsProps> = ({
                 onClick={onPrev}
                 className={buttonClassName}
             >
-                previous
+                <GoArrowUp />
             </button>
             {renderSlidesNumbers(currentSlideIndex)}
             <button
@@ -75,7 +81,7 @@ const CustomControls: React.FC<CustomControlsProps> = ({
                 onClick={onNext}
                 className={buttonClassName}
             >
-                next
+                <GoArrowDown />
             </button>
         </div>
     );

@@ -37,8 +37,19 @@ body {
 }
 
 .custom-button {
-  background-color: white;
-  
+  background-color: transparent;
+  font-weight: 600;
+  font-size: 2rem;
+  padding: 0 1rem;
+  color: white;
+
+  &:hover {
+    color: $primaryBlue;
+  }
+}
+
+.activeSlideIndex {
+  color: #ffcc00;
 }
 
 
