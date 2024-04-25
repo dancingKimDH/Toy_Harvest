@@ -129,7 +129,7 @@ export default class IntroCommunity extends Component {
                         <Ads />
                     </Slide>
                     <Slide>
-                        <div className="onepage_container flex flex-col">
+                        <div className="onepage_container flex flex-col text-white p-5">
                             <span className="font-semibold text-[36px]">안녕하세요!</span>
                             <span className="pb-1 font-semibold text-[22px]">React & Typescript 연습프로젝트</span>
                             <div>

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000", "*"]
+const allowedOrigins = ["http://localhost:3000", "https://toy-harvest.web.app"]
 
 const options: cors.CorsOptions = {
     origin: allowedOrigins
