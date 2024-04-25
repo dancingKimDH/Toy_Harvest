@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 
 import Ads from "components/Utils/Ads";
 
@@ -6,6 +6,7 @@ import { FullPage, Slide } from "react-full-page";
 
 import PropTypes from 'prop-types';
 import { GoArrowUp, GoArrowDown } from "react-icons/go";
+import { IoRadioButtonOff } from "react-icons/io5";
 
 interface CustomControlsProps {
     className?: string;
@@ -16,6 +17,7 @@ interface CustomControlsProps {
     slidesCount: number;
     style?: React.CSSProperties;
     buttonClassName?: string;
+    showControls: boolean;
 }
 
 interface CustomControlsProps {
@@ -37,16 +39,22 @@ const CustomControls: React.FC<CustomControlsProps> = ({
     slidesCount,
     style = {
         top: '50%',
-        paddingLeft: "3vh",
+        marginLeft: "3vh",
+        marginRight: "1vh",
         position: 'fixed',
-        transform: 'translateY(-35%)',
+        transform: 'translateY(-30%)',
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "1rem",
         zIndex: 9,
+        opacity: "0.5",
+        backgroundColor: "gray",
+        padding: "3vh 0",
+        transition: "padding-top 0.5s ease-in-out, padding-bottom 0.5s ease-in-out"
     },
-    buttonClassName = "custom-button"
+    buttonClassName = "custom-button",
+    showControls,
 }) => {
     const renderSlidesNumbers = (currentSlideIndex: number) => {
         const slidesNumbers = [];
@@ -55,9 +63,9 @@ const CustomControls: React.FC<CustomControlsProps> = ({
                 disabled: currentSlideIndex === i,
                 key: i,
                 onClick: () => scrollToSlide(i),
-                className: `${buttonClassName} ${currentSlideIndex === i ? 'activeSlideIndex' : ''}`,
+                className: `${buttonClassName} ${currentSlideIndex === i ? 'activeSlideIndex' : ''} ${showControls ? "show" : "hidden"}`,
             };
-            slidesNumbers.push(<button type="button" {...buttonProps}>{i + 1}</button>);
+            slidesNumbers.push(<button type="button" {...buttonProps}><IoRadioButtonOff /></button>);
         }
         return slidesNumbers;
     };
@@ -65,7 +73,7 @@ const CustomControls: React.FC<CustomControlsProps> = ({
     const currentSlideIndex = getCurrentSlideIndex();
 
     return (
-        <div className={className} style={style}>
+        <div className={`${className}`} style={style}>
             <button
                 type="button"
                 disabled={currentSlideIndex === 0}
@@ -89,10 +97,33 @@ const CustomControls: React.FC<CustomControlsProps> = ({
 
 export default class IntroCommunity extends Component {
 
+    state = {
+        showControls: false
+    }
+
+    componentDidMount() {
+        document.addEventListener("mousemove", this.handleMouseMove);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("mousemove", this.handleMouseMove);
+    }
+
+    handleMouseMove = (e: MouseEvent) => {
+        if(e.pageX <= 70) {
+            this.setState({showControls: true});
+        } else {
+            this.setState({showControls: false});
+        }
+    }
+
     render() {
+
+        const {showControls} = this.state;
+
         return (
             <div className="w-full h-full">
-                <FullPage controls={CustomControls}>
+                <FullPage controls={(props) => <CustomControls {...props} showControls={showControls}/>}>
                     {/*  controlsProps={{className: "slide-navigation"}} */}
                     <Slide>
                         <Ads />
