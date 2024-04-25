@@ -1,46 +1,69 @@
-# Getting Started with Create React App
+# PROJECT TOY_HARVEST
+> __REACT & TYPESCRIPT__ (현재 진행형) 연습 프로젝트
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Key Feature
+[바로가기](https://toy-harvest.web.app)
 
-## Available Scripts
+```
+- 테스트ID: test123@test.com 
+- Password: 12345678
+```
 
-In the project directory, you can run:
+## PROBLEM SOLVING
+> 오류 및 해결 방법
 
-### `yarn start`
+### BACK-END
+1. CORS ERROR
+   - Background: 분양공고 페이지에서 농림수산식품교육문화정보원 API를 호출했으나 CORS 에러 발생
+   - Solution: root directory에 /backend/server.ts를 만들어 우회!
+   - Error: API Key를 .env에 작성해 활용하려고 했지만 어떤 이유에서인지 읽기에 실패함
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<details>
+   <summary>
+      Code
+   </summary>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+~~~ typescript
+import cors from 'cors';
+import express from 'express';
+import axios from 'axios';
 
-### `yarn test`
+const app = express();
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+const allowedOrigins = ["http://localhost:3000"]
 
-### `yarn build`
+const options: cors.CorsOptions = {
+    origin: allowedOrigins
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+app.use(cors(options));
+app.use(express.json());
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+app.get('/', (req, res) => {
+    res.json({ message: "Data from Backend" })
+})
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+app.get("/fetch-housing-data/:year", async (req, res) => {
+    try {
+        const { year } = req.params;
+        const response = await axios.get(`http://211.237.50.150:7080/openapi/6de97bd2f04693f272abb104a04c73687caad2061a5cbf20eb6f60dd9c4d6719/xml/Grid_20151214000000000336_1/1/5?SLCTN_YEAR=${year}`);
+        // 6de97bd2f04693f272abb104a04c73687caad2061a5cbf20eb6f60dd9c4d6719
+        res.json(response.data);
+        return res;
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+        console.log(error);
+    }
+});
 
-### `yarn eject`
+app.listen(5000, () => {
+    console.log("Server is now listening on PORT 5000");
+})
+~~~
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+</details>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### FRONT-END 
+1. 검색페이지 Toggle 전역 상태 관리
+   - Background: SearchPage를 어디에서든 껐다가 킬 수 있도록 만들고자 함
+   - Solution: Recoil을 활용한 전역상태관리 차용
