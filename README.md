@@ -1,6 +1,11 @@
 # PROJECT TOY_HARVEST
 > __REACT & TYPESCRIPT__ (현재 진행형) 연습 프로젝트
 
+## Key Feature
+[Website](https://toy-harvest.web.app)
+ID: test123@test.com
+Password: 12345678
+
 ## PROBLEM SOLVING
 > 오류 및 해결 방법
 
