@@ -1,12 +1,15 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component } from "react";
 
 import Ads from "components/Utils/Ads";
 
 import { FullPage, Slide } from "react-full-page";
 
-import PropTypes from 'prop-types';
 import { GoArrowUp, GoArrowDown } from "react-icons/go";
 import { IoRadioButtonOff } from "react-icons/io5";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
 
 interface CustomControlsProps {
     className?: string;
@@ -110,20 +113,20 @@ export default class IntroCommunity extends Component {
     }
 
     handleMouseMove = (e: MouseEvent) => {
-        if(e.pageX <= 70) {
-            this.setState({showControls: true});
+        if (e.pageX <= 70) {
+            this.setState({ showControls: true });
         } else {
-            this.setState({showControls: false});
+            this.setState({ showControls: false });
         }
     }
 
     render() {
 
-        const {showControls} = this.state;
+        const { showControls } = this.state;
 
         return (
             <div className="w-full h-full">
-                <FullPage controls={(props) => <CustomControls {...props} showControls={showControls}/>}>
+                <FullPage controls={(props) => <CustomControls {...props} showControls={showControls} />}>
                     {/*  controlsProps={{className: "slide-navigation"}} */}
                     <Slide>
                         <Ads />
@@ -139,19 +142,28 @@ export default class IntroCommunity extends Component {
                         </div>
                     </Slide>
                     <Slide>
-                        <div className="onepage_container flex flex-col">
-                            <div className="flex justify-end">
-                                <span className="max-w-[500px] w-[60%] text-right bg-primaryGrey rounded-lg  font-semibold text-[36px] text-white">1. CRUD 구현</span>
-                            </div>
-                            <div className="flex flex-wrap relative justify-between">
-                                <div className="flex flex-col absolute bottom-0 right-0 z-999 bg-primaryDark rounded-lg text-white font-semibold p-4 text-[20px] hover:cursor-pointer">
-                                    <span>자유롭게 글과 댓글을 남겨 보세요!</span>
-                                    <span>언제든지 수정 및 삭제를 할 수 있습니다</span>
+                        <Swiper>
+                            <SwiperSlide>
+                                <div className="onepage_container flex flex-col">
+                                    <div className="flex justify-end">
+                                        <span className="max-w-[500px] w-[60%] text-right bg-primaryGrey rounded-lg  font-semibold text-[36px] text-white">1. CRUD 구현</span>
+                                    </div>
+                                    <div className="flex flex-wrap relative justify-between">
+                                        <div className="flex flex-col absolute bottom-0 right-0 z-999 bg-primaryDark rounded-lg text-white font-semibold p-4 text-[20px] hover:cursor-pointer">
+                                            <span>자유롭게 글과 댓글을 남겨 보세요!</span>
+                                            <span>언제든지 수정 및 삭제를 할 수 있습니다</span>
+                                        </div>
+                                        <img width={300} src="/images/intro/new_post.png" alt="포스트" />
+                                        <img width={300} src="/images/intro/new_comment.png" alt="코멘트" />
+                                    </div>
                                 </div>
-                                <img width={300} src="/images/intro/new_post.png" alt="포스트" />
-                                <img width={300} src="/images/intro/new_comment.png" alt="코멘트" />
-                            </div>
-                        </div>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                    <div className="onepage_container flex flex-col">
+                                        Hello World!
+                                    </div>
+                            </SwiperSlide>
+                        </Swiper>
                     </Slide>
                 </FullPage >
             </div>
