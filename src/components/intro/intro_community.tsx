@@ -142,7 +142,7 @@ export default class IntroCommunity extends Component {
                         </div>
                     </Slide>
                     <Slide>
-                        <Swiper>
+                        <Swiper loop={true} autoplay={{delay: 2500, disableOnInteraction: false}} navigation pagination={{clickable: true}} scrollbar={{draggable: true}}>
                             <SwiperSlide>
                                 <div className="onepage_container flex flex-col">
                                     <div className="flex justify-end">
@@ -161,6 +161,11 @@ export default class IntroCommunity extends Component {
                             <SwiperSlide>
                                     <div className="onepage_container flex flex-col">
                                         Hello World!
+                                    </div>
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                    <div className="onepage_container flex flex-col">
+                                        Third page
                                     </div>
                             </SwiperSlide>
                         </Swiper>
