@@ -70,7 +70,9 @@ const CustomControls: React.FC<CustomControlsProps> = ({
                 onClick: () => scrollToSlide(i),
                 className: `${buttonClassName} ${currentSlideIndex === i ? 'activeSlideIndex' : ''} ${showControls ? "show" : "hidden"}`,
             };
-            slidesNumbers.push(<button type="button" {...buttonProps}><IoRadioButtonOff /></button>);
+            slidesNumbers.push(<button type="button" {...buttonProps}>
+                <IoRadioButtonOff />
+                </button>);
         }
         return slidesNumbers;
     };
