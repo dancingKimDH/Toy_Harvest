@@ -16,6 +16,19 @@ body {
   min-height: 100%;
 }
 
+.swiper-pagination {
+  margin-bottom: 50px;
+
+  .swiper-pagination-bullet {
+    width: 30px;
+    height: 30px;
+    background-color: $primaryBlue;
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color: #ffcc00 !important;
+  }
+}
 
 .show {
   padding-top: 0.5rem !important;
