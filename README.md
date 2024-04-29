@@ -64,6 +64,4 @@ app.listen(5000, () => {
 </details>
 
 ### FRONT-END 
-1. 검색페이지 Toggle 전역 상태 관리
-   - Background: SearchPage를 어디에서든 껐다가 킬 수 있도록 만들고자 함
-   - Solution: Recoil을 활용한 전역상태관리 차용
+
