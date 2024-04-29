@@ -8,7 +8,7 @@ import { GoArrowUp, GoArrowDown } from "react-icons/go";
 import { IoRadioButtonOff } from "react-icons/io5";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Pagination, EffectFade } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -72,7 +72,7 @@ const CustomControls: React.FC<CustomControlsProps> = ({
             };
             slidesNumbers.push(<button type="button" {...buttonProps}>
                 <IoRadioButtonOff />
-                </button>);
+            </button>);
         }
         return slidesNumbers;
     };
@@ -146,7 +146,7 @@ export default class IntroCommunity extends Component {
                         </div>
                     </Slide>
                     <Slide>
-                        <Swiper modules={[Pagination]} loop={true} autoplay={{ delay: 2500, disableOnInteraction: false }} pagination={{clickable: true}} scrollbar={{ draggable: true }}>
+                        <Swiper modules={[Pagination, EffectFade]} effect={"fade"} loop={true} autoplay={{ delay: 2500, disableOnInteraction: false }} pagination={{ clickable: true, dynamicBullets: true }} scrollbar={{ draggable: true }}>
                             <SwiperSlide>
                                 <div className="onepage_container flex flex-col">
                                     <div className="flex justify-end">

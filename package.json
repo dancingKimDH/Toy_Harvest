@@ -6,6 +6,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^41.0.0",
     "@fullpage/react-fullpage": "^0.1.42",
+    "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.1.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
