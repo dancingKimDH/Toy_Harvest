@@ -1,19 +1,27 @@
-import { Fragment, useContext } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import Header from 'components/Utils/Header'
 import AuthContext from 'context/AuthContext';
 import { getAuth } from 'firebase/auth';
 import { app } from 'firebaseApp';
 import { MdOutlineEmail } from 'react-icons/md';
 import { IoMdPerson } from 'react-icons/io';
+import { Tab } from '@headlessui/react'
 
 export default function ProfileDetail() {
 
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const auth = getAuth(app);
 
-  console.log(user?.email);
+  const [email, setEmail] = useState<string>("");
 
-  
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  }
+
+  const categories: Array<string> = ["My Info", "My Posts", "My Comments"];
+  const [category, setCategory] = useState(categories[0]);
+
+  console.log(category);
 
   return (
 
@@ -25,15 +33,15 @@ export default function ProfileDetail() {
           <span className='underline hover:text-gray-500 hover:cursor-pointer'>로그아웃</span>
         </div>
         <div className='bg-white rounded-lg mt-9 w-[90%] max-w-[800px] mx-auto p-4'>
-            <span className='font-semibold underline'>나의 정보</span>
-            <div className='mt-3 flex items-center justify-between'>
-              <span className=''><MdOutlineEmail /></span>
-              <textarea name="" id="" className='w-[80%] border border-black resize-none'>{user?.email}</textarea>
-            </div>
-            <div className='mt-3 flex items-center justify-between'>
-              <span className=''><IoMdPerson /></span>
-              <span>{user?.displayName}</span>
-            </div>
+          <Tab.Group onChange={(index) => {setCategory(categories[index])}}>
+            <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                {categories.map((category: string, index: number) => (
+                  <Tab key={index} value={category}>
+                      {category}
+                  </Tab>
+                ))}
+            </Tab.List>
+          </Tab.Group>
         </div>
         <div className='bg-white rounded-lg mt-9 w-[90%] max-w-[800px] mx-auto p-4'>
           <span className='font-semibold underline'>
