@@ -42,17 +42,35 @@ export default function ProfileDetail() {
             <Tab.Panels>
               <Tab.Panel className="rounded-xl text-lg bg-white p-3">
                 <div>
-                  <table className='w-full border-b-2'>
-                    <tbody>
+                  <table className='mypage__table w-full'>
+                    <thead className='mypage__table-thead'>
                       <tr>
-                        <td className='text-center'>
-                          <MdOutlineEmail />
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className='border-b-4'>
+                        <td className='mypage__table-td'>
+                          <MdOutlineEmail className='w-6 h-6 mx-auto' />
                         </td>
-                        <td className='text-center'>
+                        <td className='mypage__table-td'>
                           {user?.email}
                         </td>
-                        <td>
-                          수정
+                        <td className='mypage__table-td'>
+                          <button type="button" className='p-1 border rounded-lg'>수정</button>
+                        </td>
+                      </tr>
+                      <tr className='border-b-4'>
+                        <td className='mypage__table-td'>
+                          <IoMdPerson className='w-6 h-6 mx-auto' />
+                        </td>
+                        <td className='mypage__table-td'>
+                          {user?.displayName}
+                        </td>
+                        <td className='mypage__table-td'>
+                          <button type="button" className='p-1 border rounded-lg'>수정</button>
                         </td>
                       </tr>
                     </tbody>

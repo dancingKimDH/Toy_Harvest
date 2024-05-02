@@ -16,6 +16,24 @@ body {
   min-height: 100%;
 }
 
+.mypage__table-thead th:nth-child(1) {
+  width: 20%;
+}
+
+.mypage__table-thead th:nth-child(2) {
+  width: 70%;
+}
+
+.mypage__table-thead th:nth-child(3) {
+  width: 10%;
+}
+
+.mypage__table-td {
+  text-align: center;
+  vertical-align: middle;
+  padding-bottom: 0.5rem;
+}
+
 .swiper-pagination {
   margin-bottom: 50px;
   display: flex;
