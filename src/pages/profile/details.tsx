@@ -12,8 +12,6 @@ export default function ProfileDetail() {
   const { user } = useContext(AuthContext);
   const auth = getAuth(app);
 
-  const [email, setEmail] = useState<string>("");
-
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   }
@@ -33,21 +31,36 @@ export default function ProfileDetail() {
           <span className='underline hover:text-gray-500 hover:cursor-pointer'>로그아웃</span>
         </div>
         <div className='bg-white rounded-lg mt-9 w-[90%] max-w-[800px] mx-auto p-4'>
-          <Tab.Group onChange={(index) => {setCategory(categories[index])}}>
+          <Tab.Group onChange={(index) => { setCategory(categories[index]) }}>
             <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-                {categories.map((category: string, index: number) => (
-                  <Tab key={index} value={category}>
-                      {category}
-                  </Tab>
-                ))}
+              {categories.map((category: string, index: number) => (
+                <Tab className="w-full rounded-lg py-2.5 text-sm font-medium leading-5, ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2" key={index} value={category}>
+                  {category}
+                </Tab>
+              ))}
             </Tab.List>
+            <Tab.Panels>
+              <Tab.Panel className="rounded-xl text-lg bg-white p-3">
+                <div>
+                  <table className='w-full border-b-2'>
+                    <tbody>
+                      <tr>
+                        <td className='text-center'>
+                          <MdOutlineEmail />
+                        </td>
+                        <td className='text-center'>
+                          {user?.email}
+                        </td>
+                        <td>
+                          수정
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </Tab.Panel>
+            </Tab.Panels>
           </Tab.Group>
-        </div>
-        <div className='bg-white rounded-lg mt-9 w-[90%] max-w-[800px] mx-auto p-4'>
-          <span className='font-semibold underline'>
-            내가 쓴 글
-          </span>
-
         </div>
       </div>
     </>
