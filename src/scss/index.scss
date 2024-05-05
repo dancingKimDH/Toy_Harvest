@@ -28,10 +28,24 @@ body {
   width: 10%;
 }
 
+.mypage__table {
+
+  .mypage__table-tr {
+    line-height: 1;
+  }
+
 .mypage__table-td {
   text-align: center;
   vertical-align: middle;
-  padding-bottom: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  .mypage__table-td-btn {
+    padding: 0.3rem;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+  }
+}
 }
 
 .swiper-pagination {

@@ -6,11 +6,15 @@ import { app } from 'firebaseApp';
 import { MdOutlineEmail } from 'react-icons/md';
 import { IoMdPerson } from 'react-icons/io';
 import { Tab } from '@headlessui/react'
+import { FaPhone } from 'react-icons/fa';
+
 
 export default function ProfileDetail() {
 
   const { user } = useContext(AuthContext);
   const auth = getAuth(app);
+
+  console.log(user);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -41,7 +45,7 @@ export default function ProfileDetail() {
             </Tab.List>
             <Tab.Panels>
               <Tab.Panel className="rounded-xl text-lg bg-white p-3">
-                <div>
+                <div className='flex justify-center overflow-hidden'>
                   <table className='mypage__table w-full'>
                     <thead className='mypage__table-thead'>
                       <tr>
@@ -51,7 +55,7 @@ export default function ProfileDetail() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className='border-b-4'>
+                      <tr className='mypage__table-tr border-b-4'>
                         <td className='mypage__table-td'>
                           <MdOutlineEmail className='w-6 h-6 mx-auto' />
                         </td>
@@ -59,10 +63,9 @@ export default function ProfileDetail() {
                           {user?.email}
                         </td>
                         <td className='mypage__table-td'>
-                          <button type="button" className='p-1 border rounded-lg'>수정</button>
                         </td>
                       </tr>
-                      <tr className='border-b-4'>
+                      <tr className='mypage__table-tr border-b-4'>
                         <td className='mypage__table-td'>
                           <IoMdPerson className='w-6 h-6 mx-auto' />
                         </td>
@@ -70,7 +73,18 @@ export default function ProfileDetail() {
                           {user?.displayName}
                         </td>
                         <td className='mypage__table-td'>
-                          <button type="button" className='p-1 border rounded-lg'>수정</button>
+                          <button type="button" className='mypage__table-td-btn'>수정</button>
+                        </td>
+                      </tr>
+                      <tr className='mypage__table-tr border-b-4'>
+                        <td className='mypage__table-td'>
+                          <FaPhone className='w-6 h-6 mx-auto' />
+                        </td>
+                        <td className='mypage__table-td'>
+                          {user?.phoneNumber ?? "전화번호 없음"}
+                        </td>
+                        <td className='mypage__table-td'>
+                          <button type="button" className='mypage__table-td-btn'>수정</button>
                         </td>
                       </tr>
                     </tbody>
