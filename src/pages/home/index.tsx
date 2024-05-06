@@ -29,7 +29,7 @@ export default function Home() {
             <div className="flex flex-col justify-between">
                 <div className="w-full h-full relative">
                     <Header />
-                    <div className="body flex items-center relative top-[12vh] lg:top-[20vh]">
+                    <div className="body flex items-center relative top-[12vh] lg:top-[180px]">
                         <IntroCommunity />
                     </div>
                 </div>
