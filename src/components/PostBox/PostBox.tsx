@@ -90,7 +90,7 @@ export default function PostBox() {
 
     return (
         <>
-            <div className="lg:w-[1000px] mt-[110px] lg:mt-[180px] mx-auto">
+            <div className="lg:w-[1000px] mt-[110px] lg:mt-[200px] mx-auto">
                 <div id="modal"></div>
                 <div className="search__bar--newsbox">
                     <form action="" onSubmit={handleSubmit}>

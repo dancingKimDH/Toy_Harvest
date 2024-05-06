@@ -1,13 +1,17 @@
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import Header from 'components/Utils/Header'
 import AuthContext from 'context/AuthContext';
 import { getAuth, updatePhoneNumber, updateProfile } from 'firebase/auth';
-import { app } from 'firebaseApp';
+import { app, db } from 'firebaseApp';
 import { MdOutlineEmail } from 'react-icons/md';
 import { IoMdPerson } from 'react-icons/io';
+import { GiPlayButton } from "react-icons/gi";
 import { Tab } from '@headlessui/react'
 import { FaPhone } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { collection, doc, getDocs, onSnapshot, query, setDoc, where } from "firebase/firestore";
+import { PostProps } from 'interface';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ProfileDetail() {
@@ -15,14 +19,18 @@ export default function ProfileDetail() {
   const { user } = useContext(AuthContext);
   const auth = getAuth(app);
 
-  console.log(user);
+  const categories: Array<string> = ["My Info", "My Posts", "My Comments"];
+  const [category, setCategory] = useState(categories[0]);
 
+  const [posts, setPosts] = useState<PostProps[]>([]);
 
   const [displayName, setDisplayName] = useState<string>("");
 
+  const navigate = useNavigate();
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {target: {name, value}} = e;
-    if(name === "displayName") {
+    const { target: { name, value } } = e;
+    if (name === "displayName") {
       setDisplayName(value);
     }
   }
@@ -39,10 +47,21 @@ export default function ProfileDetail() {
     }
   }
 
-  const categories: Array<string> = ["My Info", "My Posts", "My Comments"];
-  const [category, setCategory] = useState(categories[0]);
+  useEffect(() => {
+    const postRef = collection(db, "posts");
+    const nameQuery = query(postRef, where("email", "==", auth?.currentUser?.email));
 
-  console.log(category);
+    onSnapshot(nameQuery, (snapshot) => {
+      let dataObj = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc?.id
+      }))
+      setPosts(dataObj as PostProps[]);
+    })
+  }, [user]);
+
+
+  console.log(posts);
 
   return (
 
@@ -106,6 +125,34 @@ export default function ProfileDetail() {
                           <button type="button" className='mypage__table-td-btn'>수정</button>
                         </td>
                       </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </Tab.Panel>
+              <Tab.Panel>
+                <div className='flex justify-center overflow-hidden'>
+                  <table className='mypage__table w-full mt-6'>
+                    <thead className='mypage__table-thead'>
+                      <tr className=''>
+                        <th>작성일</th>
+                        <th>제목</th>
+                        <th>바로가기</th>
+                      </tr>
+                    </thead>
+                    <tbody className=''>
+                      {posts?.map((post) => (
+                        <tr className='mypage__table-tr border-b-4'>
+                          <td className='mypage__table-td'>
+                            {post?.createdAt}
+                          </td>
+                          <td className='mypage__table-td'>
+                            {post?.title}
+                          </td>
+                          <td className='mypage__table-td'>
+                            <button type="button" onClick={() => navigate(`/community/${post?.id}`)}><GiPlayButton /></button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
