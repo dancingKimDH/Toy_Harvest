@@ -1,7 +1,7 @@
 import { Fragment, useContext, useEffect, useState } from 'react'
 import Header from 'components/Utils/Header'
 import AuthContext from 'context/AuthContext';
-import { getAuth, updatePhoneNumber, updateProfile } from 'firebase/auth';
+import { RecaptchaVerifier, getAuth, signInWithPhoneNumber, updatePhoneNumber, updateProfile } from 'firebase/auth';
 import { app, db } from 'firebaseApp';
 import { MdOutlineEmail } from 'react-icons/md';
 import { IoMdPerson } from 'react-icons/io';
@@ -13,11 +13,19 @@ import { collection, doc, getDocs, onSnapshot, query, setDoc, where } from "fire
 import { PostProps } from 'interface';
 import { useNavigate } from 'react-router-dom';
 
+declare global {
+  interface Window {
+    recaptchaVerifier: any;
+    confirmationResult: any;
+    recaptchaWidgetId: string;
+  }
+}
 
 export default function ProfileDetail() {
 
   const { user } = useContext(AuthContext);
   const auth = getAuth(app);
+  auth.languageCode = "it";
 
   const categories: Array<string> = ["My Info", "My Posts", "My Comments"];
   const [category, setCategory] = useState(categories[0]);
@@ -25,6 +33,8 @@ export default function ProfileDetail() {
   const [posts, setPosts] = useState<PostProps[]>([]);
 
   const [displayName, setDisplayName] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [recaptchaShow, setRecaptchaShow] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,9 +43,13 @@ export default function ProfileDetail() {
     if (name === "displayName") {
       setDisplayName(value);
     }
+    if (name === "phoneNumber") {
+      setPhoneNumber(value);
+    }
   }
 
-  const handleNameUpdate = () => {
+  const handleNameUpdate = (e: any) => {
+    e.preventdefault();
     if (auth.currentUser) {
       updateProfile(auth.currentUser, {
         displayName: displayName,
@@ -46,6 +60,30 @@ export default function ProfileDetail() {
       return
     }
   }
+
+  const handlePhoneNumberUpdate = (e: any) => {
+    e.preventDefault();
+    setRecaptchaShow(true);
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+      "size": "big",
+      "callback": (response: any) => {
+        signInWithPhoneNumber(auth, phoneNumber, response).then(
+          (confirmationResult) => {
+
+            window.confirmationResult = confirmationResult;
+            toast.success("메세지가 발송되었습니다");
+          }
+        ).catch((error) => {
+        })
+      },
+      "expired-callback": () => {
+        toast.error("에러가 발생하였습니다, 재시도해 주세요");
+      }
+    })
+    window.recaptchaVerifier.render();
+  }
+
+  console.log(phoneNumber);
 
   useEffect(() => {
     const postRef = collection(db, "posts");
@@ -66,6 +104,7 @@ export default function ProfileDetail() {
   return (
 
     <>
+        <div id='recaptcha-container' className={`${recaptchaShow ? 'recaptcha-container-show' : ''}`}></div>
       <Header />
       <div className='w-full h-full absolute top-[100px] lg:top-[180px] bg-black'>
         <div className='flex items-center justify-between text-black rounded-lg font-semibold w-[80%] max-w-[800px] mx-auto mt-[50px] bg-primaryBlue p-4'>
@@ -119,10 +158,10 @@ export default function ProfileDetail() {
                           <FaPhone className='w-6 h-6 mx-auto' />
                         </td>
                         <td className='mypage__table-td'>
-                          <input className='text-center font-semibold border border-black rounded-lg p-1' type="text" placeholder={user?.phoneNumber ?? "전화번호 없음"} />
+                          <input name='phoneNumber' onChange={onChange} className='text-center font-semibold border border-black rounded-lg p-1' type="text" placeholder={user?.phoneNumber ?? "전화번호 없음"} />
                         </td>
                         <td className='mypage__table-td'>
-                          <button type="button" className='mypage__table-td-btn'>수정</button>
+                          <button onClick={handlePhoneNumberUpdate} type="button" className='mypage__table-td-btn'>수정</button>
                         </td>
                       </tr>
                     </tbody>
