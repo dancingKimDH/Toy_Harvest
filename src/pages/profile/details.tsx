@@ -1,15 +1,15 @@
 import { Fragment, useContext, useEffect, useState } from 'react'
 import Header from 'components/Utils/Header'
 import AuthContext from 'context/AuthContext';
-import { RecaptchaVerifier, getAuth, signInWithPhoneNumber, updatePhoneNumber, updateProfile } from 'firebase/auth';
-import { app, db } from 'firebaseApp';
+import { PhoneAuthProvider, RecaptchaVerifier, getAuth, signInWithPhoneNumber, updatePhoneNumber, updateProfile } from 'firebase/auth';
+import firebase, { app, db } from 'firebaseApp';
 import { MdOutlineEmail } from 'react-icons/md';
-import { IoMdPerson } from 'react-icons/io';
+import { IoMdClose, IoMdPerson } from 'react-icons/io';
 import { GiPlayButton } from "react-icons/gi";
 import { Tab } from '@headlessui/react'
 import { FaPhone } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { collection, doc, getDocs, onSnapshot, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDocs, limitToLast, onSnapshot, query, setDoc, where } from "firebase/firestore";
 import { PostProps } from 'interface';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ export default function ProfileDetail() {
 
   const { user } = useContext(AuthContext);
   const auth = getAuth(app);
-  auth.languageCode = "it";
+  auth.languageCode = "ko";
 
   const categories: Array<string> = ["My Info", "My Posts", "My Comments"];
   const [category, setCategory] = useState(categories[0]);
@@ -34,7 +34,10 @@ export default function ProfileDetail() {
 
   const [displayName, setDisplayName] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [verificationCode, setVerificationCode] = useState<string>("");
   const [recaptchaShow, setRecaptchaShow] = useState(false);
+
+  const [recaptchaVerifier, setRecaptchaVerifier] = useState<RecaptchaVerifier | null>(null);
 
   const navigate = useNavigate();
 
@@ -45,6 +48,9 @@ export default function ProfileDetail() {
     }
     if (name === "phoneNumber") {
       setPhoneNumber(value);
+    }
+    if (name === "verificationCode") {
+      setVerificationCode(value);
     }
   }
 
@@ -61,29 +67,27 @@ export default function ProfileDetail() {
     }
   }
 
-  const handlePhoneNumberUpdate = (e: any) => {
+  const handlePhoneNumberUpdate = async (e: any) => {
     e.preventDefault();
     setRecaptchaShow(true);
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-      "size": "big",
-      "callback": (response: any) => {
-        signInWithPhoneNumber(auth, phoneNumber, response).then(
-          (confirmationResult) => {
-
-            window.confirmationResult = confirmationResult;
-            toast.success("메세지가 발송되었습니다");
-          }
-        ).catch((error) => {
-        })
+    const verifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+      "size": "normal",
+      "callback": () => {
       },
       "expired-callback": () => {
         toast.error("에러가 발생하였습니다, 재시도해 주세요");
       }
     })
-    window.recaptchaVerifier.render();
+    setRecaptchaVerifier(verifier);
+    verifier.render();
+ 
+    const confirmationResult = await signInWithPhoneNumber(auth, `+82${phoneNumber.trim()}`, verifier)
+    window.confirmationResult = confirmationResult;
   }
 
-  console.log(phoneNumber);
+  const recaptchaWidgetClose = () => {
+    window.location.reload();
+  }
 
   useEffect(() => {
     const postRef = collection(db, "posts");
@@ -98,13 +102,19 @@ export default function ProfileDetail() {
     })
   }, [user]);
 
-
-  console.log(posts);
-
   return (
 
     <>
-        <div id='recaptcha-container' className={`${recaptchaShow ? 'recaptcha-container-show' : ''}`}></div>
+      <div id='recaptchaWidget' className={`${recaptchaShow ? 'recaptcha-container-show' : 'recaptcha-container-disabled'}`}>
+        <button onClick={recaptchaWidgetClose} className="absolute top-0 button text-white text-2xl mt-11"><IoMdClose /></button>
+        <div id='recaptcha-container'>
+        </div>
+        <div className='recaptcha-container-sms flex flex-col'>
+          <input type="text" name='verificationCode' onChange={onChange} placeholder='인증번호 입력' />
+          <button type="button">제출</button>
+        </div>
+      </div>
+
       <Header />
       <div className='w-full h-full absolute top-[100px] lg:top-[180px] bg-black'>
         <div className='flex items-center justify-between text-black rounded-lg font-semibold w-[80%] max-w-[800px] mx-auto mt-[50px] bg-primaryBlue p-4'>
