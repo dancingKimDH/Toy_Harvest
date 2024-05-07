@@ -1,7 +1,7 @@
 import { Fragment, useContext, useEffect, useState } from 'react'
 import Header from 'components/Utils/Header'
 import AuthContext from 'context/AuthContext';
-import { PhoneAuthProvider, RecaptchaVerifier, getAuth, signInWithPhoneNumber, updatePhoneNumber, updateProfile } from 'firebase/auth';
+import { PhoneAuthProvider, RecaptchaVerifier, getAuth, signInWithPhoneNumber, updateCurrentUser, updatePhoneNumber, updateProfile } from 'firebase/auth';
 import firebase, { app, db } from 'firebaseApp';
 import { MdOutlineEmail } from 'react-icons/md';
 import { IoMdClose, IoMdPerson } from 'react-icons/io';
@@ -55,7 +55,7 @@ export default function ProfileDetail() {
   }
 
   const handleNameUpdate = (e: any) => {
-    e.preventdefault();
+    e.preventDefault();
     if (auth.currentUser) {
       updateProfile(auth.currentUser, {
         displayName: displayName,
@@ -80,10 +80,30 @@ export default function ProfileDetail() {
     })
     setRecaptchaVerifier(verifier);
     verifier.render();
- 
+
     const confirmationResult = await signInWithPhoneNumber(auth, `+82${phoneNumber.trim()}`, verifier)
     window.confirmationResult = confirmationResult;
   }
+
+  const handlePhoneNumberUpdateAfterVerification = () => {
+    
+    const verificationId = window.confirmationResult.verificationId;
+    const credential = PhoneAuthProvider.credential(verificationId, verificationCode.trim());
+    window.confirmationResult.confirm(verificationCode).then(() => {
+      if (auth.currentUser) {
+        updatePhoneNumber(auth.currentUser, credential).then(() => {
+          toast.success("성공적으로 수정하였습니다");
+          window.location.reload();
+        }).catch((error) => {
+          toast.error("수정에 실패하였습니다, 재시도해 주세요");
+          window.location.reload();
+        })
+      }
+    })
+  }
+
+  console.log(user);
+
 
   const recaptchaWidgetClose = () => {
     window.location.reload();
@@ -111,7 +131,7 @@ export default function ProfileDetail() {
         </div>
         <div className='recaptcha-container-sms flex flex-col'>
           <input type="text" name='verificationCode' onChange={onChange} placeholder='인증번호 입력' />
-          <button type="button">제출</button>
+          <button type="button" onClick={handlePhoneNumberUpdateAfterVerification}>제출</button>
         </div>
       </div>
 
