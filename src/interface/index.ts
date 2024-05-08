@@ -18,11 +18,12 @@ export interface stringArray {
 }
 
 export interface CommentProps {
-    comment: string,
+    comment?: string,
     createdAt?: string,
     uid?: string,
     userName?: string,
     email?: string,
+    postId?: string,
 }
 
 export interface PostProps {

@@ -2,7 +2,7 @@ import PostComment from "components/PostBox/PostComment";
 import PostDetail from "components/PostBox/PostDetail";
 import Header from "components/Utils/Header"
 import AuthContext from "context/AuthContext";
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 import { CommentProps, PostProps } from "interface";
 import { useContext, useEffect, useState } from "react";
@@ -43,6 +43,16 @@ export default function CommunityPostDetail() {
                 }
                 await updateDoc(postRef, {
                     comments: arrayUnion(commentObj)
+                })
+                await addDoc(collection(db, "comments"), {
+                    comment: commentValue,
+                    uid: user?.uid,
+                    postId: id,
+                    createdAt: new Date()?.toLocaleDateString("ko", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                    }),
                 })
                 setCommentValue("");
                 fetchPostAfterComment();

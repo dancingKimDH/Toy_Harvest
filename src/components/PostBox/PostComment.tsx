@@ -1,7 +1,4 @@
-import { QuerySnapshot, collection, doc, getDocs, query, where } from "firebase/firestore";
-import firebase, { db } from "firebaseApp";
-import { CommentProps, PostProps, UserProps } from "interface";
-import { useEffect, useState } from "react";
+import { CommentProps, PostProps } from "interface";
 
 
 interface PostCommentProps {
