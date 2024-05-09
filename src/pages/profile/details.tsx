@@ -34,6 +34,11 @@ export default function ProfileDetail() {
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [comments, setComments] = useState<CommentProps[]>([]);
 
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(6);
+
+  const offset = (page - 1) * limit;
+
   const [displayName, setDisplayName] = useState<string>("");
 
   const navigate = useNavigate();
@@ -63,7 +68,7 @@ export default function ProfileDetail() {
     const postRef = collection(db, "posts");
     const commentRef = collection(db, "comments");
     const postQuery = query(postRef, where("uid", "==", currentUser?.uid));
-    const commentQuery = query(commentRef, where("uid", "==", currentUser?.uid))
+    const commentQuery = query(commentRef, where("uid", "==", currentUser?.uid));
 
     onSnapshot(postQuery, (snapshot) => {
       let postObj = snapshot.docs.map((doc) => ({
@@ -138,7 +143,7 @@ export default function ProfileDetail() {
                   </div>
                 </Tab.Panel>
                 <Tab.Panel>
-                  <div className='flex justify-center overflow-hidden'>
+                  <div className='flex flex-col justify-center overflow-hidden'>
                     <table className='mypage__table w-full mt-6'>
                       <thead className='mypage__table-thead'>
                         <tr className=''>
@@ -163,6 +168,9 @@ export default function ProfileDetail() {
                         ))}
                       </tbody>
                     </table>
+                    <div className='flex justify-center my-6'>
+                      <Pagination total={posts?.length} limit={limit} page={page} setPage={setPage} />
+                    </div>
                   </div>
                 </Tab.Panel>
                 <Tab.Panel>
@@ -176,8 +184,8 @@ export default function ProfileDetail() {
                         </tr>
                       </thead>
                       <tbody className=''>
-                        {comments?.map((comment) => (
-                          <tr className='mypage__table-tr border-b-4'>
+                        {comments?.slice(offset, offset + limit).map((comment, index) => (
+                          <tr key={index} className='mypage__table-tr border-b-4'>
                             <td className='mypage__table-td'>
                               {comment?.createdAt}
                             </td>
@@ -192,7 +200,7 @@ export default function ProfileDetail() {
                       </tbody>
                     </table>
                     <div className='flex justify-center my-6'>
-                      <Pagination total={3} limit={3} page={3} setPage={() => { }} />
+                      <Pagination total={comments?.length} limit={limit} page={page} setPage={setPage} />
                     </div>
                   </div>
                 </Tab.Panel>
