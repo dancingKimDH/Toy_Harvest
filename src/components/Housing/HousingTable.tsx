@@ -31,7 +31,7 @@ export default function HousingTable({ rowData, handleYearChange, handleTelephon
     return (
         <>
 
-            <div className="mt-[110px] lg:mt-[180px]">
+            <div className="mt-[110px] lg:mt-[200px]">
                 <h1 className="font-semibold text-center text-[30px] p-[5px] mt-[20px]">전원마을 분양 공고 정보</h1>
                 <h2 className="text-center p-[5px]">농림수산식품교육문화정보원 제공 2005 ~ 2020</h2>
             </div>

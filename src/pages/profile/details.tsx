@@ -112,11 +112,7 @@ export default function ProfileDetail() {
     <>
       <Header />
       <div className='body'>
-        <div className='w-full h-full pb-[50px] overflow-auto absolute top-[100px] bottom-0 lg:top-[180px] bg-black'>
-          <div className='flex items-center justify-between text-black rounded-lg font-semibold w-[80%] max-w-[800px] mx-auto mt-[50px] bg-primaryBlue p-4'>
-            <span className='text-[1.5rem]'>마이 페이지</span>
-            <span className='underline hover:text-gray-500 hover:cursor-pointer'>로그아웃</span>
-          </div>
+        <div className='w-full h-full pb-[50px] overflow-auto absolute top-[100px] bottom-0 lg:top-[180px] bg-slate-500'>
           <div className='bg-white rounded-lg mt-9 w-[90%] max-w-[1000px] mx-auto p-4'>
             <Tab.Group onChange={(index) => { setCategory(categories[index]) }}>
               <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-5">
@@ -127,11 +123,11 @@ export default function ProfileDetail() {
                 ))}
               </Tab.List>
               <Tab.Panels>
-                <Tab.Panel className="rounded-xl text-lg bg-white p-3">
+                <Tab.Panel className="rounded-xl text-lg bg-white">
                   <div className='flex flex-col justify-center overflow-hidden'>
-                    <div className='flex flex-col justify-center my-3'>
-                      <img className='rounded-full mx-auto' width="300px" height="300px" src={myUser[0]?.imageUrl} alt="" />
-
+                    <div className='flex flex-col p-5 rounded-lg bg-slate-300 justify-center items-center my-3'>
+                      <img className='rounded-full mx-auto' width="100px" height="100px" src={myUser[0]?.imageUrl} alt="" />
+                      <button className='text-sm font-semibold p-1 mt-3 w-[90px] h-[30px] mx-auto rounded-lg text-white bg-gray-500 hover:bg-gray-900 hover:bg-gray' type="button">변경하기</button>
                     </div>
                     <table className='mypage__table w-full table-fixed'>
                       <thead className='mypage__table-thead'>
@@ -191,7 +187,7 @@ export default function ProfileDetail() {
                                 <Transition as={Fragment} leave='transition ease-in duriation-100' leaveFrom='opacity-100' leaveTo='opacity-0' afterLeave={() => {setRegionQuery("")}}>
                                   <Combobox.Options className="absolute z-999 mt-1 max-h-100 w-full overflow-auto rounded-md bg-white ring-1 ring-black/5 text-base shadow-lg sm:text-sm">
                                     {filteredRegion.map((region) => (
-                                      <Combobox.Option className={`py-2 cursor-pointer pl-10 pr-4 ${selectedRegion === region ? 'bg-teal-600 text-white' : 'text-gray-900'}`} key={region} value={region}>
+                                      <Combobox.Option className={`z-999 py-2 cursor-pointer pl-10 pr-4 ${selectedRegion === region ? 'bg-teal-600 text-white' : 'text-gray-900'}`} key={region} value={region}>
                                         {region}
                                       </Combobox.Option>
                                     ))}
