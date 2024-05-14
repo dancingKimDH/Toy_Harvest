@@ -13,6 +13,7 @@ import CommunityPostEdit from "../pages/community/edit";
 import CommunityPostNew from "../pages/community/new";
 import CreateNews from "../pages/news/new";
 import Housing from "../pages/housing";
+
 interface RouterProps {
     isAuthenticated: boolean;
 }
@@ -31,6 +32,7 @@ export default function Router({ isAuthenticated }: RouterProps) {
                         <Route path="/news/edit/:id" element={<NewsPostEdit />} />
 
                         <Route path="/community" element={<CommunityPost />} />
+
                         <Route path="/community/:id" element={<CommunityPostDetail />} />
                         <Route path="/community/edit/:id" element={<CommunityPostEdit />} />
                         <Route path="/community/new" element={<CommunityPostNew />} />

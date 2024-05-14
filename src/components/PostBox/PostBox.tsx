@@ -1,4 +1,4 @@
-import { collection, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection,  onSnapshot, orderBy, query, } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -11,15 +11,14 @@ import { db } from "../../firebaseApp";
 
 import { PostProps } from "../../interface";
 
-import Link from "next/link";
+
 import ProfileModal from "components/Modal/ProfileModal";
-import { useParams } from "next/navigation";
 
-export default function PostBox() {
+interface PostBoxProps {
+    keyword?: string
+}
 
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const keyword = searchParams.get("keyword");
+export default function PostBox(keyword: PostBoxProps) {
 
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [displayPosts, setDisplayPosts] = useState<PostProps[]>([]);
@@ -41,6 +40,7 @@ export default function PostBox() {
 
     const navigate = useNavigate();
 
+
     useEffect(() => {
         if (user) {
             let postRef = collection(db, "posts");
@@ -53,10 +53,13 @@ export default function PostBox() {
                 }))
                 setPosts(dataObj as PostProps[]);
                 setDisplayPosts(dataObj as PostProps[]);
+                if(keyword.keyword) {
+                    search(keyword.keyword);
+                }
             })
-
         }
-    }, [user]);
+
+    }, [user, keyword]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { target: { name, value } } = e;
@@ -65,6 +68,21 @@ export default function PostBox() {
         } else if (name === "searchWord") {
             setSearchWord(value);
         }
+    }
+
+    const search = (searchWord: string) => {
+        const keywords = searchWord.trim().split(/\s+/);
+        const filteredPosts = posts.filter((post) => {
+            if (subject === "title") {
+                return keywords.some(keyword => post.title?.toLowerCase().includes(keyword.toLowerCase()));
+            } else if (subject === "content") {
+                return keywords.some(keyword => post.content?.toLowerCase().includes(keyword.toLowerCase()));
+            } else {
+                return keywords.some(keyword => post.hashTags?.includes(keyword.toLowerCase()));
+            }
+
+        })
+        setDisplayPosts(filteredPosts as PostProps[]);
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -102,7 +120,7 @@ export default function PostBox() {
                             </select>
                             <input onChange={onChange} type="text" name="searchWord" className="text-sm w-full outline-none p-1" id="" placeholder="제목..." />
                             <select name="" id="" className="outline-none">
-                                <option value="" className="text-sm"><span className="text-sm">카테고리 선택</span></option>
+                                <option value="" className="text-sm">카테고리 선택</option>
                                 {NEWS_CATEGORY_ARR.map((data) => (
                                     <option className="" key={data}>{data.slice(0, -2)}</option>
                                 ))}
