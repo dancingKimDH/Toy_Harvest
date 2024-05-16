@@ -1,4 +1,4 @@
-import { collection,  onSnapshot, orderBy, query, } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, orderBy, query, } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -13,6 +13,7 @@ import { PostProps } from "../../interface";
 
 
 import ProfileModal from "components/Modal/ProfileModal";
+import { reload } from "firebase/auth";
 
 interface PostBoxProps {
     keyword?: string
@@ -40,26 +41,45 @@ export default function PostBox(keyword: PostBoxProps) {
 
     const navigate = useNavigate();
 
+    console.log(keyword.keyword);
+
+    const search = (searchWord: string, dataObj: any) => {
+        const keywords = searchWord.trim().split(/\s+/);
+        const filteredPosts = dataObj.filter((post: any) => {
+            return keywords.some(keyword => post.title?.toLowerCase().includes(keyword.toLowerCase()));
+        })
+        setDisplayPosts(filteredPosts as PostProps[]);
+    }
 
     useEffect(() => {
+        let keywords = keyword.keyword;
         if (user) {
-            let postRef = collection(db, "posts");
-            let postQuery = query(postRef, orderBy("createdAt", "desc"));
-
-            onSnapshot(postQuery, (snapshot) => {
-                let dataObj = snapshot.docs.map((doc) => ({
-                    ...doc.data(),
-                    id: doc?.id,
-                }))
-                setPosts(dataObj as PostProps[]);
-                setDisplayPosts(dataObj as PostProps[]);
-                if(keyword.keyword) {
-                    search(keyword.keyword);
+            const fetchData = async () => {
+                try {
+                    let postRef = collection(db, "posts");
+                    let postQuery = query(postRef, orderBy("createdAt", "desc"));
+                    const snapshot = await getDocs(postQuery);
+                    let dataObj = snapshot.docs.map((doc) => ({
+                        ...doc.data(),
+                        id: doc?.id,
+                    }));
+                    setPosts(dataObj as PostProps[]);
+                    if (keywords) {
+                        search(keywords, dataObj);
+                    } else {
+                        setDisplayPosts(dataObj as PostProps[]);
+                    }
+                } catch (error) {
+                    console.error("Error fetching posts:", error);
                 }
-            })
-        }
+            };
+            fetchData();
 
+        }
     }, [user, keyword]);
+
+    console.log(posts);
+    console.log(displayPosts);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { target: { name, value } } = e;
@@ -68,21 +88,6 @@ export default function PostBox(keyword: PostBoxProps) {
         } else if (name === "searchWord") {
             setSearchWord(value);
         }
-    }
-
-    const search = (searchWord: string) => {
-        const keywords = searchWord.trim().split(/\s+/);
-        const filteredPosts = posts.filter((post) => {
-            if (subject === "title") {
-                return keywords.some(keyword => post.title?.toLowerCase().includes(keyword.toLowerCase()));
-            } else if (subject === "content") {
-                return keywords.some(keyword => post.content?.toLowerCase().includes(keyword.toLowerCase()));
-            } else {
-                return keywords.some(keyword => post.hashTags?.includes(keyword.toLowerCase()));
-            }
-
-        })
-        setDisplayPosts(filteredPosts as PostProps[]);
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
