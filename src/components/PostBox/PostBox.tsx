@@ -1,4 +1,4 @@
-import { collection, getDocs, onSnapshot, orderBy, query, } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query, updateDoc, } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -14,6 +14,8 @@ import { PostProps } from "../../interface";
 
 import ProfileModal from "components/Modal/ProfileModal";
 import { reload } from "firebase/auth";
+import { AiFillHeart } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 interface PostBoxProps {
     keyword?: string
@@ -24,7 +26,7 @@ export default function PostBox(keyword: PostBoxProps) {
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [displayPosts, setDisplayPosts] = useState<PostProps[]>([]);
 
-    const user = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const [postUid, setPostUid] = useState<string>("");
 
@@ -40,8 +42,6 @@ export default function PostBox(keyword: PostBoxProps) {
     const offset = (page - 1) * limit;
 
     const navigate = useNavigate();
-
-    console.log(keyword.keyword);
 
     const search = (searchWord: string, dataObj: any) => {
         const keywords = searchWord.trim().split(/\s+/);
@@ -74,12 +74,8 @@ export default function PostBox(keyword: PostBoxProps) {
                 }
             };
             fetchData();
-
         }
     }, [user, keyword]);
-
-    console.log(posts);
-    console.log(displayPosts);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { target: { name, value } } = e;
@@ -111,6 +107,23 @@ export default function PostBox(keyword: PostBoxProps) {
         setPostUid(postId);
     }
 
+    const toggleLike = async (post: PostProps) => {
+        const postRef = doc(db, "posts", post?.id);
+        if (user?.uid && post?.likes?.includes(user?.uid)) {
+            await updateDoc(postRef, {
+                likes: arrayRemove(user?.uid),
+                likeCount: post?.likeCount ? post?.likeCount - 1 : 0,
+            })
+            toast.success("좋아요를 취소하였습니다");
+        } else {
+            await updateDoc(postRef, {
+                likes: arrayUnion(user?.uid),
+                likeCount: post?.likeCount ? post?.likeCount + 1 : 1,
+            })
+            toast.success("해당 게시물을 좋아요하였습니다");
+        }
+    }
+
     return (
         <>
             <div className="lg:w-[1000px] mt-[110px] lg:mt-[200px] mx-auto">
@@ -130,7 +143,7 @@ export default function PostBox(keyword: PostBoxProps) {
                                     <option className="" key={data}>{data.slice(0, -2)}</option>
                                 ))}
                             </select>
-                            <button type="submit" className="text-sm search__btn text-white font-semibold">검색하기</button>
+                            <button onClick={(post) => toggleLike} type="submit" className="text-sm search__btn text-white font-semibold">검색하기</button>
                         </div>
                     </form>
                 </div>
@@ -150,8 +163,9 @@ export default function PostBox(keyword: PostBoxProps) {
                                         <FaRegUserCircle onClick={() => activateModal(post?.uid)} className="text-blue-600 hover:cursor-pointer" />{post.name}</div>
                                     <div className="flex items-center gap-2 text-gray-500">
                                         <MdDateRange /> {post.createdAt}</div>
-                                    <div className="flex items-center gap-2 text-gray-500">
-                                        <CiHeart /> {post.likes}</div>
+                                    <button onClick={() => toggleLike(post)} className="flex items-center gap-2 text-gray-500">
+                                        {user && post?.likes?.includes(user.uid) ? (<AiFillHeart />) : <CiHeart />}
+                                        {post.likeCount || 0}</button>
                                 </div>
                             </div>
                             {modal &&

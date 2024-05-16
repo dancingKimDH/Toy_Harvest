@@ -57,7 +57,7 @@ export interface PostProps {
     uid: string;
     profileUrl?: string;
     likes?: string;
-    likeCount?: string;
+    likeCount?: number;
     comments: CommentProps[];
     hashTags?: string[];
     imageUrl?: string;
