@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query, updateDoc, } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query, updateDoc, where, } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -58,17 +58,21 @@ export default function PostBox(keyword: PostBoxProps) {
                 try {
                     let postRef = collection(db, "posts");
                     let postQuery = query(postRef, orderBy("createdAt", "desc"));
-                    const snapshot = await getDocs(postQuery);
-                    let dataObj = snapshot.docs.map((doc) => ({
-                        ...doc.data(),
-                        id: doc?.id,
-                    }));
-                    setPosts(dataObj as PostProps[]);
-                    if (keywords) {
-                        search(keywords, dataObj);
-                    } else {
-                        setDisplayPosts(dataObj as PostProps[]);
-                    }
+
+                    const unsubscribe = onSnapshot(postQuery, (snapshot) => {
+                        let dataObj = snapshot.docs.map((doc) => ({
+                            ...doc.data(),
+                            id: doc?.id,
+                        }));
+                        setPosts(dataObj as PostProps[]);
+                        if (keywords) {
+                            search(keywords, dataObj);
+                        } else {
+                            setDisplayPosts(dataObj as PostProps[]);
+                        }
+                    });
+
+                    return () => unsubscribe();
                 } catch (error) {
                     console.error("Error fetching posts:", error);
                 }
@@ -109,18 +113,33 @@ export default function PostBox(keyword: PostBoxProps) {
 
     const toggleLike = async (post: PostProps) => {
         const postRef = doc(db, "posts", post?.id);
-        if (user?.uid && post?.likes?.includes(user?.uid)) {
-            await updateDoc(postRef, {
-                likes: arrayRemove(user?.uid),
-                likeCount: post?.likeCount ? post?.likeCount - 1 : 0,
-            })
-            toast.success("좋아요를 취소하였습니다");
-        } else {
-            await updateDoc(postRef, {
-                likes: arrayUnion(user?.uid),
-                likeCount: post?.likeCount ? post?.likeCount + 1 : 1,
-            })
-            toast.success("해당 게시물을 좋아요하였습니다");
+
+        if(!user || !user.uid){
+            toast.error("로그인해 주세요");
+            return;
+        }
+
+        if (user) {
+            const userRef = doc(db, "users", user?.uid);
+            if (post?.likes?.includes(user?.uid)) {
+                await updateDoc(postRef, {
+                    likes: arrayRemove(user?.uid),
+                    likeCount: post?.likeCount ? post?.likeCount - 1 : 0,
+                })
+                await updateDoc(userRef, {
+                    likedPost: arrayRemove(post?.id),
+                })
+                toast.success("좋아요를 취소하였습니다");
+            } else {
+                await updateDoc(postRef, {
+                    likes: arrayUnion(user?.uid),
+                    likeCount: post?.likeCount ? post?.likeCount + 1 : 1,
+                })
+                await updateDoc(userRef, {
+                    likedPost: arrayUnion(post?.id),
+                })
+                toast.success("해당 게시물을 좋아요하였습니다");
+            }
         }
     }
 

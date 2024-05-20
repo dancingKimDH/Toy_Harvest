@@ -21,7 +21,7 @@ export default function SearchPage() {
         }
     }
 
-    const searchHandle = (e: any) => {
+    const searchHandle = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setSearchPageVisibility(false);
         navigate(`/community?keyword=${keyword}`);
