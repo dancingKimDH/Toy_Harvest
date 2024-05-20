@@ -60,6 +60,10 @@ body {
   height: 200px !important;
 }
 
+.mypage__container::-webkit-scrollbar {
+  display: none;
+}
+
 .mypage__table-thead th:nth-child(1) {
   width: 20%;
 }

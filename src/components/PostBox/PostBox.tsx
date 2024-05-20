@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query, updateDoc, where, } from "firebase/firestore";
+import { QuerySnapshot, arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query, updateDoc, where, } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -27,6 +27,7 @@ export default function PostBox(keyword: PostBoxProps) {
     const [displayPosts, setDisplayPosts] = useState<PostProps[]>([]);
 
     const { user } = useContext(AuthContext);
+    const [userDocId, setUserDocId] = useState("");
 
     const [postUid, setPostUid] = useState<string>("");
 
@@ -72,6 +73,15 @@ export default function PostBox(keyword: PostBoxProps) {
                         }
                     });
 
+                    const userRef = collection(db, "users");
+                    const userQuery = query(userRef, where("uid", "==", user?.uid));
+                    
+                    const querySnapshot = await getDocs(userQuery);
+                    
+                    querySnapshot.forEach((doc) => {
+                       setUserDocId(doc.id);
+                    })         
+
                     return () => unsubscribe();
                 } catch (error) {
                     console.error("Error fetching posts:", error);
@@ -111,6 +121,8 @@ export default function PostBox(keyword: PostBoxProps) {
         setPostUid(postId);
     }
 
+    console.log(userDocId);
+
     const toggleLike = async (post: PostProps) => {
         const postRef = doc(db, "posts", post?.id);
 
@@ -120,7 +132,7 @@ export default function PostBox(keyword: PostBoxProps) {
         }
 
         if (user) {
-            const userRef = doc(db, "users", user?.uid);
+            const userRef = doc(db, "users", userDocId);
             if (post?.likes?.includes(user?.uid)) {
                 await updateDoc(postRef, {
                     likes: arrayRemove(user?.uid),

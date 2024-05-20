@@ -30,17 +30,23 @@ export default function ProfileDetail() {
   const auth = getAuth(app);
   auth.languageCode = "ko";
 
-  const categories: Array<string> = ["My Info", "My Posts", "My Comments"];
+  const categories: Array<string> = ["My Info", "My Posts", "My Comments", "Likes"];
   const [category, setCategory] = useState(categories[0]);
 
   const [posts, setPosts] = useState<PostProps[]>([]);
+  const [likedPosts, setLikedPosts] = useState<PostProps[]>([]);
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [myUser, setMyUser] = useState<UserProps[]>([]);
 
-  const [page, setPage] = useState<number>(1);
-  const [limit, setLimit] = useState<number>(6);
+  const [postPage, setPostPage] = useState<number>(1);
+  const [commentPage, setCommentPage] = useState<number>(1);
+  const [likedPage, setLikedPage] = useState<number>(1);
 
-  const offset = (page - 1) * limit;
+  const [limit, setLimit] = useState<number>(5);
+
+  let postOffset = (postPage - 1) * limit;
+  let commentOffset = (commentPage - 1) * limit;
+  let likesOffset = (likedPage - 1) * limit;
 
   const [displayName, setDisplayName] = useState<string>("");
 
@@ -81,6 +87,7 @@ export default function ProfileDetail() {
     const postQuery = query(postRef, where("uid", "==", currentUser?.uid));
     const commentQuery = query(commentRef, where("uid", "==", currentUser?.uid));
     const userQuery = query(userRef, where("uid", "==", currentUser?.uid));
+    const likedPostsQuery = query(postRef, where("likes", "array-contains", user?.uid));
 
     onSnapshot(postQuery, (snapshot) => {
       let postObj = snapshot.docs.map((doc) => ({
@@ -103,16 +110,21 @@ export default function ProfileDetail() {
       }))
       setMyUser(userObj as UserProps[]);
     })
+    onSnapshot(likedPostsQuery, (snapshot) => {
+      let likedPostObj = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc?.id
+      }))
+      setLikedPosts(likedPostObj as PostProps[]);
+    })
   }, [user]);
-
-  console.log(myUser);
 
   return (
 
     <>
       <Header />
       <div className='body'>
-        <div className='w-full h-full pb-[50px] overflow-auto absolute top-[100px] bottom-0 lg:top-[180px] bg-slate-500'>
+        <div className='mypage__container w-full h-full pb-[50px] overflow-auto absolute top-[100px] bottom-0 lg:top-[180px] bg-slate-500'>
           <div className='bg-white rounded-lg mt-9 w-[90%] max-w-[1000px] mx-auto p-4'>
             <Tab.Group onChange={(index) => { setCategory(categories[index]) }}>
               <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-5">
@@ -184,7 +196,7 @@ export default function ProfileDetail() {
                                     aria-hidden="true"
                                   />
                                 </Combobox.Button>
-                                <Transition as={Fragment} leave='transition ease-in duriation-100' leaveFrom='opacity-100' leaveTo='opacity-0' afterLeave={() => {setRegionQuery("")}}>
+                                <Transition as={Fragment} leave='transition ease-in duriation-100' leaveFrom='opacity-100' leaveTo='opacity-0' afterLeave={() => { setRegionQuery("") }}>
                                   <Combobox.Options className="absolute z-999 mt-1 max-h-100 w-full overflow-auto rounded-md bg-white ring-1 ring-black/5 text-base shadow-lg sm:text-sm">
                                     {filteredRegion.map((region) => (
                                       <Combobox.Option className={`z-999 py-2 cursor-pointer pl-10 pr-4 ${selectedRegion === region ? 'bg-teal-600 text-white' : 'text-gray-900'}`} key={region} value={region}>
@@ -215,7 +227,7 @@ export default function ProfileDetail() {
                         </tr>
                       </thead>
                       <tbody className=''>
-                        {posts?.map((post) => (
+                        {posts?.slice(postOffset, postOffset + limit).map((post) => (
                           <tr className='mypage__table-tr border-b-4'>
                             <td className='mypage__table-td'>
                               {post?.createdAt}
@@ -231,7 +243,7 @@ export default function ProfileDetail() {
                       </tbody>
                     </table>
                     <div className='flex justify-center my-6'>
-                      <Pagination total={posts?.length} limit={limit} page={page} setPage={setPage} />
+                      <Pagination total={posts?.length} limit={limit} page={postPage} setPage={setPostPage} />
                     </div>
                   </div>
                 </Tab.Panel>
@@ -246,7 +258,7 @@ export default function ProfileDetail() {
                         </tr>
                       </thead>
                       <tbody className=''>
-                        {comments?.slice(offset, offset + limit).map((comment, index) => (
+                        {comments?.slice(commentOffset, commentOffset + limit).map((comment, index) => (
                           <tr key={index} className='mypage__table-tr border-b-4'>
                             <td className='mypage__table-td'>
                               {comment?.createdAt}
@@ -262,7 +274,38 @@ export default function ProfileDetail() {
                       </tbody>
                     </table>
                     <div className='flex justify-center my-6'>
-                      <Pagination total={comments?.length} limit={limit} page={page} setPage={setPage} />
+                      <Pagination total={comments?.length} limit={limit} page={commentPage} setPage={setCommentPage} />
+                    </div>
+                  </div>
+                </Tab.Panel>
+                <Tab.Panel>
+                  <div className='flex flex-col justify-center overflow-hidden'>
+                    <table className='mypage__table w-full mt-6'>
+                      <thead className='mypage__table-thead'>
+                        <tr className=''>
+                          <th>작성일</th>
+                          <th>제목</th>
+                          <th>바로가기</th>
+                        </tr>
+                      </thead>
+                      <tbody className=''>
+                        {likedPosts?.slice(likesOffset, likesOffset + limit).map((post) => (
+                          <tr className='mypage__table-tr border-b-4'>
+                            <td className='mypage__table-td'>
+                              {post?.createdAt}
+                            </td>
+                            <td className='mypage__table-td'>
+                              {post?.title}
+                            </td>
+                            <td className='mypage__table-td'>
+                              <button type="button" onClick={() => navigate(`/community/${post?.id}`)}><GiPlayButton /></button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <div className='flex justify-center my-6'>
+                      <Pagination total={likedPosts?.length} limit={limit} page={likedPage} setPage={setLikedPage} />
                     </div>
                   </div>
                 </Tab.Panel>
