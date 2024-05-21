@@ -2,7 +2,8 @@ import { Fragment, useContext, useEffect, useState } from 'react'
 import Header from 'components/Utils/Header'
 import AuthContext from 'context/AuthContext';
 import { PhoneAuthProvider, RecaptchaVerifier, getAuth, signInWithPhoneNumber, updateCurrentUser, updatePhoneNumber, updateProfile } from 'firebase/auth';
-import firebase, { app, db } from 'firebaseApp';
+import firebase, { app, db, storage } from 'firebaseApp';
+import { v4 as uuidv4 } from "uuid";
 import { MdOutlineEmail } from 'react-icons/md';
 import { IoMdClose, IoMdPerson } from 'react-icons/io';
 import { GiPlayButton } from "react-icons/gi";
@@ -11,18 +12,11 @@ import { FaCalendarCheck, FaPhone } from 'react-icons/fa';
 import { PiCaretUpDownBold } from "react-icons/pi";
 import { FaLocationDot } from "react-icons/fa6";
 import { toast } from 'react-toastify';
-import { collection, doc, getDocs, limitToLast, onSnapshot, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDocs, limitToLast, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { CommentProps, PostProps, Region, UserProps } from 'interface';
 import { useNavigate } from 'react-router-dom';
 import Pagination from 'components/Utils/Pagination';
-
-declare global {
-  interface Window {
-    recaptchaVerifier: any;
-    confirmationResult: any;
-    recaptchaWidgetId: string;
-  }
-}
+import { deleteObject, getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 export default function ProfileDetail() {
 
@@ -37,6 +31,8 @@ export default function ProfileDetail() {
   const [likedPosts, setLikedPosts] = useState<PostProps[]>([]);
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [myUser, setMyUser] = useState<UserProps[]>([]);
+
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const [postPage, setPostPage] = useState<number>(1);
   const [commentPage, setCommentPage] = useState<number>(1);
@@ -55,7 +51,6 @@ export default function ProfileDetail() {
   const filteredRegion = regionQuery === "" ? Region : Region.filter((region) => {
     return region.includes(regionQuery);
   })
-
 
   const navigate = useNavigate();
 
@@ -117,7 +112,71 @@ export default function ProfileDetail() {
       }))
       setLikedPosts(likedPostObj as PostProps[]);
     })
+    if (user?.photoURL) {
+      setImageUrl(user?.photoURL);
+    }
   }, [user]);
+
+  const handleFileUpload = (e: any) => {
+    const { target: { files } } = e;
+    const file = files?.[0];
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onloadend = (e: any) => {
+      const { result } = e?.currentTarget;
+      setImageUrl(result);
+    }
+  }
+
+  const handleDeleteImage = () => {
+    setImageUrl(null);
+  }
+
+  const onImageSubmit = async (e: any) => {
+    e.preventDefault();
+    let newImageUrl: string | null = null;
+    let key = `${user?.uid}/${uuidv4()}`;
+    const storageRef = ref(storage, key);
+    const photoUrl = myUser[0]?.imageUrl;
+
+    const userRef = collection(db, "users");
+    const userQuery = query(userRef, where("uid", "==", user?.uid));
+
+    try {
+      if (photoUrl) {
+        const imageRef = ref(storage, photoUrl);
+        if (imageRef) {
+          await deleteObject(imageRef).catch((error) => { console.log(error) });
+        }
+      }
+
+      if (imageUrl) {
+        const data = await uploadString(storageRef, imageUrl, "data_url");
+        newImageUrl = await getDownloadURL(data?.ref);
+      }
+
+      if (user) {
+        await updateProfile(user, {
+          photoURL: newImageUrl || "",
+        })
+
+        const querySnapshot = await getDocs(userQuery);
+        querySnapshot.forEach(async (doc) => {
+          const docRef = doc.ref;
+          await updateDoc(docRef, {
+            imageUrl: newImageUrl
+          })
+        })
+
+        toast.success("성공적으로 업데이트하였습니다");
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  console.log(user);
 
   return (
 
@@ -138,8 +197,12 @@ export default function ProfileDetail() {
                 <Tab.Panel className="rounded-xl text-lg bg-white">
                   <div className='flex flex-col justify-center overflow-hidden'>
                     <div className='flex flex-col p-5 rounded-lg bg-slate-300 justify-center items-center my-3'>
-                      <img className='rounded-full mx-auto' width="100px" height="100px" src={myUser[0]?.imageUrl} alt="" />
-                      <button className='text-sm font-semibold p-1 mt-3 w-[90px] h-[30px] mx-auto rounded-lg text-white bg-gray-500 hover:bg-gray-900 hover:bg-gray' type="button">변경하기</button>
+                      <img className='hover:cursor-pointer rounded-full mx-auto' width="100px" height="100px" src={imageUrl ? imageUrl : "/images/0.jpg"} alt="" onClick={handleDeleteImage} />
+                      <div className='flex gap-3'>
+                        <label className='hover:cursor-pointer text-sm text-center font-semibold p-1 mt-3 w-[90px] h-[30px] mx-auto rounded-lg text-white bg-gray-500 hover:bg-gray-900 hover:bg-gray' htmlFor="file-input">사진선택</label>
+                        <input className='hidden' type="file" name="file-input" id="file-input" accept='image/*' onChange={handleFileUpload} />
+                        <button className='text-sm font-semibold p-1 mt-3 w-[90px] h-[30px] mx-auto rounded-lg text-white bg-gray-500 hover:bg-gray-900 hover:bg-gray' type="button" onClick={onImageSubmit}>변경하기</button>
+                      </div>
                     </div>
                     <table className='mypage__table w-full table-fixed'>
                       <thead className='mypage__table-thead'>
@@ -317,3 +380,5 @@ export default function ProfileDetail() {
     </>
   )
 }
+
+
