@@ -48,7 +48,7 @@ export default function ProfileModal({ postUid, modal, setModal }: ProfileModalP
     }
 
     return (
-        <ReactModal appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center outline-none"
+        <ReactModal appElement={document.getElementById('modal') || undefined} className="rounded-lg absolute top-[60%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-white w-[350px] h-[350px] lg:w-[400px] lg:h-[400px] flex justify-center outline-none"
             isOpen={isOpen} onRequestClose={() => setModal("")} ariaHideApp={false} shouldCloseOnEsc={true} style={modalStyle}>
 
             {user && user?.email && user?.email.length > 1 ?
