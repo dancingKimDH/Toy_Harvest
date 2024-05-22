@@ -28,7 +28,6 @@ export default function ProfileModal({ postUid, modal, setModal }: ProfileModalP
                     }
                 ))
                 setUser(dataObj[0] as any);
-                console.log(user);
             })
         } catch (error) {
 

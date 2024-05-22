@@ -19,8 +19,6 @@ export default function Header() {
     const { user } = useContext(AuthContext);
     const auth = getAuth(app);
 
-    console.log(isOpen);
-
     const [headerExpand, setHeaderExpand] = useRecoilState(headerExpandState);
 
     return (

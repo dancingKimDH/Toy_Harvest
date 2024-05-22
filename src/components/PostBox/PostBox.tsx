@@ -121,8 +121,6 @@ export default function PostBox(keyword: PostBoxProps) {
         setPostUid(postId);
     }
 
-    console.log(userDocId);
-
     const toggleLike = async (post: PostProps) => {
         const postRef = doc(db, "posts", post?.id);
 
