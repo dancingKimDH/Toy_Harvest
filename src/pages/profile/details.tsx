@@ -101,6 +101,7 @@ export default function ProfileDetail() {
         region: selectedRegion
       })
     })
+    toast.success("성공적으로 업데이트하였습니다");
   }
 
   useEffect(() => {
@@ -133,6 +134,9 @@ export default function ProfileDetail() {
         id: doc?.id
       }))
       setMyUser(userObj as UserProps[]);
+      if (myUser[0]?.region) {
+        setSelectedRegion(myUser[0]?.region);
+      }
     })
     onSnapshot(likedPostsQuery, (snapshot) => {
       let likedPostObj = snapshot.docs.map((doc) => ({
@@ -143,9 +147,6 @@ export default function ProfileDetail() {
     })
     if (user?.photoURL) {
       setImageUrl(user?.photoURL);
-    }
-    if (myUser[0]?.region) {
-      setSelectedRegion(myUser[0]?.region)
     }
   }, [user]);
 
@@ -281,8 +282,8 @@ export default function ProfileDetail() {
                           </td>
                           <td className='mypage__table-td'>
                             <div className='relative'>
-                              <Combobox value={selectedRegion} onChange={setSelectedRegion}>
-                                <Combobox.Input placeholder={selectedRegion} className="w-full h-full border-none rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 sm:text-sm p-2" onChange={(e) => { setRegionQuery(e.target.value) }} />
+                              <Combobox onChange={setSelectedRegion}>
+                                <Combobox.Input placeholder={myUser[0]?.region ? myUser[0]?.region : "선택해주세요"} className="w-full h-full border-none rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 sm:text-sm p-2" onChange={(e) => { setRegionQuery(e.target.value) }} />
                                 <Combobox.Button className="absolute inset-y-0 right-3 flex items-center pr-2">
                                   <PiCaretUpDownBold
                                     className="h-5 w-5 text-gray-400"
