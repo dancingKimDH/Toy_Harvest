@@ -54,24 +54,53 @@ export default function ProfileDetail() {
 
   const navigate = useNavigate();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { target: { name, value } } = e;
     if (name === "displayName") {
       setDisplayName(value);
     }
+    if (name === "region") {
+      setSelectedRegion(value);
+    }
   }
 
-  const handleNameUpdate = (e: any) => {
+  const handleNameUpdate = async (e: any) => {
     e.preventDefault();
+    const userRef = collection(db, "users");
+    const userQuery = query(userRef, where("uid", "==", user?.uid));
+
     if (auth.currentUser) {
-      updateProfile(auth.currentUser, {
+      await updateProfile(auth.currentUser, {
         displayName: displayName,
       })
       toast.success("성공적으로 이름을 수정하였습니다");
+
+      const querySnapshot = await getDocs(userQuery);
+      querySnapshot.forEach(async (doc) => {
+        const docRef = doc.ref;
+        await updateDoc(docRef, {
+          name: displayName
+        })
+      })
     }
+
     else {
       return
     }
+  }
+
+  const handleRegionUpdate = async (e: any) => {
+    e.preventDefault();
+    const userRef = collection(db, "users");
+    const userQuery = query(userRef, where("uid", "==", user?.uid));
+
+    const querySnapshot = await getDocs(userQuery);
+    querySnapshot.forEach(async (doc) => {
+      const docRef = doc.ref;
+      await updateDoc(docRef, {
+        region: selectedRegion
+      })
+    })
   }
 
   useEffect(() => {
@@ -114,6 +143,9 @@ export default function ProfileDetail() {
     })
     if (user?.photoURL) {
       setImageUrl(user?.photoURL);
+    }
+    if (myUser[0]?.region) {
+      setSelectedRegion(myUser[0]?.region)
     }
   }, [user]);
 
@@ -176,8 +208,6 @@ export default function ProfileDetail() {
     }
   }
 
-  console.log(user);
-
   return (
 
     <>
@@ -188,7 +218,7 @@ export default function ProfileDetail() {
             <Tab.Group onChange={(index) => { setCategory(categories[index]) }}>
               <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-5">
                 {categories.map((category: string, index: number) => (
-                  <Tab className="w-full p-3 rounded-lg text-xl font-medium leading-5 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2" key={index} value={category}>
+                  <Tab name='region' className="w-full p-3 rounded-lg text-xl font-medium leading-5 ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2" key={index} value={category}>
                     {category}
                   </Tab>
                 ))}
@@ -252,7 +282,7 @@ export default function ProfileDetail() {
                           <td className='mypage__table-td'>
                             <div className='relative'>
                               <Combobox value={selectedRegion} onChange={setSelectedRegion}>
-                                <Combobox.Input className="w-full h-full border-none rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 sm:text-sm p-2" onChange={(e) => { setRegionQuery(e.target.value) }} />
+                                <Combobox.Input placeholder={selectedRegion} className="w-full h-full border-none rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 sm:text-sm p-2" onChange={(e) => { setRegionQuery(e.target.value) }} />
                                 <Combobox.Button className="absolute inset-y-0 right-3 flex items-center pr-2">
                                   <PiCaretUpDownBold
                                     className="h-5 w-5 text-gray-400"
@@ -272,7 +302,7 @@ export default function ProfileDetail() {
                             </div>
                           </td>
                           <td className='mypage__table-td'>
-                            <button onClick={() => { }} type="button" className='mypage__table-td-btn'>수정</button>
+                            <button onClick={handleRegionUpdate} type="button" className='mypage__table-td-btn'>수정</button>
                           </td>
                         </tr>
                       </tbody>

@@ -37,6 +37,7 @@ export interface UserProps {
     phoneNumber?: string,
     imageUrl?: string,
     createdAt?: string,
+    region?: string,
 }
 
 export interface CommentProps {
