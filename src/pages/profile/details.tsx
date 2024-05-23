@@ -1,21 +1,20 @@
 import { Fragment, useContext, useEffect, useState } from 'react'
 import Header from 'components/Utils/Header'
 import AuthContext from 'context/AuthContext';
-import { PhoneAuthProvider, RecaptchaVerifier, getAuth, signInWithPhoneNumber, updateCurrentUser, updatePhoneNumber, updateProfile } from 'firebase/auth';
-import firebase, { app, db, storage } from 'firebaseApp';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { app, db, storage } from 'firebaseApp';
 import { v4 as uuidv4 } from "uuid";
 import { MdOutlineEmail } from 'react-icons/md';
-import { IoMdClose, IoMdPerson } from 'react-icons/io';
+import { IoMdPerson } from 'react-icons/io';
 import { GiPlayButton } from "react-icons/gi";
 import { BsFileEarmarkPost } from "react-icons/bs";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { Combobox, Tab, Transition } from '@headlessui/react'
-import { FaCalendarCheck, FaPhone } from 'react-icons/fa';
-import { IoMdArrowForward } from "react-icons/io";
+import { FaCalendarCheck } from 'react-icons/fa';
 import { PiCaretUpDownBold } from "react-icons/pi";
 import { FaLocationDot } from "react-icons/fa6";
 import { toast } from 'react-toastify';
-import { collection, doc, getDocs, limitToLast, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { CommentProps, PostProps, Region, UserProps } from 'interface';
 import { useNavigate } from 'react-router-dom';
 import Pagination from 'components/Utils/Pagination';
