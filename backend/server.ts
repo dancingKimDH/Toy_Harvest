@@ -3,6 +3,8 @@ import cors from 'cors';
 import express from 'express';
 import axios from 'axios';
 
+// const PORT = process.env.PORT || 5000;
+
 const app = express();
 
 const allowedOrigins = ["http://localhost:3000", "https://toy-harvest.web.app"]
@@ -31,7 +33,8 @@ app.get("/fetch-housing-data/:year", async (req, res) => {
     }
 });
 
-app.listen(5000, () => {
-    console.log("Server is now listening on PORT 5000");
-})
+// app.listen(PORT, () => {
+//     console.log("Server is now listening on PORT 5000");
+// })
 
+export default app;
