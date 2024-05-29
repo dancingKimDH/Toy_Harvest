@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import axios from 'axios';
 
-// const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
@@ -33,8 +33,8 @@ app.get("/fetch-housing-data/:year", async (req, res) => {
     }
 });
 
-// app.listen(PORT, () => {
-//     console.log("Server is now listening on PORT 5000");
-// })
+app.listen(PORT, () => {
+    console.log("Server is now listening on PORT 5000");
+})
 
-export default app;
+// export default app;

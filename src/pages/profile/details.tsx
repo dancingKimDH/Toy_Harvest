@@ -211,10 +211,10 @@ export default function ProfileDetail() {
 
     } catch (error) {
       console.log(error);
+
+      console.log(newImageUrl);
     }
   }
-
-  console.log(selectedIndex);
 
   return (
 
