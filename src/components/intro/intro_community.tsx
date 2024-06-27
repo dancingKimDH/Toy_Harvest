@@ -131,7 +131,6 @@ export default class IntroCommunity extends Component {
         return (
             <div className="w-full h-full">
                 <FullPage controls={(props) => <CustomControls {...props} showControls={showControls} />}>
-                    {/*  controlsProps={{className: "slide-navigation"}} */}
                     <Slide>
                         <Ads />
                     </Slide>
