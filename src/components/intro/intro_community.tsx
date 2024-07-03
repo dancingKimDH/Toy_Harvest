@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 
 import Ads from "components/Utils/Ads";
 
@@ -11,94 +11,7 @@ import { Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-interface CustomControlsProps {
-    className?: string;
-    getCurrentSlideIndex: () => number;
-    onNext: () => void;
-    onPrev: () => void;
-    scrollToSlide: (index: number) => void;
-    slidesCount: number;
-    style?: React.CSSProperties;
-    buttonClassName?: string;
-    showControls: boolean;
-}
-
-interface CustomControlsProps {
-    className?: string;
-    getCurrentSlideIndex: () => number;
-    onNext: () => void;
-    onPrev: () => void;
-    scrollToSlide: (index: number) => void;
-    slidesCount: number;
-    style?: React.CSSProperties;
-}
-
-const CustomControls: React.FC<CustomControlsProps> = ({
-    className = 'full-page-controls',
-    getCurrentSlideIndex,
-    onNext,
-    onPrev,
-    scrollToSlide,
-    slidesCount,
-    style = {
-        top: '50%',
-        marginLeft: "3vh",
-        marginRight: "1vh",
-        position: 'fixed',
-        transform: 'translateY(-30%)',
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "1rem",
-        zIndex: 9,
-        opacity: "0.5",
-        backgroundColor: "gray",
-        padding: "3vh 0",
-        transition: "padding-top 0.5s ease-in-out, padding-bottom 0.5s ease-in-out"
-    },
-    buttonClassName = "custom-button",
-    showControls,
-}) => {
-    const renderSlidesNumbers = (currentSlideIndex: number) => {
-        const slidesNumbers = [];
-        for (let i = 0; i < slidesCount; i++) {
-            const buttonProps = {
-                disabled: currentSlideIndex === i,
-                key: i,
-                onClick: () => scrollToSlide(i),
-                className: `${buttonClassName} ${currentSlideIndex === i ? 'activeSlideIndex' : ''} ${showControls ? "show" : "hidden"}`,
-            };
-            slidesNumbers.push(<button type="button" {...buttonProps}>
-                <IoRadioButtonOff />
-            </button>);
-        }
-        return slidesNumbers;
-    };
-
-    const currentSlideIndex = getCurrentSlideIndex();
-
-    return (
-        <div className={`${className}`} style={style}>
-            <button
-                type="button"
-                disabled={currentSlideIndex === 0}
-                onClick={onPrev}
-                className={buttonClassName}
-            >
-                <GoArrowUp />
-            </button>
-            {renderSlidesNumbers(currentSlideIndex)}
-            <button
-                type="button"
-                disabled={currentSlideIndex === slidesCount - 1}
-                onClick={onNext}
-                className={buttonClassName}
-            >
-                <GoArrowDown />
-            </button>
-        </div>
-    );
-};
+import "../../scss/fireworks.scss";
 
 export default class IntroCommunity extends Component {
 
@@ -123,12 +36,31 @@ export default class IntroCommunity extends Component {
     }
 
     render() {
-
-        const { showControls } = this.state;
-
+        
         return (
             <div className="w-full h-full">
-                메인화면
+                <div className="w-full bg-slate-400">
+                    <div className="pyro">
+                        <div className="before"></div>
+                    </div>
+                    <div className="intro__container lg:px-[100px]">
+                        <div className="box-border px-3 pt-3 text-white font-semibold text-[50px]">
+                            안녕하세요
+                        </div>
+                        <div className="box-border px-3 py-1 text-white font-semibold text-[30px]">
+                            React / Typescript
+                        </div>
+                        <div className="box-border px-3 py-2 pb-4 text-white font-semibold text-[30px]">
+                            연습프로젝트인
+                            <span className="sm:text-right md:text-right block lg:inline-block px-4">
+                                <span className="whitespace-nowrap text-primaryYellow">
+                                    푸른대로
+                                </span>
+                                입니다
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         )

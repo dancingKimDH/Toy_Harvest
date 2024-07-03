@@ -24,6 +24,11 @@ $primaryYellow: #FFCC00;
     display: none;
 }
 
+.breakWordstoNextSentencce {
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
 // media query mixin
 
 $mobile: 360px;
