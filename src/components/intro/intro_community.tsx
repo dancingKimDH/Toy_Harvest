@@ -11,8 +11,6 @@ import { Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import "../../scss/fireworks.scss";
-
 export default class IntroCommunity extends Component {
 
     state = {
@@ -36,13 +34,10 @@ export default class IntroCommunity extends Component {
     }
 
     render() {
-        
+
         return (
             <div className="w-full h-full">
                 <div className="w-full bg-slate-400">
-                    <div className="pyro">
-                        <div className="before"></div>
-                    </div>
                     <div className="intro__container lg:px-[100px]">
                         <div className="box-border px-3 pt-3 text-white font-semibold text-[50px]">
                             안녕하세요
